@@ -1,4 +1,4 @@
-" 
+
 ## Introduction 
 
 Every year the recorded number of fraudulent incidents increases worldwide. In 2020 the Federal Trade Commission reported nearly 2.2 million such cases in the United States alone [^fn1]. As technology continues to develop at blistering speeds, so do the ways that criminals steal information. As a result, the technology we use to deal with these problems must also evolve. The goal of our project is to distinguish incidents of fraudulent credit card use from those that are legitimate.
