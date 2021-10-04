@@ -1,3 +1,4 @@
+# CS 7641 Team 1 - Credit Card Fraud Detection
 
 ## Introduction 
 
@@ -68,4 +69,4 @@ Sources:
 [^fn6]: Stone, M. (1974). Cross‐validatory choice and assessment of statistical predictions. Journal of the royal statistical society: Series B (Methodological), 36(2), 111-133. 
 
 [^fn7]: Fawcett, T. (2006). An introduction to ROC analysis. Pattern recognition letters, 27(8), 861-874.
-"
+
