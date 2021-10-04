@@ -44,11 +44,8 @@ To evaluate our final results, we will use a confusion matrix where each row is 
   
 
 | Prediction  | Genuine             | Fraudulent                     | 
-
 |-------------|---------------------|--------------------------------| 
-
 |  Genuine    | True Negative Rate  | False Positive Rate            | 
-
 |  Fraudulent | False Negative Rate | True Positive (Detection) Rate | 
 
 
