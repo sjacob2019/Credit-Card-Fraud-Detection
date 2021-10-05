@@ -37,9 +37,9 @@ A common challenge for training classification models is how to avoid over-fitti
 
 To overcome this challenge, we evaluate the performance of our model using cross-validation where the dataset is partitioned into two complementary sets: one for training and one for validating. There will be multiple rounds of partitioning, and we take the average accuracy on the validating data as the overall performance [^fn6].  
   
-  {%figure caption: "K-Fold Cross Validation. Image courtesy of https://scikit-learn.org/stable/modules/cross_validation.html"%}
   ![K-Fold Cross Validation](https://scikit-learn.org/stable/_images/grid_search_cross_validation.png)
-  {% endfigure %}
+  
+  *K-Fold Cross Validation. Image courtesy of https://scikit-learn.org/stable/modules/cross_validation.html*
 
 ### Confusion Matrix 
 
