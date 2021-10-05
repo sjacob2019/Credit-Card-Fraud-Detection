@@ -5,7 +5,7 @@ Joshua Hsu, Shaun Jacob, Andrew Novokshanov, Wanli Qian, Tongdi Zhou
 
 Every year the recorded number of fraudulent incidents increases worldwide. In 2020 the Federal Trade Commission reported nearly 2.2 million such cases in the United States alone [^fn1]. As technology continues to develop at blistering speeds, so do the ways that criminals steal information. As a result, the technology we use to deal with these problems must also evolve. The goal of our project is to distinguish incidents of fraudulent credit card use from those that are legitimate.
 
-<img src="https://www.ftc.gov/sites/default/files/u544718/explore-data-consumer-sentinel-jan-2021.jpg" width="300" height="300"/>
+<img src="https://www.ftc.gov/sites/default/files/u544718/explore-data-consumer-sentinel-jan-2021.jpg" width="350"/>
 *Image courtesy of https://www.ftc.gov/reports/consumer-sentinel-network-data-book-2020*
 
 
@@ -35,7 +35,7 @@ Many prior works have shown that, using GMM in conjunction with PCA is effective
 
 Over-fitting happens when the model performs well on the training data but not on the testing data[^fn5]. To avoid over-fitting, we use cross-validation where the training data is partitioned into two complementary sets: one for training and one for validating. The overall performance is evaluated on the average accuracy of multiple rounds of partitioning[^fn6].
   
-  <img src="https://scikit-learn.org/stable/_images/grid_search_cross_validation.png" width="300" height="300"/>
+  <img src="https://scikit-learn.org/stable/_images/grid_search_cross_validation.png" width="350"/>
   
   *K-Fold (K=5) Cross Validation. Image courtesy of https://scikit-learn.org/stable/modules/cross_validation.html*
 
