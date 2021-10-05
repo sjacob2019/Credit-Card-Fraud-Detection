@@ -9,13 +9,13 @@ Every year the recorded number of fraudulent incidents increases worldwide. In 2
 
 ## Problem Definition
 
-Our dataset was found on [Kaggle](https://www.kaggle.com/mlg-ulb/creditcardfraud), and some of the main characteristics are that the dataset is comprised of principle components from PCA. The dataset contains real-world credit card transactions from a period of only two days by European card holders in September 2013. Due to this, there is a large number of legitimate transactions compared to fraudulent transactions. To combat this imbalance, our dataset comes with a data simulator to augment the number of fraudulent transactions. 
+Our dataset was found on [Kaggle](https://www.kaggle.com/mlg-ulb/creditcardfraud), and some of the main characteristics are that the dataset is comprised of principle components from PCA. The dataset contains real-world credit card transactions from a period of only two days by European card holders in September 2013. Due to this, there is a large number of legitimate transactions compared to fraudulent transactions. To combat this imbalance, our dataset comes with a data simulator to augment the number of fraudulent transactions.
 
 
 
 ## Supervised Learning Method
 
-For this method, we will use a publicly available credit card fraud data simulator to obtain simulated data for credit card transactions. We will then train an Artificial Neural Network to classify the data points as fraud or not fraud. Neural Networks work best when we have large amounts of data, often outperforming traditional machine learning algorithms [^fn2]. Since we can use the simulator to generate as much data as we want, using a Neural Network will give us more accurate results. A factor that comes into play in the success of our algorithm is domain knowledge, which can be used to extract useful features from raw data and is used in traditional machine learning algorithms. Another advantage of Neural Networks is that they also work well when there is a general lack of domain knowledge. This is because they learn the high-level features of the dataset in an incremental fashion [^fn2]. Due to that, we don’t have to worry about feature engineering and domain knowledge.  
+For this method, we will use the aforementioned simulated data for credit card transactions. We will then train an Neural Network to classify the data points as fraud or not fraud. Neural Networks work best when we have large amounts of data, often outperforming traditional machine learning algorithms [^fn2]. Since we can use the simulator to generate as much data as we want, using a Neural Network will give us more accurate results. A factor that comes into play in the success of our algorithm is domain knowledge, which can be used to extract useful features from raw data and is used in traditional machine learning algorithms. Another advantage of Neural Networks is that they also work well when there is a general lack of domain knowledge. This is because they learn the high-level features of the dataset in an incremental fashion [^fn2]. Due to that, we don’t have to worry about feature engineering and domain knowledge.  
 
 
 
@@ -55,7 +55,7 @@ To evaluate our final results, we will use a confusion matrix where each row is 
 
 
 
-Sources:
+### Sources:
 
 [^fn1]: Federal Trade Commission. (2021, February). Consumer Sentinel Network Data book 2020. Consumer Sentinel Network. Retrieved October 2, 2021, from https://www.ftc.gov/system/files/documents/reports/consumer-sentinel-network-data-book-2020/csn_annual_data_book_2020.pdf. 
 
