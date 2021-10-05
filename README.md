@@ -1,5 +1,5 @@
 # CS 7641 Team 1 - Credit Card Fraud Detection
-Andrew Novokshanov, Zhou Tongdi, Joshu Hsu, Shaun Jacob, Wanli Qian
+Andrew Novokshanov, Tongdi Zhou, Joshu Hsu, Shaun Jacob, Wanli Qian
 
 ## Introduction 
 
