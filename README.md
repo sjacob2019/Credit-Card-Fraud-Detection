@@ -54,8 +54,27 @@ To evaluate our final results, we will use a confusion matrix where each row is 
 
 
 
+## Timeline
 
+At the current time, all members of the team intend to participate on all tasks equally.
 
+Week 7:   Publish Proposal
+
+Week 8:   Data Generation
+
+Week 9:   Pre Processing
+
+Week 10:  Implement Unsupervised Method (GMM)
+
+Week 12:  Results Analysis
+
+Week 13:  Project Midpoint Report
+
+Week 14:  Implement Supervised Method (Neural Networks)
+
+Week 15:  Hyperparameter Tuning / Explore other Architectures
+
+Week 16:  Organize Results and Write Conclusion
 
 ### Sources:
 
