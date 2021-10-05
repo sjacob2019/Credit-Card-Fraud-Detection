@@ -31,21 +31,16 @@ Many prior works have shown that, using GMM in conjunction with PCA is effective
 
 ### Cross-validation 
 
-A common challenge for training classification models is how to avoid over-fitting. Over-fitting happens when the model performs well on the data which it was trained on but not on the data it has yet seen[^fn5]. For example, this can happen in clustering algorithms when the number of clusters is set too large.  
-
+Over-fitting happens when the model performs well on the training data but not on the testing data[^fn5]. To avoid over-fitting, we use cross-validation where the training data is partitioned into two complementary sets: one for training and one for validating. The overall performance is evaluated on the average accuracy of multiple rounds of partitioning[^fn6].
   
-
-To overcome this challenge, we evaluate the performance of our model using cross-validation where the dataset is partitioned into two complementary sets: one for training and one for validating. There will be multiple rounds of partitioning, and we take the average accuracy on the validating data as the overall performance [^fn6].  
+  ![K-Fold Cross-validation](https://scikit-learn.org/stable/_images/grid_search_cross_validation.png)
   
-  ![K-Fold Cross Validation](https://scikit-learn.org/stable/_images/grid_search_cross_validation.png)
-  
-  *K-Fold Cross Validation. Image courtesy of https://scikit-learn.org/stable/modules/cross_validation.html*
+  *K-Fold (K=5) Cross Validation. Image courtesy of https://scikit-learn.org/stable/modules/cross_validation.html*
 
 ### Confusion Matrix 
 
-To evaluate our final results, we will use a confusion matrix where each row is an instance of the ground truth, and each column is an instance of the prediction [^fn7]. Our goal is to maximize the detection rate while minimizing the false positive rate. 
+The final results are shown by a confusion matrix where each row is ground truth, and each column is a prediction[^fn7]. Our goal is to maximize the detection rate while minimizing the false positive rate. 
 
-  
 
 | Prediction  | Genuine             | Fraudulent                     | 
 |-------------|---------------------|--------------------------------| 
