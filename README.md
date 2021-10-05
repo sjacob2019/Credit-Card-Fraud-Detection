@@ -23,7 +23,7 @@ For this method, we will use a publicly available credit card fraud data simulat
 
 For our particular dataset, unsupervised learning becomes particularly useful. Because of confidentiality issues, the original data and labels are not provided. our dataset only contains numerical input variables which are the result of a PCA transformation. Although we have simulator data at our disposal, it is still inconvenient to integrate our model with other real world datasets, because they are more likely to be unlabeled as well. Yet, by applying clustering algorithm such as GMM(Gaussian Mixture Models), we could circumvent this problem. 
 
-Many Prior works has shown that, using GMM in conjunction with PCA is effective. (Hertrich, 2021) proposed a Gaussian Mixture Model in conjunction with a reduction of the dimensionality of the data in each component of the model by principal component analysis [^fn3]. And (Alqahatani, 2020) used a bivariate mixture model and learning with a bivariate Gaussian mixture model [^fn4].
+Many prior works have shown that, using GMM in conjunction with PCA is effective. Novel Gaussian Mixture Model was proposed in conjunction with a reduction of the dimensionality of the data in each component of the model by principal component analysis [^fn3]. And a bivariate mixture model and learning with a bivariate Gaussian mixture model was able decrease the complexity brought by the high dimensionality of the input data[^fn4].
 
 
 
