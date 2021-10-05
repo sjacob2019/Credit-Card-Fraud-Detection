@@ -9,7 +9,7 @@ Every year the recorded number of fraudulent incidents increases worldwide. In 2
 
 ## Problem Definition
 
-This dataset was found on Kaggle, and some of the main characteristics are that the dataset is comprised of principle components from PCA. The dataset contains real-world credit card transactions from a period of only two days by European card holders in September 2013. Due to this, there is a large number of legitimate transactions compared to a small number of fraudulent transactions. 
+Our dataset was found on [Kaggle](https://www.kaggle.com/mlg-ulb/creditcardfraud), and some of the main characteristics are that the dataset is comprised of principle components from PCA. The dataset contains real-world credit card transactions from a period of only two days by European card holders in September 2013. Due to this, there is a large number of legitimate transactions compared to fraudulent transactions. To combat this imbalance, our dataset comes with a data simulator to augment the number of fraudulent transactions. 
 
 
 
