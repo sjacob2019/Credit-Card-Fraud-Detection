@@ -23,9 +23,9 @@ For this method, we will use simulated data for credit card transactions, traini
 
 ## Unsupervised Learning Method
 
-For our particular dataset unsupervised learning becomes particularly useful. Because of confidentiality issues the original data and labels are not provided. Our dataset only contains numerical input variables that are the result of a PCA transformation. Although we have simulator data at our disposal, it is still inconvenient to integrate our model with other real world datasets, because they are likely to be unlabeled as well. However, by applying clustering algorithm such as GMM(Gaussian Mixture Models), we could circumvent this problem. 
+For our particular dataset unsupervised learning becomes particularly useful. Because of confidentiality issues, the original data and labels are not provided. Our dataset only contains numerical input variables that are the result of a PCA transformation. Although we have simulator data at our disposal, it is still inconvenient to integrate our model with other real world datasets, because they are likely to be unlabeled as well. However, by applying clustering algorithm such as GMM(Gaussian Mixture Models), we could circumvent this problem. 
 
-Prior works have shown that using GMM in conjunction with PCA is effective. A Novel Gaussian Mixture Model was proposed in conjunction with a reduction of the dimensionality of the data in each component of the model by principal component analysis [^fn3]. Additionally, a bivariate mixture model and learning with a bivariate Gaussian mixture model is able to decrease the complexity brought by the high dimensionality of the input data[^fn4].
+Prior works have shown that using GMM in conjunction with PCA is effective in reducing the complexity from high dimensional data. Johannes Hertrich from TU Berlin proposed a Novel Gaussian Mixture Model with PCA dimensionality reduction module in each component of the model [^fn3]. Additionally, Nada alqahtani proposed a bivariate mixture model and shown that learning with a bivariate Gaussian mixture model is able to decrease the complexity brought by the high dimensionality of the input data[^fn4].
 
 
 
