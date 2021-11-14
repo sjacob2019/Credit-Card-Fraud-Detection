@@ -22,7 +22,9 @@ Supervised learning models are commonly attributed to working well on classifica
 
 Supervised learning models do have a limitation though – they are typically more susceptible to outliers and data imbalances, a prominent issue in our data. To alleviate the class imbalance, we propose to combine the under-sampling technique as well as the SMOTE algorithm to decrease the amount of data in the majority class (legitimate transactions) and increase the amount of data in the minority class (fraudulent transactions). 
 
-Through a combination of these learning techniques, we hope to develop a holistic analysis of how various machine learning algorithms handle the classification of the legitimacy of credit card transactions. 
+Through a combination of these learning techniques, we hope to develop a holistic analysis of how various machine learning algorithms handle the classification of the legitimacy of credit card transactions.
+
+For this midterm report, we have chosen to focus on unsupervised learning methods, specifically KMeans, GMM, and DBScan.
 
 # Data Collection
 
@@ -30,7 +32,7 @@ Fortunately, the problem we are asking has been researched before and there are 
 
 Although the data being grouped by a similar time range helps us analyze similar data, it also means that we have severely unbalanced data. Of the 284,807 transactions in the dataset, only 492 are fraud (0.173%). 
 
-Moreover, due to the sensitive nature of using real life transaction data, much of the identifying data had to be anonymized. Most of the original features were not provided, and instead we were given twenty-eight principal components obtained using PCA. We were also provided the original labels for the datasets to use for testing accuracy and for supervised learning.
+Moreover, due to the sensitive nature of using real life transaction data, much of the identifying data had to be anonymized. Most of the original features were not provided, and instead we were given thirty principal components obtained using PCA. We were also provided the original labels for the datasets to use for testing accuracy and for supervised learning.
 
 # PCA Dataset Preprocessing and Visualization
 
@@ -58,11 +60,6 @@ Figure 4 shows the cumulative total variance of the PCA components for the origi
 
 Figure 5 is the scatterplot matrix showing the relationship between the first 7 PCA components, where the red dots represent fraudulent transactions and the blue dots are genuine transactions.  We can see although no two features can perfectly separate the two classes, each combination of the features can separate some parts of the data, which will be exploited by our models to obtain better classification performance. We also observe that the boundaries between the two classes are highly nonlinear. As a result, we expect machine learning techniques that produce nonlinear decision boundaries will have better performance in classifying the two classes.  
 
-# Supervised Learning Method
-
-For this method we will be training a Neural Network to classify the data points as fraudulent or not fraudulent. Neural Networks work best when we have large amounts of data, often outperforming traditional machine learning algorithms [^fn2]. Since we can use the simulator to generate as much data as we want, using a Neural Network will give us more accurate results. A factor that comes into play in the success of our algorithm is domain knowledge, which in traditional machine learning algorithms is used to identify features in order to reduce the complexity of the raw data and make patterns clearer to the algorithm. Another advantage of Neural Networks is that they also work well when there is a general lack of domain knowledge. This is because they learn the high-level features of the dataset in an incremental fashion [^fn2]. Due to that, we don’t have to worry about feature engineering or domain knowledge.
-
-
 
 # Unsupervised Learning Method
 
@@ -72,6 +69,9 @@ Prior work has shown that using GMM in conjunction with PCA is effective in redu
 
 ## K-Means
 
+### Motivation
+
+###Setup
 The k-means algorithm is an unsupervised data clustering algorithm. It is initialized by randomly choosing k vectors as the mean vectors for the k clusters. Each data point then is assigned to the k clusters according to their Euclidean distance to the k mean vectors. After the assignment, the k mean vectors are updated using the average of the data points that were just assigned to each cluster. The process is iterated until the k mean vectors converge to a steady-state. Since the Euclidean distance is used to assign data points, the decision boundaries for the assignment are linear. As a result, we do not expect good clustering results for our data, since as previous visualization shows, the boundary between the fraud and non-fraud classes is highly nonlinear.  
 
 ## GMM
@@ -98,7 +98,11 @@ Finally, to determine how similar and distinct our two clusters of data are when
 The objective we wanted to achieve with the use of DBSCAN and other unsupervised clustering methods was to see if there was a clear divide in the data in terms of whether a transaction was fraud or genuine. Additionally, with DBSCAN, we also hoped to figure out which features would help the most in terms of clustering and classification as well as finding out different methods to combat the imbalance within the dataset.
 
 ### Setup
-One method we utilized to deal with imbalance within the dataset was to under sample the genuine cases by a factor of 10. This still resulted in around 28,000 cases of genuine transactions and only 492 cases of fraud. Ideally, this under sampling does not affect the clustering in a significant manner, but due to the random sampling from the under-sampling step and the sensitivity of the DBSCAN algorithm to its parameters, there was sometimes a discrepancy in the clustering results. Another benefit of the under-sampling step for DBSCAN was that it cut down computation time for the algorithm quite heavily since there are ~90% less datapoints which results in about 10x the computation speed. Due to the sensitivity of the DBSCAN algorithm to parameters, this was very important since tuning the parameters often took 30+ trials to reach optimal parameters. Due to the way DBSCAN functions, often times there were a large number of clusters, for example in the 50s, which evidently does not represent the data very well. We made some important interpretations of the clustering by assuming that the first cluster (the 0 cluster) was comprised entirely of genuine transactions and that any point outside that first cluster would be considered a fraudulent case. We interpreted the clustering data as such because we expected most of the genuine transactions to be relatively similar to each other while the fraudulent cases would be comprised of more anomalous cases. For example, for real-life fraudulent transactions detection, often times the more anomalous and unique a transaction, the more likely it can be considered fraud.
+One technique we use to deal with imbalance within the dataset is to undersample the genuine cases by a factor of 10. This still results in around 28,000 cases of genuine transactions and only 492 cases of fraud. Ideally, this undersampling does not affect the clustering in a significant manner, but due to the random sampling from the under-sampling step and the sensitivity of the DBSCAN algorithm to its parameters, there is sometimes a discrepancy in the clustering results. 
+
+Another benefit of the under-sampling step for DBSCAN is that it cuts down computation time for the algorithm quite heavily since there are ~90% less datapoints which results in about 10x the computation speed. Due to the sensitivity of the DBSCAN algorithm to parameters, this is very important since tuning the parameters often take 30+ trials to reach optimal parameters. 
+
+Due to the way DBSCAN functions, often times there were a large number of clusters, for example in the 50s, which evidently does not represent the data very well. We made some important interpretations of the clustering by assuming that the first cluster (the 0 cluster) is comprised entirely of genuine transactions and that any point outside that first cluster is considered a fraudulent case. We interpret the clustering data as such because we expected most of the genuine transactions to be relatively similar to each other while the fraudulent cases would be comprised of more anomalous cases. For example, for real-life fraudulent transactions detection, often times the more anomalous and unique a transaction, the more likely it can be considered fraud.
 
 # Potential Results and Discussion
 
@@ -187,7 +191,24 @@ Here is the 3-D plot of the dataset utilizing the first 3 PCA components. The re
 
 <img src="./Images-MidTerm/DBScan/DBImage2.png" alt="DBScan Figure 2" width="500"/>
 
+Our expectations for DBSCAN were not very high when we first experimented with it due to the high-dimensionality of the data, but we also expected DBSCAN to perform better than K-Means due to the ability for DBSCAN to not rely on linear decision boundaries, which we found to be a huge issue for K-Means clustering. While DBSCAN did not perform quite as well as GMM in terms of recall for the fraudulent transactions, it was more proficient at properly clustering the genuine transactions with a precision of over 99%. Overall, DBSCAN proved to be serviceable to clustering the dataset, and serves as an important stepping stone to more robust and accurate supervised classifications that we will explore next. 
+
 ## Conclusion
+
+Overall, the results we obtained using unsupervised learning were not incredible, but were also not unexpected.
+
+Due to the high variance in our data and their features, KMeans, which is better at clustering where there exists linear boundaries between clusters, displayed very poor results overall.
+
+With GMM, despite some initially positive results, ultimately did not end up being a consistent model for creating clusters of legitimate and fraudulent data. Where we saw high recall oftentimes came with the sacrifice of accuracy, and vice versa. On average, our model's success with accuracy can be described as rarely better than classifying data via a coin flip.
+
+Overall, we ended up having the best success with DBScan. Although recall was not incredible, DBScan was consistent in classifying legitimate transactions correctly. 
+
+
+# Supervised Learning Method
+
+Although for this midterm report we focused on developing our unsupervised learning models and analyzing the results from them, we are currently working on the supervised learning models and will include their details in the final report.
+
+For supervised learning we will be training a Neural Network to classify the data points as fraudulent or not fraudulent. Neural Networks work best when we have large amounts of data, often outperforming traditional machine learning algorithms [^fn2]. Since we can use the simulator to generate as much data as we want, using a Neural Network will give us more accurate results. A factor that comes into play in the success of our algorithm is domain knowledge, which in traditional machine learning algorithms is used to identify features in order to reduce the complexity of the raw data and make patterns clearer to the algorithm. Another advantage of Neural Networks is that they also work well when there is a general lack of domain knowledge. This is because they learn the high-level features of the dataset in an incremental fashion [^fn2]. Due to that, we don’t have to worry about feature engineering or domain knowledge.
 
 ## Sources:
 
