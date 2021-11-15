@@ -48,8 +48,6 @@ One way to combat class imbalance is under-sampling the majority class. We under
 
 To further alleviate class imbalance, we use Synthetic Minority Over-sampling Technique (SMOTE) to increase the number of samples in the minority class. SMOTE synthesizes samples feature-by-feature: for each feature in an original sample, SMOTE finds its k-nearest neighbors in the feature space, chooses one neighbor at random, and picks a point at random along the line segment between the sample and its neighbor as the synthesized new sample. Figure 3 shows the result of SMOTE where we generate nine new samples from each original sample using its 10-nearest neighbors.  
 
- 
-
 Chawla, N. V., Bowyer, K. W., Hall, L. O., & Kegelmeyer, W. P. (2002). SMOTE: synthetic minority over-sampling technique. Journal of artificial intelligence research, 16, 321-357. 
 
 <img src="./Images-MidTerm/Preprocess/Preprocess4.png" alt="Preprocess Figure 4" width="500"/>
@@ -65,7 +63,7 @@ Figure 5 is the scatterplot matrix showing the relationship between the first 7 
 
 For our particular dataset, unsupervised learning becomes particularly useful. Because of confidentiality issues, the original data and labels are not provided. Our dataset only contains numerical input variables that are the result of a PCA transformation. Although we have simulated data, it is still inconvenient to integrate our models with real-world datasets because they are unlikely to be labeled. However, by applying clustering algorithm such as GMM(Gaussian Mixture Models) we could circumvent this problem. 
 
-Prior work has shown that using GMM in conjunction with PCA is effective in reducing the complexity from high-dimensional data. Johannes Hertrich from TU Berlin proposed a Novel Gaussian Mixture Model with a PCA dimensionality reduction module in each component of the model [^fn3]. Additionally, Nada Alqahtani proposed a bivariate mixture model and showed that learning with a bivariate Gaussian mixture model is able to decrease the complexity brought by the high dimensionality of the input data[^fn4].
+Prior work has shown that using GMM in conjunction with PCA is effective in reducing the complexity from high-dimensional data. Johannes Hertrich from TU Berlin proposed a Novel Gaussian Mixture Model with a PCA dimensionality reduction module in each component of the model [^fn2]. Additionally, Nada Alqahtani proposed a bivariate mixture model and showed that learning with a bivariate Gaussian mixture model is able to decrease the complexity brought by the high dimensionality of the input data[^fn3].
 
 ## K-Means
 
@@ -128,58 +126,65 @@ In these confusion matrices, a label of '0' represents that a data point is legi
 <img src="./Images-MidTerm/GMM/GMM2.png" alt="GMM Figure 2" width="300"/>
 <img src="./Images-MidTerm/GMM/GMM3.png" alt="GMM Figure 3" width="300"/>
 
-| How many Features | Accuracy | Recall | Silhouette Score | Fowlkes Mallow Score |
-| ----------------- | -------- | ------ | ---------------- | -------------------- |
-| First 2 Features   | 0.4907463123665565 | Placeholder | Placeholder | Placeholder |
-| First 3 Features   | 0.4179203853534334 | Placeholder | Placeholder | Placeholder |
-| First 4 Features   | 0.5782236890254311 | Placeholder | Placeholder | Placeholder |
-| First 5 Features   | 0.5696925766804098 | Placeholder | Placeholder | Placeholder |
-| First 6 Features   | 0.3033888483327359 | Placeholder | Placeholder | Placeholder |
-| First 7 Features   | 0.4503116075357562 | Placeholder | Placeholder | Placeholder |
-| First 8 Features   | 0.6730394562416037 | Placeholder | Placeholder | Placeholder |
-| First 9 Features   | 0.3233686176764206 | Placeholder | Placeholder | Placeholder |
-| First 10 Features  | 0.4326033093279581 | Placeholder | Placeholder | Placeholder |
-| First 11 Features  | 0.5564945052812628 | Placeholder | Placeholder | Placeholder |
-| First 12 Features  | 0.5581503205842626 | Placeholder | Placeholder | Placeholder |
-| First 13 Features  | 0.4434738580901508 | Placeholder | Placeholder | Placeholder |
-| First 14 Features  | 0.3593265436374536 | Placeholder | Placeholder | Placeholder |
-| First 15 Features  | 0.5495198414884234 | Placeholder | Placeholder | Placeholder |
-| First 16 Features  | 0.6529081114470051 | Placeholder | Placeholder | Placeholder |
-| First 17 Features  | 0.3414179046482507 | Placeholder | Placeholder | Placeholder |
-| First 18 Features  | 0.6665016613222781 | Placeholder | Placeholder | Placeholder |
-| First 19 Features  | 0.5582501125938774 | Placeholder | Placeholder | Placeholder |
-| First 20 Features  | 0.5585681388622606 | Placeholder | Placeholder | Placeholder |
-| First 21 Features  | 0.4442146770980708 | Placeholder | Placeholder | Placeholder |
-| First 22 Features  | 0.5514581657212523 | Placeholder | Placeholder | Placeholder |
-| First 23 Features  | 0.1661159053631478 | Placeholder | Placeholder | Placeholder |
-| First 24 Features  | 0.5679836600591615 | Placeholder | Placeholder | Placeholder |
-| First 25 Features  | 0.4413932318096778 | Placeholder | Placeholder | Placeholder |
-| First 26 Features  | 0.5665174399708174 | Placeholder | Placeholder | Placeholder |
-| First 27 Features  | 0.8292703467446009 | Placeholder | Placeholder | Placeholder |
-| First 28 Features  | 0.5653517273869626 | Placeholder | Placeholder | Placeholder |
-| First 29 Features  | 0.5748318992628471 | Placeholder | Placeholder | Placeholder |
-| First 30 Features  | 0.7968028176376842 | Placeholder | Placeholder | Placeholder |
+| # of Features     | Accuracy     | Recall       | Silhouette Score | Fowlkes Mallows Score |
+|-------------------|--------------|--------------|------------------|-----------------------|
+| First 2 Features  | 0.5454922101 | 0.2902969719 | 0.711251781      | 0.708816569           |
+| First 3 Features  | 0.5430414297 | 0.4860989529 | 0.6898367591     | 0.7085121001          |
+| First 4 Features  | 0.9082220618 | 0.6299913056 | 0.04769400875    | 0.91253134            |
+| First 5 Features  | 0.8866390158 | 0.8147430894 | 0.05058364335    | 0.8934667314          |
+| First 6 Features  | 0.8532374549 | 0.858076695  | 0.04419316824    | 0.8652723816          |
+| First 7 Features  | 0.8296144333 | 0.8755722317 | 0.03910282344    | 0.8463533381          |
+| First 8 Features  | 0.7519829256 | 0.8868225769 | 0.02903096514    | 0.7910113882          |
+| First 9 Features  | 0.788526981  | 0.8958132884 | 0.03293773383    | 0.8156865426          |
+| First 10 Features | 0.7764028377 | 0.8908290901 | 0.03733629964    | 0.8077359065          |
+| First 11 Features | 0.7934390576 | 0.8920796907 | 0.03848657992    | 0.8191971082          |
+| First 12 Features | 0.7920065066 | 0.9079713048 | 0.04224501212    | 0.8181669295          |
+| First 13 Features | 0.7917537154 | 0.9070158292 | 0.04077599287    | 0.8179833715          |
+| First 14 Features | 0.7866274395 | 0.9158068061 | 0.04060882066    | 0.8143375921          |
+| First 15 Features | 0.7372185362 | 0.9255360675 | 0.05838087556    | 0.7817980117          |
+| First 16 Features | 0.7442759626 | 0.9304549847 | 0.06414248894    | 0.7861453682          |
+| First 17 Features | 0.7533979126 | 0.9299887626 | 0.06571932152    | 0.7919163783          |
+| First 18 Features | 0.7653042344 | 0.9244928388 | 0.06890544838    | 0.7997048165          |
+| First 19 Features | 0.779387444  | 0.9209241372 | 0.07360848102    | 0.8092733108          |
+| First 20 Features | 0.7886147492 | 0.9064654924 | 0.07570879812    | 0.8157510162          |
+| First 21 Features | 0.7989937374 | 0.9077426215 | 0.07655096005    | 0.8233548274          |
+| First 22 Features | 0.7823859698 | 0.901716237  | 0.07218512419    | 0.8113584772          |
+| First 23 Features | 0.7931652067 | 0.8948907401 | 0.07900520697    | 0.8189963437          |
+| First 24 Features | 0.8248498546 | 0.8887499321 | 0.08158281379    | 0.8430537367          |
+| First 25 Features | 0.79354441   | 0.8978958913 | 0.07802846789    | 0.8192683084          |
+| First 26 Features | 0.8112405536 | 0.8967965011 | 0.07393604012    | 0.8327028871          |
+| First 27 Features | 0.8298040528 | 0.8961269162 | 0.04824053294    | 0.8465011818          |
+| First 28 Features | 0.8292422617 | 0.8928949577 | 0.04405685047    | 0.8460599351          |
+| First 29 Features | 0.8259242247 | 0.890454028  | 0.04644154004    | 0.8434787284          |
+| First 30 Features | 0.8165390099 | 0.8974196491 | 0.06855912929    | 0.8365486072          |
+| First 31 Features | 0.7865677469 | 0.7365935119 | 0.06970019192    | 0.814298335           |
 
 Overall, despite obtaining high recall when using many features GMM did not end up being very useful when trying to cluster datapoints. 
 
-<img src="./Images-MidTerm/GMM/GMM4.png" alt="GMM Figure 4" width="500"/>
-<img src="./Images-MidTerm/GMM/GMM5.png" alt="GMM Figure 5" width="500"/>
+<img src="./Images-MidTerm/GMM/GMMAccuracy.jpg" alt="GMM Accuracy" width="500"/>
+<img src="./Images-MidTerm/GMM/GMMRecall.jpg" alt="GMM Recall" width="500"/>
 
-The increase in recall rate can be explained when we look at the accuracy rate and the visualizations taken of the results. Notably, accuracy is incredibly inconsistent. When we see high recall, it is usually because the algorithm had a cluster classify many transactions as fraud. While many fraudulent transactions do end up being marked as fraud, so do many more legitimate transactions as displayed in poor accuracy. Likewise, when accuracy is high but recall is either unchanged or even drops, it may be because GMM moves many more points into the legitimate than fraudulent cluster. So, even though fraudulent cases keep being labelled incorrectly, the accuracy obtained by labelling so many of the legitimate transactions correctly skews the accuracy. 
+The increase in recall rate can be explained when we look at the accuracy rate and the visualizations taken of the results. Notably, accuracy is incredibly inconsistent. When we see high recall, it is usually because the algorithm had a cluster classify many transactions as fraud. While many fraudulent transactions do end up being marked as fraud, so do many more legitimate transactions as displayed in poor accuracy. Likewise, when accuracy is high but recall is either unchanged or even drops, it may be because GMM moves many more points into the legitimate than fraudulent cluster. So, even though fraudulent cases keep being labelled incorrectly, the accuracy obtained by labelling so many of the legitimate transactions correctly skews the accuracy.
 
-Ultimately, this calls into question a fundamental flaw in GMM: we have little control over how the algorithm chooses to create clusters. Although we call clusters "fraudulent" and "legitimate", in reality these two clusters are just two groupings of points, and whether we call a cluster fraudulent or legitimate must be made based on our understanding of the input data. Although the GMM algorithm may end up clustering points based on features related to identifying if a transaction is legitimate or not, it is inconsistent. 
+Ultimately, this calls into question a fundamental flaw in GMM: we have little control over how the algorithm chooses to create clusters. Although we call clusters "fraudulent" and "legitimate", in reality these two clusters are just two groupings of points, and whether we call a cluster fraudulent or legitimate must be made based on our understanding of the input data. Although the GMM algorithm may end up clustering points based on features related to identifying if a transaction is legitimate or not, it is inconsistent.
+
+We can see this by analyzing the visualizations of clusters for the first 2 K-Folds, specifically how different the clusters appear despite running for the same features and same dataset:
+
+<img src="./Images-MidTerm/GMM/GMMVis1.png" alt="GMM Visual Figure 1" width="300"/>
+<img src="./Images-MidTerm/GMM/GMMVis2.png" alt="GMM Visual Figure 2" width="300"/>
+<img src="./Images-MidTerm/GMM/GMMVis3.png" alt="GMM Visual Figure 3" width="300"/>
+<img src="./Images-MidTerm/GMM/GMMVis4.png" alt="GMM Visual Figure 4" width="300"/>
+<img src="./Images-MidTerm/GMM/GMMVis5.png" alt="GMM Visual Figure 5" width="300"/>
+
+The most obvious discrepancy we see between some of the visualizations is that sometimes the majority of points are being labelled as 1, other times as 0. While we can infer from context that most points will be legitimate, and as a result the cluster with more data is legitimate, our data may not always allow for such inferences to be possible and furthermore we might not want to make such guesses.
+
+Looking at actual distribution of each cluster, we also see that there are some pretty clear differences. In cases where many points are being clustered as fraudulent (smaller cluster), we find recall going up at the cost of accuracy, and the opposite where we have few data points in the fraudulent cluster.
 
 By looking at the silhouette scores and Fowlkes Mallows scores for the clusters, showcasing how different and similar the clusters are to one another, we get further validation that GMM has not done well in splitting up our clusters in clear, distinguishable groupings. We consistently see that the silhouette score remains near 0, indicating that the two clusters are not very different from one another, and the Fowlkes Mallows score remain fairly high at approximately 0.8, indicating that there is high similarity between clusters.
 
-Time taken (seconds): [53, 162, 218, 209, 214, 218, 258, 391, 369, 304, 321, 339, 312, 323, 327, 321, 361, 402, 409, 436, 480, 485, 517, 525, 574, 600, 617, 653, 667] 
+<img src="./Images-MidTerm/GMM/GMMFM.jpg" alt="GMM Silhouette Score" width="500"/>
+<img src="./Images-MidTerm/GMM/GMMSScore.jpg" alt="GMM Fowlkes Mallows Score" width="500"/>
 
-Overall accuracies: [0.49074631236655647, 0.4179203853534334, 0.5782236890254311, 0.5696925766804098, 0.30338884833273594, 0.4503116075357562, 0.6730394562416037, 0.32336861767642056, 0.4326033093279581, 0.5564945052812628, 0.5581503205842626, 0.4434738580901508, 0.35932654363745364, 0.5495198414884234, 0.6529081114470051, 0.34141790464825067, 0.6665016613222781, 0.5582501125938774, 0.5585681388622606, 0.4442146770980708, 0.5514581657212523, 0.16611590536314777, 0.5679836600591615, 0.4413932318096778, 0.5665174399708174, 0.8292703467446009, 0.5653517273869626, 0.5748318992628471, 0.7968028176376842] 
-
-Overall recall rates: [0.4885364751345479, 0.6234856354740711, 0.8157851831114804, 0.8610359935044011, 0.8733775723603072, 0.8843356542632863, 0.8938743667204839, 0.892207671233942, 0.8935799153832619, 0.9040334942691896, 0.9067206312863514, 0.9151760553282792, 0.9259745600575092, 0.9297583038531055, 0.9313370371791647, 0.9235264199614222, 0.9220742109193821, 0.9058706055848914, 0.9061256876350614, 0.9043663499332096, 0.8926215501659547, 0.8913913847514522, 0.8993881899369809, 0.8965762718906571, 0.8921373514732863, 0.8918373972460898, 0.8922132789806092, 0.894497404481276, 0.7454911882736088] 
-
-Silhouette Scores: [0.06958624746772854, 0.06882313967266414, 0.04699881261789965, 0.03385525718607427, 0.06941280595011673] 
-
-Fowlkes Mallows Scores: [0.8140633267522827, 0.8147838393456569, 0.8469865904224366, 0.8195651253010853, 0.8139795561386273] 
 
 ### DBSCAN
 
@@ -208,21 +213,15 @@ Overall, we ended up having the best success with DBScan. Although recall was no
 
 Although for this midterm report we focused on developing our unsupervised learning models and analyzing the results from them, we are currently working on the supervised learning models and will include their details in the final report.
 
-For supervised learning we will be training a Neural Network to classify the data points as fraudulent or not fraudulent. Neural Networks work best when we have large amounts of data, often outperforming traditional machine learning algorithms [^fn2]. Since we can use the simulator to generate as much data as we want, using a Neural Network will give us more accurate results. A factor that comes into play in the success of our algorithm is domain knowledge, which in traditional machine learning algorithms is used to identify features in order to reduce the complexity of the raw data and make patterns clearer to the algorithm. Another advantage of Neural Networks is that they also work well when there is a general lack of domain knowledge. This is because they learn the high-level features of the dataset in an incremental fashion [^fn2]. Due to that, we don’t have to worry about feature engineering or domain knowledge.
+For supervised learning we will be training a Neural Network to classify the data points as fraudulent or not fraudulent. Neural Networks work best when we have large amounts of data, often outperforming traditional machine learning algorithms [^fn4]. Since we can use the simulator to generate as much data as we want, using a Neural Network will give us more accurate results. A factor that comes into play in the success of our algorithm is domain knowledge, which in traditional machine learning algorithms is used to identify features in order to reduce the complexity of the raw data and make patterns clearer to the algorithm. Another advantage of Neural Networks is that they also work well when there is a general lack of domain knowledge. This is because they learn the high-level features of the dataset in an incremental fashion [^fn4]. Due to that, we don’t have to worry about feature engineering or domain knowledge.
 
 ## Sources:
 
 [^fn1]: Federal Trade Commission. (2021, February). Consumer Sentinel Network Data book 2020. Consumer Sentinel Network. Retrieved October 2, 2021, from https://www.ftc.gov/system/files/documents/reports/consumer-sentinel-network-data-book-2020/csn_annual_data_book_2020.pdf. 
 
-[^fn2]: Mahapatra, S. (2019, January 22). Why deep learning over traditional machine learning? Medium. Retrieved October 1, 2021, from https://towardsdatascience.com/why-deep-learning-is-needed-over-traditional-machine-learning-1b6a99177063. 
+[^fn2]: Hertrich, J., Nguyen, D., Aujol, J., Bernard, D., Berthoumieu, Y., Saadaldin, A., & Steidl, G. (2021). PCA reduced Gaussian mixture models with applications in superresolution. Inverse Problems & Imaging, 0(0), 0. doi:10.3934/ipi.2021053 
 
-[^fn3]: Hertrich, J., Nguyen, D., Aujol, J., Bernard, D., Berthoumieu, Y., Saadaldin, A., & Steidl, G. (2021). PCA reduced Gaussian mixture models with applications in superresolution. Inverse Problems & Imaging, 0(0), 0. doi:10.3934/ipi.2021053 
+[^fn3]: Alqahtani, N. A., & Kalantan, Z. I. (2020). Gaussian Mixture Models Based on Principal Components and Applications. Mathematical Problems in Engineering, 2020, 1-13. doi:10.1155/2020/1202307
 
-[^fn4]: Alqahtani, N. A., & Kalantan, Z. I. (2020). Gaussian Mixture Models Based on Principal Components and Applications. Mathematical Problems in Engineering, 2020, 1-13. doi:10.1155/2020/1202307
-
-[^fn5]: Cawley, G. C., & Talbot, N. L. (2010). On over-fitting in model selection and subsequent selection bias in performance evaluation. The Journal of Machine Learning Research, 11, 2079-2107. 
-
-[^fn6]: Stone, M. (1974). Cross‐validatory choice and assessment of statistical predictions. Journal of the royal statistical society: Series B (Methodological), 36(2), 111-133. 
-
-[^fn7]: Fawcett, T. (2006). An introduction to ROC analysis. Pattern recognition letters, 27(8), 861-874.
+[^fn4]: Mahapatra, S. (2019, January 22). Why deep learning over traditional machine learning? Medium. Retrieved October 1, 2021, from https://towardsdatascience.com/why-deep-learning-is-needed-over-traditional-machine-learning-1b6a99177063. 
 
