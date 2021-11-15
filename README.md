@@ -112,7 +112,7 @@ Due to the way DBSCAN functions, often times there were a large number of cluste
 
 <img src="./Images-MidTerm/KMeans/KMeans1.png" alt="KMeans Figure 1" width="500"/>
 
-Figure 1 shows the result from k-means clustering on the original data with k set to 2. We use all 29 features for clustering, but we only plot the first three PCA components to visualize the result. Since the k-means algorithm only outputs two clusters with no labels, we need to manually assign labels to the clusters. Since this is a binary classification problem, there are two possible label assignments, and we choose that assignment that maximizes the sum of the precision rate and the recall rate. As we can see, most data points are clustered to the genuine class, resulting in only 3.6% of the fraud cases being correctly clustered. 
+Figure 1 shows the result from k-means clustering on the original data with k set to 5. We use all 30 features for clustering, but we only plot the first three PCA components to visualize the result. Since the k-means algorithm only outputs two clusters with no labels, we need to manually assign labels to the clusters. Since this is a binary classification problem, there are two possible label assignments, and we choose that assignment that maximizes the sum of the precision rate and the recall rate. As we can see, most data points are clustered to the genuine class, resulting in only 3.6% of the fraud cases being correctly clustered. 
 
 ### GMM
 
@@ -120,7 +120,7 @@ For GMM we analyzed and looked at several statistics: the accuracy and recall of
 
 Prior to discussing the trends we noticed, we will showcase an example of the data obtained. 
 
-For the sake of space, we have chosen to include the confusion matrices for only the K-Folds when all features were included in GMM. 
+For the sake of space, we have chosen to include the confusion matrices for only the K-Folds when all features were included in GMM. Each of the confusion matrices below represents the results of a single fold performed on the same dataset with the same number of features.
 
 In these confusion matrices, a label of '0' represents that a data point is legitimate, and '1' represents a data point is fraudulent.
 
@@ -162,8 +162,8 @@ In these confusion matrices, a label of '0' represents that a data point is legi
 
 Overall, despite obtaining high recall when using many features GMM did not end up being very useful when trying to cluster datapoints. 
 
-<img src="./Images-MidTerm/GMM/GMMAccuracy.jpg" alt="GMM Accuracy" width="500"/>
-<img src="./Images-MidTerm/GMM/GMMRecall.jpg" alt="GMM Recall" width="500"/>
+<img src="./Images-MidTerm/GMM/GMMAccuracy.png" alt="GMM Accuracy" width="500"/>
+<img src="./Images-MidTerm/GMM/GMMRecall.png" alt="GMM Recall" width="500"/>
 
 The increase in recall rate can be explained when we look at the accuracy rate and the visualizations taken of the results. Notably, accuracy is incredibly inconsistent. When we see high recall, it is usually because the algorithm had a cluster classify many transactions as fraud. While many fraudulent transactions do end up being marked as fraud, so do many more legitimate transactions as displayed in poor accuracy. Likewise, when accuracy is high but recall is either unchanged or even drops, it may be because GMM moves many more points into the legitimate than fraudulent cluster. So, even though fraudulent cases keep being labelled incorrectly, the accuracy obtained by labelling so many of the legitimate transactions correctly skews the accuracy.
 
