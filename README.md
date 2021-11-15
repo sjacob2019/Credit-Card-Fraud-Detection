@@ -92,7 +92,7 @@ To examine the results that increasing features had on the results, we then perf
 
 Finally, to determine how similar and distinct our two clusters of data are when incorporating all features, we calculate the Silhouette and Fowlkes Mallows scores for our newly labelled data for each of our five folds. 
 
-## DBScan
+## DBSCAN
 
 ### Motivation
 The objective we wanted to achieve with the use of DBSCAN and other unsupervised clustering methods was to see if there was a clear divide in the data in terms of whether a transaction was fraud or genuine. Additionally, with DBSCAN, we also hoped to figure out which features would help the most in terms of clustering and classification as well as finding out different methods to combat the imbalance within the dataset.
@@ -100,7 +100,7 @@ The objective we wanted to achieve with the use of DBSCAN and other unsupervised
 ### Setup
 One technique we use to deal with imbalance within the dataset is to undersample the genuine cases by a factor of 10. This still results in around 28,000 cases of genuine transactions and only 492 cases of fraud. Ideally, this undersampling does not affect the clustering in a significant manner, but due to the random sampling from the under-sampling step and the sensitivity of the DBSCAN algorithm to its parameters, there is sometimes a discrepancy in the clustering results. 
 
-Another benefit of the under-sampling step for DBSCAN is that it cuts down computation time for the algorithm quite heavily since there are ~90% less datapoints which results in about 10x the computation speed. Due to the sensitivity of the DBSCAN algorithm to parameters, this is very important since tuning the parameters often take 30+ trials to reach optimal parameters. 
+Another benefit of the under-sampling step for DBSCAN is that it cuts down computation time for the algorithm quite heavily since there are ~90% less datapoints which results in about 10x the computation speed. Due to the sensitivity of the DBSCAN algorithm to parameters, this is very important since tuning the parameters often takes 30+ trials to reach optimal parameters. 
 
 Due to the way DBSCAN functions, often times there were a large number of clusters, for example in the 50s, which evidently does not represent the data very well. We made some important interpretations of the clustering by assuming that the first cluster (the 0 cluster) is comprised entirely of genuine transactions and that any point outside that first cluster is considered a fraudulent case. We interpret the clustering data as such because we expected most of the genuine transactions to be relatively similar to each other while the fraudulent cases would be comprised of more anomalous cases. For example, for real-life fraudulent transactions detection, often times the more anomalous and unique a transaction, the more likely it can be considered fraud.
 
@@ -181,9 +181,9 @@ Silhouette Scores: [0.06958624746772854, 0.06882313967266414, 0.0469988126178996
 
 Fowlkes Mallows Scores: [0.8140633267522827, 0.8147838393456569, 0.8469865904224366, 0.8195651253010853, 0.8139795561386273] 
 
-### DBScan
+### DBSCAN
 
-The following is the confusion matrix for the data after running DBSCAN for all 28 PCA components. The results are normalized based on the ground truth labels so the numbers can be interpreted as percentages. The “0” label represents genuine transactions, while the “1” label represents fraudulent transactions.
+The following is the confusion matrix for the data after running DBSCAN for all 28 PCA components. The results are normalized based on the ground truth labels so the numbers can be interpreted as percentages. The “0” label represents genuine transactions, while the “1” label represents fraudulent transactions. With DBSCAN, we are able to achieve a recall of around 81%, which represents the percentage of fraudulent cases that are correctly clustered. On the other hand, we achieved a precision of over 99% which represents the percentage of genuine transactions clustered correctly with the genuine cluster. Overall, these results are better than expected, since we anticipated that the high-dimensionality property of the data would cause issues with the DBSCAN clustering because of the relative simplicity of the algorithm, but ultimately out of the three unsupervised methods we explored, DBSCAN was the best overall in clustering the data.
 
 <img src="./Images-MidTerm/DBScan/DBImage1.png" alt="DBScan Figure 1" width="500"/>
 
