@@ -86,9 +86,11 @@ Once the data is shuffled, we need to separate the data from the labels and norm
 
 Once our data is normalized, we can begin performing GMM. Starting with the first 2 PCA components, we run SciKit-Learn's GMM to create and label datapoints into two clusters. To limit overfitting on our data, given that we had so few fraudulent cases to train with, we use K-Fold validation with K = 5. After obtaining labels, we create a confusion matrix of our labels compared to the data's original labels. Using the confusion matrix, we calculate the recall and accuracy of the GMM algorithm with those PCA components. 
 
-To examine the results that increasing features had on the results, we then perform the same operation with additional PCA components, adding a new component each run until all features are being used. 
+To examine the results that increasing features had on the results, we then perform the same operation with additional PCA components, adding a new component each run until all features are being used.
 
-Finally, to determine how similar and distinct our two clusters of data are when incorporating all features, we calculate the Silhouette and Fowlkes Mallows scores for our newly labelled data for each of our five folds. 
+To gain a better understanding of the overall similarities between the ground truth and our predicted data, we calculate the Fowlkes Mallows score.
+
+Finally, to determine how similar and distinct our two clusters of data are when incorporating all features, we calculate the Silhouette score for our newly labelled data. 
 
 ## DBSCAN
 
@@ -114,7 +116,7 @@ Figure 1 shows the result from k-means clustering on the original data with k se
 
 ### GMM
 
-For GMM we analyzed and looked at several statistics: the accuracy and recall of GMM while increasing the number of features, and the silhouette and Fowlkes Mallows scores of each of our K-folds when including all features. 
+For GMM we analyzed and looked at several statistics: the accuracy and recall of GMM while increasing the number of features, and the silhouette and Fowlkes Mallows scores of each number of features. 
 
 Prior to discussing the trends we noticed, we will showcase an example of the data obtained. 
 
@@ -157,7 +159,6 @@ In these confusion matrices, a label of '0' represents that a data point is legi
 | First 28 Features | 0.8292422617 | 0.8928949577 | 0.04405685047    | 0.8460599351          |
 | First 29 Features | 0.8259242247 | 0.890454028  | 0.04644154004    | 0.8434787284          |
 | First 30 Features | 0.8165390099 | 0.8974196491 | 0.06855912929    | 0.8365486072          |
-| First 31 Features | 0.7865677469 | 0.7365935119 | 0.06970019192    | 0.814298335           |
 
 Overall, despite obtaining high recall when using many features GMM did not end up being very useful when trying to cluster datapoints. 
 
@@ -180,9 +181,12 @@ The most obvious discrepancy we see between some of the visualizations is that s
 
 Looking at actual distribution of each cluster, we also see that there are some pretty clear differences. In cases where many points are being clustered as fraudulent (smaller cluster), we find recall going up at the cost of accuracy, and the opposite where we have few data points in the fraudulent cluster.
 
-By looking at the silhouette scores and Fowlkes Mallows scores for the clusters, showcasing how different and similar the clusters are to one another, we get further validation that GMM has not done well in splitting up our clusters in clear, distinguishable groupings. We consistently see that the silhouette score remains near 0, indicating that the two clusters are not very different from one another, and the Fowlkes Mallows score remain fairly high at approximately 0.8, indicating that there is high similarity between clusters.
+By looking at the silhouette scores and Fowlkes Mallows scores for the clusters, showcasing how different and similar the clusters are to one another, we get further validation that GMM has not done well in splitting up our clusters in clear, distinguishable groupings. We consistently see that the silhouette score remains near 0, indicating that the two clusters are not very different from one another.
 
 <img src="./Images-MidTerm/GMM/GMMFM.jpg" alt="GMM Silhouette Score" width="500"/>
+
+Finally, we look at the Fowlkes Mallows score we can look at how closely our predictions matched the ground truth. This score consistently stayed at approximately 0.8, matching what we would expect. While we tended to have most of the legitimate datapoints labelled correctly, fraudulent datapoints were labelled correctly slightly better than via guessing. Averaging these two percents, we get around 80% i.e. Fowlkes Mallows score of 0.8 .
+
 <img src="./Images-MidTerm/GMM/GMMSScore.jpg" alt="GMM Fowlkes Mallows Score" width="500"/>
 
 
