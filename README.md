@@ -192,7 +192,7 @@ The following is the confusion matrix for the data after running DBSCAN for all 
 
 <img src="./Images-MidTerm/DBScan/DBImage1.png" alt="DBScan Figure 1" width="500"/>
 
-Here is the 3-D plot of the dataset utilizing the first 3 PCA components. The red x’s signify a misclassification while the green x’s signify correct classifications for both genuine and fraud cases. 
+Here is the 3-D plot of the dataset utilizing the first 3 PCA components. The red x’s signify a misclassification while the green x’s signify correct classifications for both genuine and fraud cases. From this plot, we see that the misclassifications are spread evenly throughout the dataset which may point to a complexity in the dataset that DBSCAN may not have picked up on. 
 
 <img src="./Images-MidTerm/DBScan/DBImage2.png" alt="DBScan Figure 2" width="500"/>
 
