@@ -61,9 +61,9 @@ Figure 5 is the scatterplot matrix showing the relationship between the first 7 
 
 # Unsupervised Learning Method
 
-For our particular dataset, unsupervised learning becomes particularly useful. Because of confidentiality issues, the original data and labels are not provided. Our dataset only contains numerical input variables that are the result of a PCA transformation. Although we have simulated data, it is still inconvenient to integrate our models with real-world datasets because they are unlikely to be labeled. However, by applying clustering algorithm such as GMM(Gaussian Mixture Models) we could circumvent this problem. 
+For our particular dataset, unsupervised learning becomes particularly useful. Because of confidentiality issues, the original data and labels are not provided. Our dataset only contains numerical input variables that are the result of a PCA transformation. Although we have simulated data, it is still inconvenient to integrate our models with real-world datasets because they are unlikely to be labeled. However, by applying unsupervised clustering algorithm such as GMM(Gaussian Mixture Models) we could circumvent this problem. 
 
-Prior work has shown that using GMM in conjunction with PCA is effective in reducing the complexity from high-dimensional data. Johannes Hertrich from TU Berlin proposed a Novel Gaussian Mixture Model with a PCA dimensionality reduction module in each component of the model [^fn2]. Additionally, Nada Alqahtani proposed a bivariate mixture model and showed that learning with a bivariate Gaussian mixture model is able to decrease the complexity brought by the high dimensionality of the input data[^fn3].
+Specifically, we experimented with various unsupervised learning methods, including probabilistic clustering algorithm GMM as well as deterministic clustering algorithms K-means and DBSCAN. By comparing these three methods, we try to look at which method would yield better accuracy for our dataset. Additionally, we also experimented with different preprocessing strategies to handle imbalance dataset such as ours. 
 
 ## K-Means
 
