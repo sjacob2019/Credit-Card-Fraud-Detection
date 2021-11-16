@@ -61,9 +61,9 @@ Figure 5 is the scatterplot matrix showing the relationship between the first 7 
 
 # Unsupervised Learning Method
 
-For our particular dataset, unsupervised learning becomes particularly useful. Because of confidentiality issues, the original data and labels are not provided. Our dataset only contains numerical input variables that are the result of a PCA transformation. Although we have simulated data, it is still inconvenient to integrate our models with real-world datasets because they are unlikely to be labeled. However, by applying clustering algorithm such as GMM(Gaussian Mixture Models) we could circumvent this problem. 
+For our particular dataset, unsupervised learning becomes particularly useful. Because of confidentiality issues, the original data and labels are not provided. Our dataset only contains numerical input variables that are the result of a PCA transformation. Although we have simulated data, it is still inconvenient to integrate our models with real-world datasets because they are unlikely to be labeled. However, by applying unsupervised clustering algorithm such as GMM(Gaussian Mixture Models) we could circumvent this problem. 
 
-Prior work has shown that using GMM in conjunction with PCA is effective in reducing the complexity from high-dimensional data. Johannes Hertrich from TU Berlin proposed a Novel Gaussian Mixture Model with a PCA dimensionality reduction module in each component of the model [^fn2]. Additionally, Nada Alqahtani proposed a bivariate mixture model and showed that learning with a bivariate Gaussian mixture model is able to decrease the complexity brought by the high dimensionality of the input data[^fn3].
+Specifically, we experimented with various unsupervised learning methods, including probabilistic clustering algorithm GMM as well as deterministic clustering algorithms K-means and DBSCAN. By comparing these three methods, we try to look at which method would yield better accuracy for our dataset. 
 
 ## K-Means
 
@@ -104,7 +104,7 @@ Another benefit of the under-sampling step for DBSCAN is that it cuts down compu
 
 Due to the way DBSCAN functions, often times there were a large number of clusters, for example in the 50s, which evidently does not represent the data very well. We made some important interpretations of the clustering by assuming that the first cluster (the 0 cluster) is comprised entirely of genuine transactions and that any point outside that first cluster is considered a fraudulent case. We interpret the clustering data as such because we expected most of the genuine transactions to be relatively similar to each other while the fraudulent cases would be comprised of more anomalous cases. For example, for real-life fraudulent transactions detection, often times the more anomalous and unique a transaction, the more likely it can be considered fraud.
 
-We ended up tuning the epsilon and minimum points per cluster for DBSCAN by trying to maximize F1 score and the area under precision-recall curve (AUPRC). We found that setting the minimum points per cluster to the minimum of two caused the best results. To tune the epsilon, we set it to an arbitrarily low value and kept increasing it as the AUPRC metric increased along with epsilon, until the results "flipped", which was when the true positive rate plummeted to below 50%. 
+We ended up tuning the epsilon and minimum points per cluster for DBSCAN by trying to maximize F1 score. We found that setting the minimum points per cluster to the minimum of two caused the best results. To tune the epsilon, we set it to an arbitrarily low value and kept increasing it as the F1 metric increased along with epsilon, until the results "flipped", which was when the true positive rate plummeted to below 50%. 
 
 # Potential Results and Discussion
 
