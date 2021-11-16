@@ -126,41 +126,8 @@ For the sake of space, we have chosen to include the confusion matrices for only
 
 In these confusion matrices, a label of '0' represents that a data point is legitimate, and '1' represents a data point is fraudulent.
 
-<img src="./Images-MidTerm/GMM/GMM1.png" alt="GMM Figure 1" width="300"/>
-<img src="./Images-MidTerm/GMM/GMM2.png" alt="GMM Figure 2" width="300"/>
-<img src="./Images-MidTerm/GMM/GMM3.png" alt="GMM Figure 3" width="300"/>
+<img src="./Images-MidTerm/GMM/GMMConfusion.png" alt="GMM Figure 1" width="400"/>
 
-| # of Features     | Accuracy     | Recall       | Silhouette Score | Fowlkes Mallows Score |
-|-------------------|--------------|--------------|------------------|-----------------------|
-| First 2 Features  | 0.5454922101 | 0.2902969719 | 0.711251781      | 0.708816569           |
-| First 3 Features  | 0.5430414297 | 0.4860989529 | 0.6898367591     | 0.7085121001          |
-| First 4 Features  | 0.9082220618 | 0.6299913056 | 0.04769400875    | 0.91253134            |
-| First 5 Features  | 0.8866390158 | 0.8147430894 | 0.05058364335    | 0.8934667314          |
-| First 6 Features  | 0.8532374549 | 0.858076695  | 0.04419316824    | 0.8652723816          |
-| First 7 Features  | 0.8296144333 | 0.8755722317 | 0.03910282344    | 0.8463533381          |
-| First 8 Features  | 0.7519829256 | 0.8868225769 | 0.02903096514    | 0.7910113882          |
-| First 9 Features  | 0.788526981  | 0.8958132884 | 0.03293773383    | 0.8156865426          |
-| First 10 Features | 0.7764028377 | 0.8908290901 | 0.03733629964    | 0.8077359065          |
-| First 11 Features | 0.7934390576 | 0.8920796907 | 0.03848657992    | 0.8191971082          |
-| First 12 Features | 0.7920065066 | 0.9079713048 | 0.04224501212    | 0.8181669295          |
-| First 13 Features | 0.7917537154 | 0.9070158292 | 0.04077599287    | 0.8179833715          |
-| First 14 Features | 0.7866274395 | 0.9158068061 | 0.04060882066    | 0.8143375921          |
-| First 15 Features | 0.7372185362 | 0.9255360675 | 0.05838087556    | 0.7817980117          |
-| First 16 Features | 0.7442759626 | 0.9304549847 | 0.06414248894    | 0.7861453682          |
-| First 17 Features | 0.7533979126 | 0.9299887626 | 0.06571932152    | 0.7919163783          |
-| First 18 Features | 0.7653042344 | 0.9244928388 | 0.06890544838    | 0.7997048165          |
-| First 19 Features | 0.779387444  | 0.9209241372 | 0.07360848102    | 0.8092733108          |
-| First 20 Features | 0.7886147492 | 0.9064654924 | 0.07570879812    | 0.8157510162          |
-| First 21 Features | 0.7989937374 | 0.9077426215 | 0.07655096005    | 0.8233548274          |
-| First 22 Features | 0.7823859698 | 0.901716237  | 0.07218512419    | 0.8113584772          |
-| First 23 Features | 0.7931652067 | 0.8948907401 | 0.07900520697    | 0.8189963437          |
-| First 24 Features | 0.8248498546 | 0.8887499321 | 0.08158281379    | 0.8430537367          |
-| First 25 Features | 0.79354441   | 0.8978958913 | 0.07802846789    | 0.8192683084          |
-| First 26 Features | 0.8112405536 | 0.8967965011 | 0.07393604012    | 0.8327028871          |
-| First 27 Features | 0.8298040528 | 0.8961269162 | 0.04824053294    | 0.8465011818          |
-| First 28 Features | 0.8292422617 | 0.8928949577 | 0.04405685047    | 0.8460599351          |
-| First 29 Features | 0.8259242247 | 0.890454028  | 0.04644154004    | 0.8434787284          |
-| First 30 Features | 0.8165390099 | 0.8974196491 | 0.06855912929    | 0.8365486072          |
 
 Overall, despite obtaining high recall when using many features GMM did not end up being very useful when trying to cluster datapoints. 
 
@@ -171,13 +138,10 @@ The increase in recall rate can be explained when we look at the accuracy rate a
 
 Ultimately, this calls into question a fundamental flaw in GMM: we have little control over how the algorithm chooses to create clusters. Although we call clusters "fraudulent" and "legitimate", in reality these two clusters are just two groupings of points, and whether we call a cluster fraudulent or legitimate must be made based on our understanding of the input data. Although the GMM algorithm may end up clustering points based on features related to identifying if a transaction is legitimate or not, it is inconsistent.
 
-We can see this by analyzing the visualizations of clusters for the first 2 K-Folds, specifically how different the clusters appear despite running for the same features and same dataset:
+We can see this by comparing the visualizations of two different folds done using the first two features.
 
 <img src="./Images-MidTerm/GMM/GMMVis1.png" alt="GMM Visual Figure 1" width="300"/>
-<img src="./Images-MidTerm/GMM/GMMVis2.png" alt="GMM Visual Figure 2" width="300"/>
-<img src="./Images-MidTerm/GMM/GMMVis3.png" alt="GMM Visual Figure 3" width="300"/>
 <img src="./Images-MidTerm/GMM/GMMVis4.png" alt="GMM Visual Figure 4" width="300"/>
-<img src="./Images-MidTerm/GMM/GMMVis5.png" alt="GMM Visual Figure 5" width="300"/>
 
 The most obvious discrepancy we see between some of the visualizations is that sometimes the majority of points are being labelled as 1, other times as 0. While we can infer from context that most points will be legitimate, and as a result the cluster with more data is legitimate, our data may not always allow for such inferences to be possible and furthermore we might not want to make such guesses.
 
@@ -230,6 +194,41 @@ Overall, we ended up having the best success with DBScan. Although recall was no
 Although for this midterm report we focused on developing our unsupervised learning models and analyzing the results from them, we are currently working on the supervised learning models and will include their details in the final report.
 
 For supervised learning we will be training a Neural Network to classify the data points as fraudulent or not fraudulent. Neural Networks work best when we have large amounts of data, often outperforming traditional machine learning algorithms [^fn4]. Since we can use the simulator to generate as much data as we want, using a Neural Network will give us more accurate results. A factor that comes into play in the success of our algorithm is domain knowledge, which in traditional machine learning algorithms is used to identify features in order to reduce the complexity of the raw data and make patterns clearer to the algorithm. Another advantage of Neural Networks is that they also work well when there is a general lack of domain knowledge. This is because they learn the high-level features of the dataset in an incremental fashion [^fn4]. Due to that, we don’t have to worry about feature engineering or domain knowledge.
+
+## Appendix:
+
+GMM data when cross validation done using K-Folds
+| # of Features     | Accuracy     | Recall       | Silhouette Score | Fowlkes Mallows Score |
+|-------------------|--------------|--------------|------------------|-----------------------|
+| First 2 Features  | 0.5454922101 | 0.2902969719 | 0.711251781      | 0.708816569           |
+| First 3 Features  | 0.5430414297 | 0.4860989529 | 0.6898367591     | 0.7085121001          |
+| First 4 Features  | 0.9082220618 | 0.6299913056 | 0.04769400875    | 0.91253134            |
+| First 5 Features  | 0.8866390158 | 0.8147430894 | 0.05058364335    | 0.8934667314          |
+| First 6 Features  | 0.8532374549 | 0.858076695  | 0.04419316824    | 0.8652723816          |
+| First 7 Features  | 0.8296144333 | 0.8755722317 | 0.03910282344    | 0.8463533381          |
+| First 8 Features  | 0.7519829256 | 0.8868225769 | 0.02903096514    | 0.7910113882          |
+| First 9 Features  | 0.788526981  | 0.8958132884 | 0.03293773383    | 0.8156865426          |
+| First 10 Features | 0.7764028377 | 0.8908290901 | 0.03733629964    | 0.8077359065          |
+| First 11 Features | 0.7934390576 | 0.8920796907 | 0.03848657992    | 0.8191971082          |
+| First 12 Features | 0.7920065066 | 0.9079713048 | 0.04224501212    | 0.8181669295          |
+| First 13 Features | 0.7917537154 | 0.9070158292 | 0.04077599287    | 0.8179833715          |
+| First 14 Features | 0.7866274395 | 0.9158068061 | 0.04060882066    | 0.8143375921          |
+| First 15 Features | 0.7372185362 | 0.9255360675 | 0.05838087556    | 0.7817980117          |
+| First 16 Features | 0.7442759626 | 0.9304549847 | 0.06414248894    | 0.7861453682          |
+| First 17 Features | 0.7533979126 | 0.9299887626 | 0.06571932152    | 0.7919163783          |
+| First 18 Features | 0.7653042344 | 0.9244928388 | 0.06890544838    | 0.7997048165          |
+| First 19 Features | 0.779387444  | 0.9209241372 | 0.07360848102    | 0.8092733108          |
+| First 20 Features | 0.7886147492 | 0.9064654924 | 0.07570879812    | 0.8157510162          |
+| First 21 Features | 0.7989937374 | 0.9077426215 | 0.07655096005    | 0.8233548274          |
+| First 22 Features | 0.7823859698 | 0.901716237  | 0.07218512419    | 0.8113584772          |
+| First 23 Features | 0.7931652067 | 0.8948907401 | 0.07900520697    | 0.8189963437          |
+| First 24 Features | 0.8248498546 | 0.8887499321 | 0.08158281379    | 0.8430537367          |
+| First 25 Features | 0.79354441   | 0.8978958913 | 0.07802846789    | 0.8192683084          |
+| First 26 Features | 0.8112405536 | 0.8967965011 | 0.07393604012    | 0.8327028871          |
+| First 27 Features | 0.8298040528 | 0.8961269162 | 0.04824053294    | 0.8465011818          |
+| First 28 Features | 0.8292422617 | 0.8928949577 | 0.04405685047    | 0.8460599351          |
+| First 29 Features | 0.8259242247 | 0.890454028  | 0.04644154004    | 0.8434787284          |
+| First 30 Features | 0.8165390099 | 0.8974196491 | 0.06855912929    | 0.8365486072          |
 
 ## Sources:
 
