@@ -165,19 +165,17 @@ Looking at actual distribution of each cluster, we also see that there are some 
 
 ### 7.1.3 DBSCAN
 
-We ended up tuning the epsilon and minimum points per cluster for DBSCAN in order to maximize the F score. We found that setting the minimum points per cluster to the minimum of two caused the best results. To tune the epsilon, we set it to an arbitrarily low value and kept increasing it as the F score increased along with epsilon, until the results "flipped", which was when the true positive rate plummeted to below 50%. 
+We ended up tuning the epsilon and minimum points per cluster for DBSCAN in order to maximize the F score. We found that setting the minimum points per cluster to two caused the best results. To tune the epsilon, we set it to an arbitrarily low value and kept increasing it as the F score increased along with epsilon, until the results "flipped", which was when the true positive rate plummeted to below 50%. 
 
 The following is the confusion matrix for the data after running DBSCAN for all 28 PCA components. The results are normalized in the second figure shown which is based on the ground truth labels so the numbers can be interpreted as percentages. The “0” label represents legitimate transactions, while the “1” label represents fraudulent transactions. With DBSCAN, we are able to achieve a fraud detection rate of around 81%, which represents the percentage of fraudulent cases that are correctly clustered. On the other hand, we achieved a genuine transaction detection rate of over 99% which represents the percentage of legitimate transactions clustered correctly. 
-
-These results are better than expected, since we anticipated that the high-dimensionality property of the data would cause issues with the DBSCAN clustering because of the relative simplicity of the algorithm, but ultimately out of the three unsupervised methods we explored, DBSCAN was the best overall in clustering the data.
 
 <img src="./Images-MidTerm/DBScan/DBSCANCM.png" alt="DBScan Figure 1" width="400"/>
 
 <img src="./Images-MidTerm/DBScan/DBSCANCMNormalized.png" alt="DBScan Figure 2" width="400"/>
 
-Here is the 3-D plot of the clustering of the dataset with DBSCAN which only shows the first 3 PCA components from different perspectives. The different colors correspond to cases of true positives, true negatives, false positives, and false negatives. The true negatives are classified with the color cyan (0), the false positives are the color red (1), the false negatives are the color magenta(2), and the true positives are the color green (3). To reiterate, the positive case, or the "1" case, represents the fraudulent case, while the negative case, or the "0" case, represents the legitimate cases. 
+These results are better than expected, since we anticipated that the high-dimensionality of the data would cause issues with the DBSCAN clustering because of the relative simplicity of the algorithm.
 
-From this plot, we can see that there is a general trend of fraudulent transactions of going in the negative PC1, positive PC2, and negative PC3 direction. Meanwhile, the large bulk of legitimate transactions seem to occur near a zero value for all three principle components. Another observation from the 3-D plot is that nearly all of the false positives trend towards the negative direction in all 3 principle components shown. This shows one of the limitations to our approach to DBSCAN as it failed to identify these trends in the dataset that are easily identified in this plot. 
+Here is the 3-D plot of the clustering of the dataset with DBSCAN which only shows the first 3 PCA components from different perspectives. The different colors correspond to cases of true positives, true negatives, false positives, and false negatives. The true negatives are classified with the color cyan (0), the false positives are the color red (1), the false negatives are the color magenta(2), and the true positives are the color green (3). To reiterate, the positive case, or the "1" case, represents the fraudulent case, while the negative case, or the "0" case, represents the legitimate cases. 
 
 <img src="./Images-MidTerm/DBScan/DBSCANPlot1.png" alt="DBScan Figure 3" width="600"/>
 
@@ -185,17 +183,18 @@ From this plot, we can see that there is a general trend of fraudulent transacti
 
 <img src="./Images-MidTerm/DBScan/DBSCANPlot5.png" alt="DBScan Figure 5" width="600"/>
 
-Our expectations for DBSCAN were not very high when we first experimented with it due to the high-dimensionality of the data, but we also expected DBSCAN to perform better than K-Means due to the ability for DBSCAN to not rely on linear decision boundaries, which we found to be a huge issue for K-Means clustering. While DBSCAN did not perform quite as well as GMM in terms of recall for the fraudulent transactions, it was more proficient at properly clustering the genuine transactions with a precision of over 99%. Overall, DBSCAN proved to be serviceable to clustering the dataset, and serves as an important stepping stone to more robust and accurate supervised classifications that we will explore next. 
+From this plot, we can see that there is a general trend of fraudulent transactions of going in the negative PC1, positive PC2, and negative PC3 direction. Meanwhile, the large bulk of legitimate transactions seem to occur near a zero value for all three principle components. Another observation from the 3-D plot is that nearly all of the false positives trend towards the negative direction in all 3 principle components shown. This shows one of the limitations to our approach to DBSCAN as it failed to identify these trends in the dataset that are easily identified in this plot. 
+
+
+Our expectations for DBSCAN were not very high when we first experimented with it due to the high-dimensionality of the data, but we also expected DBSCAN to perform better than K-Means due to the ability for DBSCAN to not rely on linear decision boundaries, which we found to be a huge issue for K-Means clustering. While DBSCAN did not perform quite as well as GMM, it was more proficient at properly clustering the genuine transactions with a precision of over 99%. Overall, DBSCAN proved to be serviceable to clustering the dataset, and serves as an important stepping stone to more robust and accurate supervised classifications that we will explore next. 
 
 # 7 Conclusion
 
-Overall, the results we obtained using unsupervised learning were not incredible, but were also not unexpected.
-
 Due to the high variance in our data and their features, KMeans, which is better at clustering where there exists linear boundaries between clusters, displayed very poor results overall.
 
-With GMM, despite some initially positive results, ultimately did not end up being a consistent model for creating clusters of legitimate and fraudulent data. Where we saw high recall oftentimes came with the sacrifice of accuracy, and vice versa. On average, our model's success with accuracy can be described as rarely better than classifying data via a coin flip.
+Although recall was not incredible, DBScan was consistent in classifying legitimate transactions correctly. 
 
-Overall, we ended up having the best success with DBScan. Although recall was not incredible, DBScan was consistent in classifying legitimate transactions correctly. 
+Overall, we ended up having the best success with GMM since it ended up performing the best in classifying transactions as legitimate or fraudulent. 
 
 
 ## Appendix:
