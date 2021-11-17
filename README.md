@@ -123,7 +123,7 @@ For GMM we analyzed and looked at several statistics: the accuracy and recall of
 
 Overall, despite obtaining high recall when using many features GMM did not end up being very useful when trying to cluster datapoints. 
 
-<img src="./Images-MidTerm/GMM/TongdiNoKFold.png" alt="GMM No KFold" width="500"/>
+<img src="./Images-MidTerm/GMM/TongdiNoKfold.png" alt="GMM No KFold" width="500"/>
 
 The increase in recall rate can be explained when we look at the accuracy rate and the visualizations taken of the results. Notably, accuracy is incredibly inconsistent. When we see high recall, it is usually because the algorithm had a cluster classify many transactions as fraud. While many fraudulent transactions do end up being marked as fraud, so do many more legitimate transactions as displayed in poor accuracy. Likewise, when accuracy is high but recall is either unchanged or even drops, it may be because GMM moves many more points into the legitimate than fraudulent cluster. So, even though fraudulent cases keep being labelled incorrectly, the accuracy obtained by labelling so many of the legitimate transactions correctly skews the accuracy.
 
