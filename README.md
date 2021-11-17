@@ -199,6 +199,7 @@ For supervised learning we will be training a Neural Network to classify the dat
 ## Appendix:
 
 GMM data when cross validation done using K-Folds
+
 | # of Features     | Accuracy     | Recall       | Silhouette Score | Fowlkes Mallows Score |
 |-------------------|--------------|--------------|------------------|-----------------------|
 | First 2 Features  | 0.5454922101 | 0.2902969719 | 0.711251781      | 0.708816569           |
