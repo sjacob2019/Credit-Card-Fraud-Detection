@@ -82,15 +82,15 @@ Since the data we were provided was already transformed via PCA, it allows us to
 
 We begin by removing the labels from our dataset and shuffling the data to eliminate any pre-existing bias in the ordering of the data points and to try to ensure an even distribution of fraudulent transactions.
 
-Starting with the first 3 features, we run SciKit-Learn's GMM to group datapoints into two clusters. After obtaining predictions, we create a confusion matrix of our predictions compared to the data's original labels. Using the confusion matrix, we calculate the recall and precision of the GMM algorithm.
+Starting with the first 3 features, we run SciKit-Learn's GMM to group datapoints into two clusters. After obtaining predictions, we create a confusion matrix of our predictions compared to the data's original labels. Using the confusion matrix, we calculate the recall and specificity of the GMM algorithm.
 
 To examine the impact that increasing features had on the results, we then perform the same operation with additional features, adding a new feature each iteration until all features are used.
 
-To gain a better understanding of the overall similarities between the ground truth and our predicted data, we calculate the Fowlkes-Mallows score, which is the Geometric Mean of the Precision and Recall of our model. We also use the F Score, which measures the Harmonic Mean of the Precision and Recall of our model.
+To gain a better understanding of the overall similarities between the ground truth and our predicted data, we calculate the Fowlkes-Mallows score, which is the Geometric Mean of the Precision and Recall of our model. We also use the Balanced Accuracy, which is the average of the recall and the specificity.
 
 Finally, to determine how similar and distinct our two clusters are, we calculate the Silhouette score for our newly labelled data.
 
-To better evaluate our model performance and possibly detect overfitting, we also repeat the above process using a K-Fold validation with K = 5. We will then average the Precision, Recall, and F Scores across all folds. 
+To better evaluate our model performance and possibly detect overfitting, we also repeat the above process using a K-Fold validation with K = 5. We will then average the Specificity, Recall, and Balanced Accuracy across all folds. 
 
 ## 5.3 DBSCAN
 
@@ -119,19 +119,19 @@ For supervised learning we will be training a Neural Network to classify the dat
 
 <img src="./Images-MidTerm/KMeans/KMeans1.png" alt="KMeans Figure 1" width="700"/>
 
-The figure above shows the result from k-means clustering on the original data with k set to 2. We use all the features for clustering, but we only plot the first three PCA components to visualize the result. Since the k-means algorithm only outputs two clusters with no labels, we need to manually assign labels to the clusters. Since this is a binary classification problem, there are two possible label assignments, and we choose the assignment that maximizes the sum of the precision rate and the recall rate. As we can see, most data points are clustered to the genuine class, resulting in only 3.6% of the fraud cases being correctly clustered. 
+The figure above shows the result from k-means clustering on the original data with k set to 2. We use all the features for clustering, but we only plot the first three PCA components to visualize the result. Since the k-means algorithm only outputs two clusters with no labels, we need to manually assign labels to the clusters. Since this is a binary classification problem, there are two possible label assignments, and we choose the assignment that maximizes the sum of the specificity rate and the recall rate. As we can see, most data points are clustered to the genuine class, resulting in only 3.6% of the fraud cases being correctly clustered. 
 
 ### 7.1.2 GMM
 
 <!-- Non K-Fold Section -->
 
-We started with the more naive approach, where we fitted our GMM to the entire dataset and compared our predictions to the ground truths. For GMM we analyzed and looked at several statistics: the precision, recall, and F scores of GMM while increasing the number of features. Overall, we were able to obtain high recall, precision, and F scores, indicating that GMM ended up being useful when trying to cluster datapoints.
+We started with the more naive approach, where we fitted our GMM to the entire dataset and compared our predictions to the ground truths. For GMM we analyzed and looked at several statistics: the specificity, recall, and Balanced Accuracy of GMM while increasing the number of features. Overall, we were able to obtain high recall, specificity, and Balanced Accuracy, indicating that GMM ended up being useful when trying to cluster datapoints.
 
 <img src="./Images-MidTerm/GMM/TongdiNoKfold.png" alt="GMM No KFold" width="500"/>
 
-As we increased the number of features, the F Score gradually increased as well, indicating better performance as we added more features.
+As we increased the number of features, the Balanced Accuracy gradually increased as well, indicating better performance as we added more features.
 
-We noticed that precision steadily decreased until the 20th feature and sharply rose at the 21st feature. PCA outputs the principal components ordered by their variance. This doesn't necessarily imply that that the first few principal components are the most influential features in differentiating the two clusters. We can use the 21st feature as an example. Due to the natural ordering of the PCA components, the 21st feature has a smaller variance than the first few PCA components. Despite this, we experienced a sharp increase in precision and F Score, indicating that this particular feature had a significant contribution to the model's ability to classify transactions.
+We noticed that specificity steadily decreased until the 20th feature and sharply rose at the 21st feature. PCA outputs the principal components ordered by their variance. This doesn't necessarily imply that that the first few principal components are the most influential features in differentiating the two clusters. We can use the 21st feature as an example. Due to the natural ordering of the PCA components, the 21st feature has a smaller variance than the first few PCA components. Despite this, we experienced a sharp increase in Balanced Accuracy and specificity, indicating that this particular feature had a significant contribution to the model's ability to classify transactions.
 
 <img src="./Images-MidTerm/GMM/GMMNewScores.png" alt="GMM Silhouette Score" width="600"/>
 
@@ -152,7 +152,7 @@ In these confusion matrices, a label of '0' represents that a data point is legi
 
 <img src="./Images-MidTerm/GMM/GMMConfusion.png" alt="GMM Matrices" width="700"/>
 
-While four of the folds had results similar to the left matrix, with high recall and high accuracy, there was nearly always a case on the right with low recall and low accuracy. We suspect this is because with five folds, we are spreading the fraudulent testing data too thin, and ultimately end up having a fold where there is poor training data and by extension poor results in testing. When these inaccurate results occur, they drag down the average precision and accuracy.
+While four of the folds had results similar to the left matrix, with high recall and high accuracy, there was nearly always a case on the right with low recall and low accuracy. We suspect this is because with five folds, we are spreading the fraudulent testing data too thin, and ultimately end up having a fold where there is poor training data and by extension poor results in testing. When these inaccurate results occur, they drag down the average specificity and recall.
 
 We can see this by looking at visualizations obtained during two different runs of GMM when looking at the first two features.
 
@@ -186,7 +186,7 @@ Here is the 3-D plot of the clustering of the dataset with DBSCAN which only sho
 From this plot, we can see that there is a general trend of fraudulent transactions of going in the negative PC1, positive PC2, and negative PC3 direction. Meanwhile, the large bulk of legitimate transactions seem to occur near a zero value for all three principle components. Another observation from the 3-D plot is that nearly all of the false positives trend towards the negative direction in all 3 principle components shown. This shows one of the limitations to our approach to DBSCAN as it failed to identify these trends in the dataset that are easily identified in this plot. 
 
 
-Our expectations for DBSCAN were not very high when we first experimented with it due to the high-dimensionality of the data, but we also expected DBSCAN to perform better than K-Means due to the ability for DBSCAN to not rely on linear decision boundaries, which we found to be a huge issue for K-Means clustering. While DBSCAN did not perform quite as well as GMM, it was more proficient at properly clustering the genuine transactions with a precision of over 99%. Overall, DBSCAN proved to be serviceable to clustering the dataset, and serves as an important stepping stone to more robust and accurate supervised classifications that we will explore next. 
+Our expectations for DBSCAN were not very high when we first experimented with it due to the high-dimensionality of the data, but we also expected DBSCAN to perform better than K-Means due to the ability for DBSCAN to not rely on linear decision boundaries, which we found to be a huge issue for K-Means clustering. While DBSCAN did not perform quite as well as GMM, it was more proficient at properly clustering the genuine transactions with a specificity of over 99%. Overall, DBSCAN proved to be serviceable to clustering the dataset, and serves as an important stepping stone to more robust and accurate supervised classifications that we will explore next. 
 
 # 7 Conclusion
 
