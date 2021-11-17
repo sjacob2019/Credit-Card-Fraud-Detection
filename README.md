@@ -61,9 +61,9 @@ Figure 5 is the scatterplot matrix showing the relationship between the first 7 
 
 # Unsupervised Learning Method
 
-For our dataset, unsupervised learning becomes particularly useful. Because of confidentiality issues, the original data and labels are not provided. Our dataset only contains numerical input variables that are the result of a PCA transformation. In real-life, data labeling is a time-consuming task, hence Unsupervised Learning strategies tend to have a higher practical value than supervised learning. Therefore, although we have simulated data at our disposal, it is still inconvenient to integrate our models with real-world datasets because they are unlikely to be labeled. However, by applying unsupervised clustering algorithms such as GMM (Gaussian Mixture Models) we could circumvent this problem. 
+For our particular dataset, unsupervised learning becomes particularly useful. Because of confidentiality issues, the original data and labels are not provided. Our dataset only contains numerical input variables that are the result of a PCA transformation. Although we have simulated data, it is still inconvenient to integrate our models with real-world datasets because they are unlikely to be labeled. However, by applying unsupervised clustering algorithm such as GMM(Gaussian Mixture Models) we could circumvent this problem. 
 
-Specifically, we experimented with various unsupervised learning methods, including probabilistic clustering algorithm GMM as well as deterministic clustering algorithms K-means and DBSCAN. We look at how these three methods perform on our unbalanced dataset by comparing their accuracy and recall as well as other metrics such as Silhouette Score and Fowlkes Mallows Score. 
+Specifically, we experimented with various unsupervised learning methods, including probabilistic clustering algorithm GMM as well as deterministic clustering algorithms K-means and DBSCAN. By comparing these three methods, we try to look at which method would yield better accuracy for our dataset. 
 
 ## K-Means
 
@@ -78,19 +78,19 @@ The k-means algorithm is an unsupervised data clustering algorithm. It is initia
 When exploring clustering with supervised learning methods, GMM is one of the first options chosen. Where K-Means suffers due to disregarding variance, GMM uses the covariance of a distribution to cluster data. Furthermore, GMM provides us with soft-classifications as opposed to K-Mean's hard classification. This means that should we choose so, we can analyze the likelihood of a given point belonging to a specific cluster.
 
 ### Setup
-Since the data we were provided was already transformed via PCA, it allowed us to skip most of the pre-processing that would be associated with GMM I.e. PCA. 
+Since the data we were provided was already transformed via PCA and normalized, it allows us to skip most of the pre-processing that would be associated with GMM I.e. PCA.
 
-We begin by shuffling the data to eliminate any pre-existing bias in the ordering of the data points and to try to ensure an even distribution of fraudulent transactions amidst our heavily imbalanced dataset for when we perform K-Fold validation. 
+We begin by removing the labels from our dataset, and shuffling the data to eliminate any pre-existing bias in the ordering of the data points and to try to ensure an even distribution of fraudulent transactions.
 
-Once the data is shuffled, we need to separate the data from the labels and normalize the data in order to keep all values within a common scale that is maintained across features. After the labels are separated from the data, we use SciKit-Learn's MinMaxScalar to normalize our data between 0 and 1. 
-
-Once our data is normalized, we can begin performing GMM. Starting with the first 2 PCA components, we run SciKit-Learn's GMM to create and label datapoints into two clusters. To limit overfitting on our data, given that we had so few fraudulent cases to train with, we use K-Fold validation with K = 5. After obtaining labels, we create a confusion matrix of our labels compared to the data's original labels. Using the confusion matrix, we calculate the recall and accuracy of the GMM algorithm with those PCA components. 
+Starting with the first 2 PCA components, we run SciKit-Learn's GMM to create and label datapoints into two clusters. After obtaining labels, we create a confusion matrix of our labels compared to the data's original labels. Using the confusion matrix, we calculate the recall and accuracy of the GMM algorithm with those PCA components.
 
 To examine the results that increasing features had on the results, we then perform the same operation with additional PCA components, adding a new component each run until all features are being used.
 
 To gain a better understanding of the overall similarities between the ground truth and our predicted data, we calculate the Fowlkes Mallows score.
 
-Finally, to determine how similar and distinct our two clusters of data are when incorporating all features, we calculate the Silhouette score for our newly labelled data. 
+Finally, to determine how similar and distinct our two clusters of data are when incorporating all features, we calculate the Silhouette score for our newly labelled data.
+
+To look into how we can attempt to limit overfitting our data, we also repeat the above process but now using a K-Fold validation where K = 5. Accuracy, recall, Silhouette Score, and Fowlkes Mallows score will then be the average value amongst all folds.
 
 ## DBSCAN
 
@@ -120,25 +120,16 @@ Figure 1 shows the result from k-means clustering on the original data with k se
 
 For GMM we analyzed and looked at several statistics: the accuracy and recall of GMM while increasing the number of features, and the silhouette and Fowlkes Mallows scores of each number of features. 
 
-Prior to discussing the trends we noticed, we will showcase an example of the data obtained. 
-
-For the sake of space, we have chosen to include the confusion matrices for only the K-Folds when all features were included in GMM. Each of the confusion matrices below represents the results of a single fold performed on the same dataset with the same number of features.
-
-In these confusion matrices, a label of '0' represents that a data point is legitimate, and '1' represents a data point is fraudulent.
-
-<img src="./Images-MidTerm/GMM/GMMConfusion.png" alt="GMM Figure 1" width="400"/>
-
 
 Overall, despite obtaining high recall when using many features GMM did not end up being very useful when trying to cluster datapoints. 
 
-<img src="./Images-MidTerm/GMM/GMMAccuracy.png" alt="GMM Accuracy" width="500"/>
-<img src="./Images-MidTerm/GMM/GMMRecall.png" alt="GMM Recall" width="500"/>
+<img src="./Images-MidTerm/GMM/TongdiNoKFold.png" alt="GMM No KFold" width="500"/>
 
 The increase in recall rate can be explained when we look at the accuracy rate and the visualizations taken of the results. Notably, accuracy is incredibly inconsistent. When we see high recall, it is usually because the algorithm had a cluster classify many transactions as fraud. While many fraudulent transactions do end up being marked as fraud, so do many more legitimate transactions as displayed in poor accuracy. Likewise, when accuracy is high but recall is either unchanged or even drops, it may be because GMM moves many more points into the legitimate than fraudulent cluster. So, even though fraudulent cases keep being labelled incorrectly, the accuracy obtained by labelling so many of the legitimate transactions correctly skews the accuracy.
 
 Ultimately, this calls into question a fundamental flaw in GMM: we have little control over how the algorithm chooses to create clusters. Although we call clusters "fraudulent" and "legitimate", in reality these two clusters are just two groupings of points, and whether we call a cluster fraudulent or legitimate must be made based on our understanding of the input data. Although the GMM algorithm may end up clustering points based on features related to identifying if a transaction is legitimate or not, it is inconsistent.
 
-We can see this by comparing the visualizations of two different folds done using the first two features.
+We can see this by looking at visualizations obtained during two different runs of GMM when looking at the first two features.
 
 <img src="./Images-MidTerm/GMM/GMMVis1.png" alt="GMM Visual Figure 1" width="300"/>
 <img src="./Images-MidTerm/GMM/GMMVis4.png" alt="GMM Visual Figure 4" width="300"/>
@@ -147,18 +138,28 @@ The most obvious discrepancy we see between some of the visualizations is that s
 
 Looking at actual distribution of each cluster, we also see that there are some pretty clear differences. In cases where many points are being clustered as fraudulent (smaller cluster), we find recall going up at the cost of accuracy, and the opposite where we have few data points in the fraudulent cluster.
 
-By looking at the silhouette scores and Fowlkes Mallows scores for the clusters, showcasing how different and similar the clusters are to one another, we get further validation that GMM has not done well in splitting up our clusters in clear, distinguishable groupings. We consistently see that the silhouette score remains near 0, indicating that the two clusters are not very different from one another.
+<img src="./Images-MidTerm/GMM/GMMNewScores.png" alt="GMM Silhouette Score" width="500"/>
 
-<img src="./Images-MidTerm/GMM/GMMFM.jpg" alt="GMM Silhouette Score" width="500"/>
+By looking at the silhouette scores and Fowlkes Mallows scores for the clusters, showcasing how different and similar the clusters are to one another, we get further validation that GMM has not done well in splitting up our clusters in clear, distinguishable groupings. We consistently see that the silhouette score remains near 0, indicating that the two clusters are not very different from one another.
 
 Finally, we look at the Fowlkes Mallows score we can look at how closely our predictions matched the ground truth. This score consistently stayed at approximately 0.8, matching what we would expect. While we tended to have most of the legitimate datapoints labelled correctly, fraudulent datapoints were labelled correctly slightly better than via guessing. Averaging these two percents, we get around 80% i.e. Fowlkes Mallows score of 0.8 .
 
-<img src="./Images-MidTerm/GMM/GMMSScore.jpg" alt="GMM Fowlkes Mallows Score" width="500"/>
+In an effort to minimize the impact of having such an unbalanced dataset we also used K-Folds. The intent of this was to ensure that we would be training GMM on fraudulent data. Unfortunately, the results we obtained did not result in a noticeable improvement compared to when we did not use K-Folds.
+
+<img src="./Images-MidTerm/GMM/TongdiKfold.png" alt="GMM No KFold" width="500"/>
+
+We can see why the overall accuracy and recall do not differ much from when we do not use K-Folds by looking at the following Confusion Matrices. These matrices represent two of the five folds obtained when running GMM on all features.
+
+In these confusion matrices, a label of '0' represents that a data point is legitimate, and '1' represents a data point is fraudulent.
+
+<img src="./Images-MidTerm/GMM/GMMConfusion.png" alt="GMM Matrices" width="400"/>
+
+While four of the folds had results similar to the left matrix, with high recall and high accuracy, there was nearly always a case on the right with low recall and low accuracy. We suspect this is because with five folds, we are spreading the fraudulent testing data too thin, and ultimately end up having a fold where there is poor training data and by extension poor results. When these inaccurate results occur they drag down the precision and accuracy.
 
 
 ### DBSCAN
 
-The following is the confusion matrix for the data after running DBSCAN for all 28 PCA components. The results are normalized based on the ground truth labels so the numbers can be interpreted as percentages. The “0” label represents genuine transactions, while the “1” label represents fraudulent transactions. With DBSCAN, we are able to achieve a fraud detection rate or recall of around 81%, which represents the percentage of fraudulent cases that are correctly clustered. We were also able to achieve 61% precision for the fraud detection. On the other hand, we achieved a genuine transaction detection rate of over 99% which represents the percentage of genuine transactions clustered correctly with the genuine cluster. This results in a F1 score of 0.696 which indicates that DBSCAN was not too bad in terms of fraud detection.
+The following is the confusion matrix for the data after running DBSCAN for all 28 PCA components. The results are normalized based on the ground truth labels so the numbers can be interpreted as percentages. The “0” label represents genuine transactions, while the “1” label represents fraudulent transactions. With DBSCAN, we are able to achieve a fraud detection rate of around 81%, which represents the percentage of fraudulent cases that are correctly clustered. On the other hand, we achieved a genuine transaction detection rate of over 99% which represents the percentage of genuine transactions clustered correctly with the genuine cluster. 
 
 Overall, these results are better than expected, since we anticipated that the high-dimensionality property of the data would cause issues with the DBSCAN clustering because of the relative simplicity of the algorithm, but ultimately out of the three unsupervised methods we explored, DBSCAN was the best overall in clustering the data.
 
@@ -180,11 +181,13 @@ Our expectations for DBSCAN were not very high when we first experimented with i
 
 ## Conclusion
 
-Overall, depending on the method we choose, the results vary significantly. Among them, we conclude that GMM and DBSCAN both have their merits. 
+Overall, the results we obtained using unsupervised learning were not incredible, but were also not unexpected.
 
-For deterministic clustering algorithms, K-means only correctly clustered 3.6% of the fraud cases. This is understandable as K-means discovers linear boundaries between data while our dataset is complex with hard-to-model non-linear relationships. Surprisingly, we found that DBSCAN yields 99% accuracy for genuine transactions, which proves to be serviceable to clustering the dataset. 
+Due to the high variance in our data and their features, KMeans, which is better at clustering where there exists linear boundaries between clusters, displayed very poor results overall.
 
-For probabilistic clustering algorithms GMM, we can get 89% recall on the dataset using all 30 PCA features. However, compared with DBSCAN GMM have lower accuracy and we cannot control how clusters are generated like in DBSCAN by changing minPts and eps 
+With GMM, despite some initially positive results, ultimately did not end up being a consistent model for creating clusters of legitimate and fraudulent data. Where we saw high recall oftentimes came with the sacrifice of accuracy, and vice versa. On average, our model's success with accuracy can be described as rarely better than classifying data via a coin flip.
+
+Overall, we ended up having the best success with DBScan. Although recall was not incredible, DBScan was consistent in classifying legitimate transactions correctly. 
 
 
 # Supervised Learning Method
