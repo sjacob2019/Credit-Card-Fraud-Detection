@@ -146,7 +146,7 @@ Finally, we look at the Fowlkes Mallows score we can look at how closely our pre
 
 In an effort to minimize the impact of having such an unbalanced dataset we also used K-Folds. The intent of this was to ensure that we would be training GMM on fraudulent data. Unfortunately, the results we obtained did not result in a noticeable improvement compared to when we did not use K-Folds.
 
-<img src="./Images-MidTerm/GMM/TongdiKfold.png" alt="GMM No KFold" width="500"/>
+<img src="./Images-MidTerm/GMM/TongdiKfold.png" alt="GMM KFold" width="500"/>
 
 We can see why the overall accuracy and recall do not differ much from when we do not use K-Folds by looking at the following Confusion Matrices. These matrices represent two of the five folds obtained when running GMM on all features.
 
