@@ -78,19 +78,19 @@ The k-means algorithm is an unsupervised data clustering algorithm. It is initia
 When exploring clustering with supervised learning methods, GMM is one of the first options chosen. Where K-Means suffers due to disregarding variance, GMM uses the covariance of a distribution to cluster data. Furthermore, GMM provides us with soft-classifications as opposed to K-Mean's hard classification. This means that should we choose so, we can analyze the likelihood of a given point belonging to a specific cluster.
 
 ### Setup
-Since the data we were provided was already transformed via PCA, it allowed us to skip most of the pre-processing that would be associated with GMM I.e. PCA. 
+Since the data we were provided was already transformed via PCA and normalized, it allows us to skip most of the pre-processing that would be associated with GMM I.e. PCA.
 
-We begin by shuffling the data to eliminate any pre-existing bias in the ordering of the data points and to try to ensure an even distribution of fraudulent transactions amidst our heavily imbalanced dataset for when we perform K-Fold validation. 
+We begin by removing the labels from our dataset, and shuffling the data to eliminate any pre-existing bias in the ordering of the data points and to try to ensure an even distribution of fraudulent transactions.
 
-Once the data is shuffled, we need to separate the data from the labels and normalize the data in order to keep all values within a common scale that is maintained across features. After the labels are separated from the data, we use SciKit-Learn's MinMaxScalar to normalize our data between 0 and 1. 
-
-Once our data is normalized, we can begin performing GMM. Starting with the first 2 PCA components, we run SciKit-Learn's GMM to create and label datapoints into two clusters. To limit overfitting on our data, given that we had so few fraudulent cases to train with, we use K-Fold validation with K = 5. After obtaining labels, we create a confusion matrix of our labels compared to the data's original labels. Using the confusion matrix, we calculate the recall and accuracy of the GMM algorithm with those PCA components. 
+Starting with the first 2 PCA components, we run SciKit-Learn's GMM to create and label datapoints into two clusters. After obtaining labels, we create a confusion matrix of our labels compared to the data's original labels. Using the confusion matrix, we calculate the recall and accuracy of the GMM algorithm with those PCA components.
 
 To examine the results that increasing features had on the results, we then perform the same operation with additional PCA components, adding a new component each run until all features are being used.
 
 To gain a better understanding of the overall similarities between the ground truth and our predicted data, we calculate the Fowlkes Mallows score.
 
-Finally, to determine how similar and distinct our two clusters of data are when incorporating all features, we calculate the Silhouette score for our newly labelled data. 
+Finally, to determine how similar and distinct our two clusters of data are when incorporating all features, we calculate the Silhouette score for our newly labelled data.
+
+To look into how we can attempt to limit overfitting our data, we also repeat the above process but now using a K-Fold validation where K = 5. Accuracy, recall, Silhouette Score, and Fowlkes Mallows score will then be the average value amongst all folds.
 
 ## DBSCAN
 
@@ -120,76 +120,41 @@ Figure 1 shows the result from k-means clustering on the original data with k se
 
 For GMM we analyzed and looked at several statistics: the accuracy and recall of GMM while increasing the number of features, and the silhouette and Fowlkes Mallows scores of each number of features. 
 
-Prior to discussing the trends we noticed, we will showcase an example of the data obtained. 
-
-For the sake of space, we have chosen to include the confusion matrices for only the K-Folds when all features were included in GMM. Each of the confusion matrices below represents the results of a single fold performed on the same dataset with the same number of features.
-
-In these confusion matrices, a label of '0' represents that a data point is legitimate, and '1' represents a data point is fraudulent.
-
-<img src="./Images-MidTerm/GMM/GMM1.png" alt="GMM Figure 1" width="300"/>
-<img src="./Images-MidTerm/GMM/GMM2.png" alt="GMM Figure 2" width="300"/>
-<img src="./Images-MidTerm/GMM/GMM3.png" alt="GMM Figure 3" width="300"/>
-
-| # of Features     | Accuracy     | Recall       | Silhouette Score | Fowlkes Mallows Score |
-|-------------------|--------------|--------------|------------------|-----------------------|
-| First 2 Features  | 0.5454922101 | 0.2902969719 | 0.711251781      | 0.708816569           |
-| First 3 Features  | 0.5430414297 | 0.4860989529 | 0.6898367591     | 0.7085121001          |
-| First 4 Features  | 0.9082220618 | 0.6299913056 | 0.04769400875    | 0.91253134            |
-| First 5 Features  | 0.8866390158 | 0.8147430894 | 0.05058364335    | 0.8934667314          |
-| First 6 Features  | 0.8532374549 | 0.858076695  | 0.04419316824    | 0.8652723816          |
-| First 7 Features  | 0.8296144333 | 0.8755722317 | 0.03910282344    | 0.8463533381          |
-| First 8 Features  | 0.7519829256 | 0.8868225769 | 0.02903096514    | 0.7910113882          |
-| First 9 Features  | 0.788526981  | 0.8958132884 | 0.03293773383    | 0.8156865426          |
-| First 10 Features | 0.7764028377 | 0.8908290901 | 0.03733629964    | 0.8077359065          |
-| First 11 Features | 0.7934390576 | 0.8920796907 | 0.03848657992    | 0.8191971082          |
-| First 12 Features | 0.7920065066 | 0.9079713048 | 0.04224501212    | 0.8181669295          |
-| First 13 Features | 0.7917537154 | 0.9070158292 | 0.04077599287    | 0.8179833715          |
-| First 14 Features | 0.7866274395 | 0.9158068061 | 0.04060882066    | 0.8143375921          |
-| First 15 Features | 0.7372185362 | 0.9255360675 | 0.05838087556    | 0.7817980117          |
-| First 16 Features | 0.7442759626 | 0.9304549847 | 0.06414248894    | 0.7861453682          |
-| First 17 Features | 0.7533979126 | 0.9299887626 | 0.06571932152    | 0.7919163783          |
-| First 18 Features | 0.7653042344 | 0.9244928388 | 0.06890544838    | 0.7997048165          |
-| First 19 Features | 0.779387444  | 0.9209241372 | 0.07360848102    | 0.8092733108          |
-| First 20 Features | 0.7886147492 | 0.9064654924 | 0.07570879812    | 0.8157510162          |
-| First 21 Features | 0.7989937374 | 0.9077426215 | 0.07655096005    | 0.8233548274          |
-| First 22 Features | 0.7823859698 | 0.901716237  | 0.07218512419    | 0.8113584772          |
-| First 23 Features | 0.7931652067 | 0.8948907401 | 0.07900520697    | 0.8189963437          |
-| First 24 Features | 0.8248498546 | 0.8887499321 | 0.08158281379    | 0.8430537367          |
-| First 25 Features | 0.79354441   | 0.8978958913 | 0.07802846789    | 0.8192683084          |
-| First 26 Features | 0.8112405536 | 0.8967965011 | 0.07393604012    | 0.8327028871          |
-| First 27 Features | 0.8298040528 | 0.8961269162 | 0.04824053294    | 0.8465011818          |
-| First 28 Features | 0.8292422617 | 0.8928949577 | 0.04405685047    | 0.8460599351          |
-| First 29 Features | 0.8259242247 | 0.890454028  | 0.04644154004    | 0.8434787284          |
-| First 30 Features | 0.8165390099 | 0.8974196491 | 0.06855912929    | 0.8365486072          |
 
 Overall, despite obtaining high recall when using many features GMM did not end up being very useful when trying to cluster datapoints. 
 
-<img src="./Images-MidTerm/GMM/GMMAccuracy.png" alt="GMM Accuracy" width="500"/>
-<img src="./Images-MidTerm/GMM/GMMRecall.png" alt="GMM Recall" width="500"/>
+<img src="./Images-MidTerm/GMM/TongdiNoKFold.png" alt="GMM No KFold" width="500"/>
 
 The increase in recall rate can be explained when we look at the accuracy rate and the visualizations taken of the results. Notably, accuracy is incredibly inconsistent. When we see high recall, it is usually because the algorithm had a cluster classify many transactions as fraud. While many fraudulent transactions do end up being marked as fraud, so do many more legitimate transactions as displayed in poor accuracy. Likewise, when accuracy is high but recall is either unchanged or even drops, it may be because GMM moves many more points into the legitimate than fraudulent cluster. So, even though fraudulent cases keep being labelled incorrectly, the accuracy obtained by labelling so many of the legitimate transactions correctly skews the accuracy.
 
 Ultimately, this calls into question a fundamental flaw in GMM: we have little control over how the algorithm chooses to create clusters. Although we call clusters "fraudulent" and "legitimate", in reality these two clusters are just two groupings of points, and whether we call a cluster fraudulent or legitimate must be made based on our understanding of the input data. Although the GMM algorithm may end up clustering points based on features related to identifying if a transaction is legitimate or not, it is inconsistent.
 
-We can see this by analyzing the visualizations of clusters for the first 2 K-Folds, specifically how different the clusters appear despite running for the same features and same dataset:
+We can see this by looking at visualizations obtained during two different runs of GMM when looking at the first two features.
 
 <img src="./Images-MidTerm/GMM/GMMVis1.png" alt="GMM Visual Figure 1" width="300"/>
-<img src="./Images-MidTerm/GMM/GMMVis2.png" alt="GMM Visual Figure 2" width="300"/>
-<img src="./Images-MidTerm/GMM/GMMVis3.png" alt="GMM Visual Figure 3" width="300"/>
 <img src="./Images-MidTerm/GMM/GMMVis4.png" alt="GMM Visual Figure 4" width="300"/>
-<img src="./Images-MidTerm/GMM/GMMVis5.png" alt="GMM Visual Figure 5" width="300"/>
 
 The most obvious discrepancy we see between some of the visualizations is that sometimes the majority of points are being labelled as 1, other times as 0. While we can infer from context that most points will be legitimate, and as a result the cluster with more data is legitimate, our data may not always allow for such inferences to be possible and furthermore we might not want to make such guesses.
 
 Looking at actual distribution of each cluster, we also see that there are some pretty clear differences. In cases where many points are being clustered as fraudulent (smaller cluster), we find recall going up at the cost of accuracy, and the opposite where we have few data points in the fraudulent cluster.
 
-By looking at the silhouette scores and Fowlkes Mallows scores for the clusters, showcasing how different and similar the clusters are to one another, we get further validation that GMM has not done well in splitting up our clusters in clear, distinguishable groupings. We consistently see that the silhouette score remains near 0, indicating that the two clusters are not very different from one another.
+<img src="./Images-MidTerm/GMM/GMMNewScores.png" alt="GMM Silhouette Score" width="500"/>
 
-<img src="./Images-MidTerm/GMM/GMMFM.jpg" alt="GMM Silhouette Score" width="500"/>
+By looking at the silhouette scores and Fowlkes Mallows scores for the clusters, showcasing how different and similar the clusters are to one another, we get further validation that GMM has not done well in splitting up our clusters in clear, distinguishable groupings. We consistently see that the silhouette score remains near 0, indicating that the two clusters are not very different from one another.
 
 Finally, we look at the Fowlkes Mallows score we can look at how closely our predictions matched the ground truth. This score consistently stayed at approximately 0.8, matching what we would expect. While we tended to have most of the legitimate datapoints labelled correctly, fraudulent datapoints were labelled correctly slightly better than via guessing. Averaging these two percents, we get around 80% i.e. Fowlkes Mallows score of 0.8 .
 
-<img src="./Images-MidTerm/GMM/GMMSScore.jpg" alt="GMM Fowlkes Mallows Score" width="500"/>
+In an effort to minimize the impact of having such an unbalanced dataset we also used K-Folds. The intent of this was to ensure that we would be training GMM on fraudulent data. Unfortunately, the results we obtained did not result in a noticeable improvement compared to when we did not use K-Folds.
+
+<img src="./Images-MidTerm/GMM/TongdiKfold.png" alt="GMM No KFold" width="500"/>
+
+We can see why the overall accuracy and recall do not differ much from when we do not use K-Folds by looking at the following Confusion Matrices. These matrices represent two of the five folds obtained when running GMM on all features.
+
+In these confusion matrices, a label of '0' represents that a data point is legitimate, and '1' represents a data point is fraudulent.
+
+<img src="./Images-MidTerm/GMM/GMMConfusion.png" alt="GMM Matrices" width="400"/>
+
+While four of the folds had results similar to the left matrix, with high recall and high accuracy, there was nearly always a case on the right with low recall and low accuracy. We suspect this is because with five folds, we are spreading the fraudulent testing data too thin, and ultimately end up having a fold where there is poor training data and by extension poor results. When these inaccurate results occur they drag down the precision and accuracy.
 
 
 ### DBSCAN
@@ -230,6 +195,41 @@ Overall, we ended up having the best success with DBScan. Although recall was no
 Although for this midterm report we focused on developing our unsupervised learning models and analyzing the results from them, we are currently working on the supervised learning models and will include their details in the final report.
 
 For supervised learning we will be training a Neural Network to classify the data points as fraudulent or not fraudulent. Neural Networks work best when we have large amounts of data, often outperforming traditional machine learning algorithms [^fn4]. Since we can use the simulator to generate as much data as we want, using a Neural Network will give us more accurate results. A factor that comes into play in the success of our algorithm is domain knowledge, which in traditional machine learning algorithms is used to identify features in order to reduce the complexity of the raw data and make patterns clearer to the algorithm. Another advantage of Neural Networks is that they also work well when there is a general lack of domain knowledge. This is because they learn the high-level features of the dataset in an incremental fashion [^fn4]. Due to that, we don’t have to worry about feature engineering or domain knowledge.
+
+## Appendix:
+
+GMM data when cross validation done using K-Folds
+| # of Features     | Accuracy     | Recall       | Silhouette Score | Fowlkes Mallows Score |
+|-------------------|--------------|--------------|------------------|-----------------------|
+| First 2 Features  | 0.5454922101 | 0.2902969719 | 0.711251781      | 0.708816569           |
+| First 3 Features  | 0.5430414297 | 0.4860989529 | 0.6898367591     | 0.7085121001          |
+| First 4 Features  | 0.9082220618 | 0.6299913056 | 0.04769400875    | 0.91253134            |
+| First 5 Features  | 0.8866390158 | 0.8147430894 | 0.05058364335    | 0.8934667314          |
+| First 6 Features  | 0.8532374549 | 0.858076695  | 0.04419316824    | 0.8652723816          |
+| First 7 Features  | 0.8296144333 | 0.8755722317 | 0.03910282344    | 0.8463533381          |
+| First 8 Features  | 0.7519829256 | 0.8868225769 | 0.02903096514    | 0.7910113882          |
+| First 9 Features  | 0.788526981  | 0.8958132884 | 0.03293773383    | 0.8156865426          |
+| First 10 Features | 0.7764028377 | 0.8908290901 | 0.03733629964    | 0.8077359065          |
+| First 11 Features | 0.7934390576 | 0.8920796907 | 0.03848657992    | 0.8191971082          |
+| First 12 Features | 0.7920065066 | 0.9079713048 | 0.04224501212    | 0.8181669295          |
+| First 13 Features | 0.7917537154 | 0.9070158292 | 0.04077599287    | 0.8179833715          |
+| First 14 Features | 0.7866274395 | 0.9158068061 | 0.04060882066    | 0.8143375921          |
+| First 15 Features | 0.7372185362 | 0.9255360675 | 0.05838087556    | 0.7817980117          |
+| First 16 Features | 0.7442759626 | 0.9304549847 | 0.06414248894    | 0.7861453682          |
+| First 17 Features | 0.7533979126 | 0.9299887626 | 0.06571932152    | 0.7919163783          |
+| First 18 Features | 0.7653042344 | 0.9244928388 | 0.06890544838    | 0.7997048165          |
+| First 19 Features | 0.779387444  | 0.9209241372 | 0.07360848102    | 0.8092733108          |
+| First 20 Features | 0.7886147492 | 0.9064654924 | 0.07570879812    | 0.8157510162          |
+| First 21 Features | 0.7989937374 | 0.9077426215 | 0.07655096005    | 0.8233548274          |
+| First 22 Features | 0.7823859698 | 0.901716237  | 0.07218512419    | 0.8113584772          |
+| First 23 Features | 0.7931652067 | 0.8948907401 | 0.07900520697    | 0.8189963437          |
+| First 24 Features | 0.8248498546 | 0.8887499321 | 0.08158281379    | 0.8430537367          |
+| First 25 Features | 0.79354441   | 0.8978958913 | 0.07802846789    | 0.8192683084          |
+| First 26 Features | 0.8112405536 | 0.8967965011 | 0.07393604012    | 0.8327028871          |
+| First 27 Features | 0.8298040528 | 0.8961269162 | 0.04824053294    | 0.8465011818          |
+| First 28 Features | 0.8292422617 | 0.8928949577 | 0.04405685047    | 0.8460599351          |
+| First 29 Features | 0.8259242247 | 0.890454028  | 0.04644154004    | 0.8434787284          |
+| First 30 Features | 0.8165390099 | 0.8974196491 | 0.06855912929    | 0.8365486072          |
 
 ## Sources:
 
