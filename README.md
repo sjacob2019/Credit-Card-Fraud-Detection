@@ -82,7 +82,9 @@ Since the data we were provided was already transformed via PCA, it allows us to
 
 We begin by removing the labels from our dataset and shuffling the data to eliminate any pre-existing bias in the ordering of the data points and to try to ensure an even distribution of fraudulent transactions.
 
-Starting with the first 3 features, we run SciKit-Learn's GMM to group datapoints into two clusters. After obtaining predictions, we create a confusion matrix of our predictions compared to the data's original labels. Using the confusion matrix, we calculate the recall and specificity of the GMM algorithm.
+Starting with the first 3 features, we run SciKit-Learn's GMM to group datapoints into two clusters. Next, we need to assign labels to the two clusters. Since this is a binary classification problem, there are two possible label assignments, and we choose the assignment that maximizes the sum of the specificity rate and the recall rate.
+
+After obtaining predictions, we create a confusion matrix of our predictions compared to the data's original labels. Using the confusion matrix, we calculate the recall and specificity of the GMM algorithm.
 
 To examine the impact that increasing features had on the results, we then perform the same operation with additional features, adding a new feature each iteration until all features are used.
 
