@@ -61,9 +61,9 @@ Figure 5 is the scatterplot matrix showing the relationship between the first 7 
 
 # Unsupervised Learning Method
 
-For our particular dataset, unsupervised learning becomes particularly useful. Because of confidentiality issues, the original data and labels are not provided. Our dataset only contains numerical input variables that are the result of a PCA transformation. Although we have simulated data, it is still inconvenient to integrate our models with real-world datasets because they are unlikely to be labeled. However, by applying unsupervised clustering algorithm such as GMM(Gaussian Mixture Models) we could circumvent this problem. 
+For our dataset, unsupervised learning becomes particularly useful. Because of confidentiality issues, the original data and labels are not provided. Our dataset only contains numerical input variables that are the result of a PCA transformation. In real-life, data labeling is a time-consuming task, hence Unsupervised Learning strategies tend to have a higher practical value than supervised learning. Therefore, although we have simulated data at our disposal, it is still inconvenient to integrate our models with real-world datasets because they are unlikely to be labeled. However, by applying unsupervised clustering algorithms such as GMM (Gaussian Mixture Models) we could circumvent this problem. 
 
-Specifically, we experimented with various unsupervised learning methods, including probabilistic clustering algorithm GMM as well as deterministic clustering algorithms K-means and DBSCAN. By comparing these three methods, we try to look at which method would yield better accuracy for our dataset. 
+Specifically, we experimented with various unsupervised learning methods, including probabilistic clustering algorithm GMM as well as deterministic clustering algorithms K-means and DBSCAN. We look at how these three methods perform on our unbalanced dataset by comparing their accuracy and recall as well as other metrics such as Silhouette Score and Fowlkes Mallows Score. 
 
 ## K-Means
 
@@ -180,13 +180,11 @@ Our expectations for DBSCAN were not very high when we first experimented with i
 
 ## Conclusion
 
-Overall, the results we obtained using unsupervised learning were not incredible, but were also not unexpected.
+Overall, depending on the method we choose, the results vary significantly. Among them, we conclude that GMM and DBSCAN both have their merits. 
 
-Due to the high variance in our data and their features, KMeans, which is better at clustering where there exists linear boundaries between clusters, displayed very poor results overall.
+For deterministic clustering algorithms, K-means only correctly clustered 3.6% of the fraud cases. This is understandable as K-means discovers linear boundaries between data while our dataset is complex with hard-to-model non-linear relationships. Surprisingly, we found that DBSCAN yields 99% accuracy for genuine transactions, which proves to be serviceable to clustering the dataset. 
 
-With GMM, despite some initially positive results, ultimately did not end up being a consistent model for creating clusters of legitimate and fraudulent data. Where we saw high recall oftentimes came with the sacrifice of accuracy, and vice versa. On average, our model's success with accuracy can be described as rarely better than classifying data via a coin flip.
-
-Overall, we ended up having the best success with DBScan. Although recall was not incredible, DBScan was consistent in classifying legitimate transactions correctly. 
+For probabilistic clustering algorithms GMM, we can get 89% recall on the dataset using all 30 PCA features. However, compared with DBSCAN GMM have lower accuracy and we cannot control how clusters are generated like in DBSCAN by changing minPts and eps 
 
 
 # Supervised Learning Method
