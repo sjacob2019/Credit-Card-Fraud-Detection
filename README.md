@@ -269,6 +269,18 @@ Our expectations for DBSCAN were not very high when we first experimented with i
 
 ### 7.2.1 K-Nearest-Neighbors
 
+The figure below shows the kNN performance vs the SMOTE ratio. No undersampling is performed here. The SMOTE ratio is the ratio between the newly generated data and the original data. For example, if the original fraud class has 100 samples, and the SMOTE ratio is 20, then we will generate 2000 fraud samples for a total of 2100 fraud samples. As we can see, the recall, as well as the balanced accuracy, steadily increase as we increase the SMOTE ratio. This is because the class imbalance is alleviated by the increasing number of fraud data points. We also observe that the specificity is barely affected since no information about the legitimate class is lost. 
+
+<img src="./Images-Final/kNN Results/kNNvsSMOTERatio.jpg" alt="kNN Figure 1" width="600"/>
+
+The figure below shows the kNN performance vs the undersampling ratio. The undersampling ratio refers to what percentage of the genuine data points is retained. For example, if we have 50,000 data points and we use an undersampling ratio of 0.1, we have 5,000 data points left. As we can see, the recall increases as the undersampling ratio increases since the dataset becomes less imbalanced. However, the specificity decreases. This is because as we remove data points from the legitimate class, we lose information about the legitimate class. As a result, the correctly classified legitimate transaction data points decrease. Fortunately, the specificity does not decrease significantly when the undersampling ratio is above 0.01. 
+
+<img src="./Images-Final/kNN Results/kNNvsUndersamplingRatio.jpg" alt="kNN Figure 2" width="600"/>
+
+When we use both SMOTE and undersampling, we get even better results. With an undersampling ratio of 0.1 and a SMOTE ratio of 50, kNN classification has a specificity of 0.98 and a recall of 0.92, yielding a balanced accuracy of 0.95.  
+
+
+
 ### 7.2.2 Random Forest
 
 ### 7.2.3 SVM
