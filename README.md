@@ -277,6 +277,86 @@ Our expectations for DBSCAN were not very high when we first experimented with i
 
 ### 7.2.5 Logistic Regression
 
+As a baseline, we ran logistic regression on the original dataset with no transformations on the dataset or class weights and achieved the following:
+
+<img src="./Images-Final/Logistic Regression/logisticregression_original.png" alt="Logistic Regression Figure 1" width="600"/>
+
+This results in: 
+
+Specificity:  0.9998592961288848 
+
+Recall:  0.5619047619047619 
+
+Balanced Accuracy:  0.7808820290168234
+
+#### Undersampling
+
+The first method we investigated was undersampling, which in just means that we will take a portion of the majority class, which in this case is the genuine cases in an effort to remedy the imbalance in the dataset. The undersampling ratio was varied from 1-10^4 and  specificity, recall, and balanced accuracy were plotted to see the effects of undersampling on the performance of the classifier. We only undersampled in the training dataset, so the test data was untouched.
+
+<img src="./Images-Final/Logistic Regression/logisticregression_US_graph.png" alt="Logistic Regression Figure 2" width="600"/>
+
+As can be seen from the above graph, it seems that the optimal undersampling ratio occurs between 10^2-10^3. Training the logistic regression with an undersampling ratio of 200, we achieved the following results:
+
+<img src="./Images-Final/Logistic Regression/logisticregression_US_CM.png" alt="Logistic Regression Figure 3" width="600"/>
+
+This results in: 
+
+Specificity:  0.9882336387779869 
+
+Recall:  0.8952380952380953 
+
+Balanced Accuracy:  0.9417358670080411
+
+#### SMOTE
+
+The next method we utilized was SMOTE, which stands for Synthetic Minority Oversampling Technique, which is a method to combat dataset imbalance by generating synthetic data points for the minority class, which in this case is the fraudulent cases. The SMOTE ratio refers to the ratio of minority datapoints in the modified dataset compared to the original. For the following graph, the SMOTE ratio was varied from 10-200 and specificity, recall, and balanced accuracy were plotted to see the effects of SMOTE on the performance of the classifier. We only perform SMOTE on the training data, so the test data is completely unaffected.
+
+<img src="./Images-Final/Logistic Regression/logisticregression_SMOTE_graph.png" alt="Logistic Regression Figure 4" width="600"/>
+
+As can be seen, the optimal SMOTE ratio occurs around 100 where the performance of the classifier no longer improves as we increase the SMOTE ratio. The following confusion matrix is generated with a logistic regression classifier with a SMOTE ratio of 100 on the testing data. 
+
+<img src="./Images-Final/Logistic Regression/logisticregression_SMOTE_CM.png" alt="Logistic Regression Figure 5" width="600"/>
+
+This results in: 
+
+Specificity:  0.9964648152382293 
+
+Recall:  0.8761904761904762 
+
+Balanced Accuracy:  0.9363276457143528
+
+#### Balanced Class Weights
+
+The final method we utilized was using the balanced class weights in the sklearn logistic regression function. As discussed before, using balanced class weights allows logistic regression to value the minority cases in a way that is inversely proportional to the frequency of said class. The following confusion matrix is generated using the entirety of the original dataset utilizing balanced class weights.
+
+<img src="./Images-Final/Logistic Regression/logisticregression_weights_CM.png" alt="Logistic Regression Figure 6" width="600"/>
+
+This results in: 
+
+Specificity:  0.9764672775559737 
+
+Recall:  0.9142857142857143 
+
+Balanced Accuracy:  0.9453764959208439
+
+#### Combining Undersampling with Balanced Class Weights
+
+Finally, we combined the undersampling technique with undersample ratio of 200 and balanced class weights and got the following results:
+
+<img src="./Images-Final/Logistic Regression/logisticregression_US_weights_CM.png" alt="Logistic Regression Figure 6" width="600"/>
+
+This results in: 
+
+Specificity:  0.9738466679564521 
+
+Recall:  0.9238095238095239 
+
+Balanced Accuracy:  0.948828095882988
+
+#### Logistic Regression Conclusion
+
+All in all, all of the techniques utilized to combat the imbalanced dataset were quite effective in improving the rate of detection for the fraudulent cases. In terms of pure fraud detection, combining undersampling with class weights was the most effective, but also led to a noticeable decrease in specificity, which may cause an unwanted number of false positives. Overall, the results from the undersampled dataset yielded the most balanced results with a near 90% recall rate for fraudulent cases as well as 98.8% specificity.
+
 # 8 Conclusion
 
 Due to the high variance in our data and their features, KMeans, which is better at clustering where there exists linear boundaries between clusters, displayed very poor results overall.
