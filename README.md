@@ -106,7 +106,7 @@ Another benefit of the under-sampling step for DBSCAN is that it cuts down compu
 
 Due to the way DBSCAN functions, often times there were a large number of clusters, for example in the 50s, which evidently does not represent the data very well. We made some important interpretations of the clustering by assuming that the first cluster (the 0 cluster) is comprised entirely of legitimate transactions and that any point outside that first cluster is considered a fraudulent case. We interpret the clustering data as such because we expect most of the legitimate transactions to be relatively similar to each other while the fraudulent cases would be comprised of more anomalous cases. For example, for real-life fraudulent transaction detection, often times the more anomalous and unique a transaction, the more likely it can be considered fraud.
 
-# 6 Supervised Learning Method
+# 6 Supervised Learning Methods
 
 <!-- For supervised learning we will be training a Neural Network to classify the data points as fraudulent or not fraudulent. Neural Networks work best when we have large amounts of data, often outperforming traditional machine learning algorithms [^fn4]. Since we can use the simulator to generate as much data as we want, using a Neural Network will give us more accurate results. A factor that comes into play in the success of our algorithm is domain knowledge, which in traditional machine learning algorithms is used to identify features in order to reduce the complexity of the raw data and make patterns clearer to the algorithm. Another advantage of Neural Networks is that they also work well when there is a general lack of domain knowledge. This is because they learn the high-level features of the dataset in an incremental fashion [^fn4]. Due to that, we don’t have to worry about feature engineering or domain knowledge. -->
 
@@ -163,16 +163,18 @@ Since our dataset contains highly skewed data, we used random undersampling as w
 ## 6.4 Deep Learning
 
 ### Motivation
-Neural Networks have the ability to learn complex nonlinear relationships between features, which is very important for our problem because our data is nonlinear. Traditional Machine Learning Algorithms often require  
-
-Neural Networks work best when we have large amounts of data, often outperforming traditional machine learning algorithms 3. Since we can use the simulator to generate as much data as we want, using a Neural Network will give us more accurate results. A factor that comes into play in the success of our algorithm is domain knowledge, which in traditional machine learning algorithms is used to identify features in order to reduce the complexity of the raw data and make patterns clearer to the algorithm. Another advantage of Neural Networks is that they also work well when there is a general lack of domain knowledge. This is because they learn the high-level features of the dataset in an incremental fashion 3. Due to that, we don’t have to worry about feature engineering or domain knowledge. 
+Neural Networks work best when we have large amounts of data, often outperforming traditional machine learning algorithms. Since we can use the simulator to generate as much data as we want, using a Neural Network will give us more accurate results. A factor that comes into play in the success of our algorithm is domain knowledge, which in traditional machine learning algorithms is used to identify features in order to reduce the complexity of the raw data and make patterns clearer to the algorithm. Another advantage of Neural Networks is that they also work well when there is a general lack of domain knowledge. This is because they learn the high-level features of the dataset in an incremental fashion. Due to that, we don’t have to worry about feature engineering or domain knowledge.  
 
 ### Setup
+The model architecture was decided through trial and error, and our final architecture is shown in the visualization below. The activation function for all of the Dense layers was RELU with the exception of the last layer, which used sigmoid to output the probability that the transaction was fraudulent. 
+
 After deciding on the model architecture, we decided to use Adam as our optimizer with a learning rate of 0.001. Since this is a binary classification task and our neural network outputs our prediction as a probability that the transaction is fraudulent, we chose to use binary crossentropy as our loss function. We trained the model with a batch size of 1024 for 11 epochs. The learning rate, batch size, and epochs were all decided via hyperparameter tuning. 
 
-To make the most of our data, we decided to perform K-Fold cross-validation. We split the data into 10 folds, using 9 for training and one for testing. We further split the training data into training and validation. We performed SMOTE on the training data to increase the fraudulent classes  
+To make the most of our data, we decided to perform K-Fold cross-validation. We split the data into 10 folds, using 9 for training and one for testing. We further split the training data into training and validation. 
 
-To counter the class imbalance, we decided to try 2 approaches: SMOTE and Class Weights. We used SMOTE to generate extra data points for the fraudulent class so that that Neural Network had more samples to train with. We used SMOTE to generate more fradulent transactions such that the ratio between fraudulent transactions and legitimate transactions is 0.2. 
+To counter the class imbalance, we decided to try 2 approaches: SMOTE and Class Weights. We used SMOTE to generate extra data points for the fraudulent class so that that Neural Network had more samples to train with. We used SMOTE to generate more fraudulent transactions such that the ratio between fraudulent transactions and legitimate transactions is 0.2. We only performed SMOTE on the training data since we didn't want to modify the validation and testing data. 
+
+The second approach involved us giving each class a custom weight in order to counter the bias already present in the dataset. That is, we made the fraudulent class carry a much higher weight than the legitimate class so that the fraudulent class added a higher penalty to the loss function. This was done in order to influence the neural network to pay more attention to the fraudulent cases.  
 
 ## 6.5 Logistic Regression
 
