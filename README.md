@@ -182,8 +182,9 @@ We chose to implement logistic regression because it is one of the more simple a
 The specific dataset we chose to use has a large unbalance between the number of cases of genuine cases and fraudulent cases where the genuine cases largely outnumber the fraudulent ones. This presents a unique challenge that we hope to solve with various methods such as through modifying the data through under sampling, generating additional fraudulent cases through a technique called SMOTE, and using class weights in order to train the logistic regression in order to achieve a more balanced classifier. 
 
 ### Setup
- 
+To start, we decided to utilize all 28 PCA components from the dataset in order to train our logistic regression model. We decided not to utilize the amount and date features in the original dataset, since they did not significantly affect our results. We then split up the data into training and test sets with a training test split of 80-20. 
 
+After this, we transformed only the training data by utilizing SMOTE, which creates synthetic data points of the minority class (fraudulent) and undersampling of the majority class (genuine) to combat the imbalance in the original dataset. Additionally, we also tested the effects of balanced class weights on the logistic regression classifier which attempts to remedy the class imbalance. The basic premise of using balanced class weights is that the weights for each class are automatically adjusted so they are inversely proportional to the frequency of said class. This causes the classifier to have much higher weight for the minority class, which allows for better classification for the minority cases.
 
 # 7 Results and Discussion
 
