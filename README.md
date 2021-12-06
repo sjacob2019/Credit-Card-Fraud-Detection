@@ -108,9 +108,81 @@ Due to the way DBSCAN functions, often times there were a large number of cluste
 
 # 6 Supervised Learning Method
 
-Although for this midterm report we focused on developing our unsupervised learning models and analyzing the results from them, we are currently working on the supervised learning models and will include their details in the final report.
+<!-- For supervised learning we will be training a Neural Network to classify the data points as fraudulent or not fraudulent. Neural Networks work best when we have large amounts of data, often outperforming traditional machine learning algorithms [^fn4]. Since we can use the simulator to generate as much data as we want, using a Neural Network will give us more accurate results. A factor that comes into play in the success of our algorithm is domain knowledge, which in traditional machine learning algorithms is used to identify features in order to reduce the complexity of the raw data and make patterns clearer to the algorithm. Another advantage of Neural Networks is that they also work well when there is a general lack of domain knowledge. This is because they learn the high-level features of the dataset in an incremental fashion [^fn4]. Due to that, we don’t have to worry about feature engineering or domain knowledge. -->
 
-For supervised learning we will be training a Neural Network to classify the data points as fraudulent or not fraudulent. Neural Networks work best when we have large amounts of data, often outperforming traditional machine learning algorithms [^fn4]. Since we can use the simulator to generate as much data as we want, using a Neural Network will give us more accurate results. A factor that comes into play in the success of our algorithm is domain knowledge, which in traditional machine learning algorithms is used to identify features in order to reduce the complexity of the raw data and make patterns clearer to the algorithm. Another advantage of Neural Networks is that they also work well when there is a general lack of domain knowledge. This is because they learn the high-level features of the dataset in an incremental fashion [^fn4]. Due to that, we don’t have to worry about feature engineering or domain knowledge.
+## 6.1 K-nearest-neighbors
+
+### Motivation
+The k-nearest neighbors (kNN) algorithm is a non-parametric classification method. It is very easy to implement: for a testing data point, we find its k-nearest neighbors in the training data set, and classify the testing data point by a majority vote of the k-nearest neighbors. For example, out of 10 nearest neighbors in the training data set, 6 are class 0 and 4 are class 1, then the testing data point is assigned label class 0. Here, k is a hyperparameter that needs to be tuned. When k = 1, we simply classify a testing data point as the same class as the training data point that is the closest. Although easy to implement, kNN can be computationally intensive due to the pairwise distance calculation and sorting, especially with a large dataset like ours. 
+
+### Setup
+We first split the dataset into training data and testing data by an 80:20 ratio. Next, we perform undersampling as well as SMOTE with varying ratios on the training data. The processed training data will be used for kNN classification where we set k = 5. Finally, we will obtain the classification results on the testing data set.
+
+## 6.2 Random Forest
+
+### Motivation
+Random Forest Classification is often praised for not only its accuracy in creating accurate classification models, but also for their efficiency.  Specifically, Random Forest is notably more efficient when run on Large Data sets with higher number of features than its other supervised counterparts such as neural networks. 
+
+With its higher efficiency, we were able to compare how the performance of the Random Forest Classification method differed as the number of features used in the dataset increased. 
+
+Composed of many decision trees, Random Forests are consistent in outperforming single decision trees for classification problems. This led to the decision to focus our attention on random forests as opposed to decision trees. 
+
+### Setup
+We begin our setup by modifying our dataset, specifically separating the labels from the features, and removing the 'Time' feature. The choice to remove the 'Time' feature stems from the fact that in testing, we noted that it consistently harmed our model's accuracy. 
+
+From this modified dataset, we then repeat the following steps for the first 5, 10, 15, 20, 25 features, and finally with all features included. 
+
+We first split the dataset and its labels into a training and testing set. The training set makes up 80% of our total dataset. 
+
+Then, using the SMOTE algorithm, we improve the imbalance between fraudulent and legitimate data in our dataset by generating fraudulent data points until the number of fraudulent datapoints equals 20% the number of fraudulent data points in our training data. 
+
+With the adjusted dataset, we then use SKLearn's RandomForestClassifier to train a model on our training data and labels. The hyperparameters used for the RandomForestClassifier included 100 trees, no max depth, and a minimum split of 2 samples.  
+
+With the trained model, we then obtain the model's predictions for our test data. With the predictions and ground truth, we then build the confusion matrices for our results. 
+
+We cross validate the results using K-Folds, with K = 5. 
+
+With the confusion matrices obtained from each of the folds, we proceed to calculate our statistics: the average specificity, recall, balanced accuracy, and precision.  
+
+To ensure a comparison where minimal variables would affect our model, we made sure that our SMOTE algorithm and K-Folds were set to the same random state. This ensured that each training and testing set for each fold was the same across each model, regardless of the number of features. 
+
+Finally, we compare the average statistics we obtained for the models trained on differing number of features.
+
+## 6.3 SVM
+
+### Motivation
+Our dataset contains complex data with very high dimensionality. 
+
+SVMs are well known for their effectiveness in high dimensional spaces, where the number of features is greater than the number of observations. The model complexity is of O(n-features * n² samples) so it’s perfect for working with data where the number of features is bigger than the number of samples. 
+
+The SVMS create hyper-planes (could be more than one) of n-dimensional space and the goal is to separate the hyperplanes.
+
+### Setup
+Since our dataset contains highly skewed data, we used random undersampling as well as SMOTE to deal with the skewness. After preprocessing we split one third of the dataset as the test set and the rest as the training set. The experiment used Sklearn's model selection method to automatically choose the optimal parameters for our model. Then uses Sklearn's SVM model to perform classification.
+
+## 6.4 Deep Learning
+
+### Motivation
+Neural Networks have the ability to learn complex nonlinear relationships between features, which is very important for our problem because our data is nonlinear. Traditional Machine Learning Algorithms often require  
+
+Neural Networks work best when we have large amounts of data, often outperforming traditional machine learning algorithms 3. Since we can use the simulator to generate as much data as we want, using a Neural Network will give us more accurate results. A factor that comes into play in the success of our algorithm is domain knowledge, which in traditional machine learning algorithms is used to identify features in order to reduce the complexity of the raw data and make patterns clearer to the algorithm. Another advantage of Neural Networks is that they also work well when there is a general lack of domain knowledge. This is because they learn the high-level features of the dataset in an incremental fashion 3. Due to that, we don’t have to worry about feature engineering or domain knowledge. 
+
+### Setup
+After deciding on the model architecture, we decided to use Adam as our optimizer with a learning rate of 0.001. Since this is a binary classification task and our neural network outputs our prediction as a probability that the transaction is fraudulent, we chose to use binary crossentropy as our loss function. We trained the model with a batch size of 1024 for 11 epochs. The learning rate, batch size, and epochs were all decided via hyperparameter tuning. 
+
+To make the most of our data, we decided to perform K-Fold cross-validation. We split the data into 10 folds, using 9 for training and one for testing. We further split the training data into training and validation. We performed SMOTE on the training data to increase the fraudulent classes  
+
+To counter the class imbalance, we decided to try 2 approaches: SMOTE and Class Weights. We used SMOTE to generate extra data points for the fraudulent class so that that Neural Network had more samples to train with. We used SMOTE to generate more fradulent transactions such that the ratio between fraudulent transactions and legitimate transactions is 0.2. 
+
+## 6.5 Logistic Regression
+
+### Motivation
+We chose to implement logistic regression because it is one of the more simple and straightforward supervised learning methods.  Additionally, our task deals with a binary classification of whether transactions are genuine or fraudulent, which is the main function of logistic regression. 
+
+The specific dataset we chose to use has a large unbalance between the number of cases of genuine cases and fraudulent cases where the genuine cases largely outnumber the fraudulent ones. This presents a unique challenge that we hope to solve with various methods such as through modifying the data through under sampling, generating additional fraudulent cases through a technique called SMOTE, and using class weights in order to train the logistic regression in order to achieve a more balanced classifier. 
+
+### Setup
+ 
 
 
 # 7 Results and Discussion
@@ -192,7 +264,19 @@ From this plot, we can see that there is a general trend of fraudulent transacti
 
 Our expectations for DBSCAN were not very high when we first experimented with it due to the high-dimensionality of the data, but we also expected DBSCAN to perform better than K-Means due to the ability for DBSCAN to not rely on linear decision boundaries, which we found to be a huge issue for K-Means clustering. While DBSCAN did not perform quite as well as GMM, it was more proficient at properly clustering the genuine transactions with a specificity of over 99%. Overall, DBSCAN proved to be serviceable to clustering the dataset, and serves as an important stepping stone to more robust and accurate supervised classifications that we will explore next. 
 
-# 7 Conclusion
+## 7.2 Supervised Methods
+
+### 7.2.1 K-Nearest-Neighbors
+
+### 7.2.2 Random Forest
+
+### 7.2.3 SVM
+
+### 7.2.4 Deep Learning
+
+### 7.2.5 Logistic Regression
+
+# 8 Conclusion
 
 Due to the high variance in our data and their features, KMeans, which is better at clustering where there exists linear boundaries between clusters, displayed very poor results overall.
 
