@@ -160,25 +160,6 @@ The SVMS create hyper-planes (could be more than one) of n-dimensional space and
 ### Setup
 Since our dataset contains highly skewed data, we used random undersampling as well as SMOTE to deal with the skewness. After preprocessing we split one third of the dataset as the test set and the rest as the training set. The experiment used Sklearn's model selection method to automatically choose the optimal parameters for our model. In the cases of using all of the PCA features, the model selects radial basis function kernel and the C value of 9. Then uses Sklearn's SVM model to perform classification.  
 
-### Experiment
-For experiment with all the PCA features, the confusion matrix is shown below, as well as the metric values.
-<img src="./Images-Final/confusionmatrix.png" alt="cm" width="500"/>
-Precision: 0.97 
-Recall:0.9 
-Specificity:0.98 
-Balanced Accuracy = 0.94 
-
-Additionally, we tested SVM with different numbers of PCA features. For all of the experiments with different parameters We found that although all four metrics increases initially, it stabilizes around using only top 15 PCA features. This result is unintuitive compare to other supervised methods, as in some cases, increasing number of features leads to decreasing metrics value. This observation indicates that for SVM, increasing number of features not necessary leads to better results. 
-
-<img src="./Images-Final/metrics.png" alt="m" width="500"/>
-
-To find out how number of features affects the decision of C value. We plot the C-value against the number of features, we found that the C value plummeted initially, which means that the punishment for misclassification is low, and rise back to peak around 15 features. Later, C value fluctuates but generally stable.  
-<img src="./Images-Final/C.png" alt="c" width="500"/>
-
-The ROC(Receiver Operating characteristic) curve is a performance measurement for the classification problems at various threshold settings. ROC is a probability curve and AUC(area under curve) represents the degree or measure of separability. It tells how much the model is capable of distinguishing between classes. Higher the AUC, the better the model is at predicting 0 classes as 0 and 1 classes as 1.  
-
- <img src="./Images-Final/ROC.png" alt="roc" width="500"/>
-
 ## 6.4 Deep Learning
 
 ### Motivation
@@ -338,6 +319,24 @@ As we continue increasing the number of features included, we see the model's sp
 Overall, Random Forest yielded very promising results. Unlike with unsupervised learning methods, Random Forest classification was consistent in correctly labelling legitimate data. As we increased the number of features for our training data we also tended to see an improvement in the model's accuracy both in labelling legitimate data correctly, but also fraudulent. As with most models, if we had more data we would very likely be able to improve our results. 
 
 ### 7.2.3 SVM
+
+For experiment with all the PCA features, the confusion matrix is shown below, as well as the metric values.
+<img src="./Images-Final/confusionmatrix.png" alt="cm" width="500"/>
+Precision: 0.97 
+Recall:0.9 
+Specificity:0.98 
+Balanced Accuracy = 0.94 
+
+Additionally, we tested SVM with different numbers of PCA features. For all of the experiments with different parameters We found that although all four metrics increases initially, it stabilizes around using only top 15 PCA features. This result is unintuitive compare to other supervised methods, as in some cases, increasing number of features leads to decreasing metrics value. This observation indicates that for SVM, increasing number of features not necessary leads to better results. 
+
+<img src="./Images-Final/metrics.png" alt="m" width="500"/>
+
+To find out how number of features affects the decision of C value. We plot the C-value against the number of features, we found that the C value plummeted initially, which means that the punishment for misclassification is low, and rise back to peak around 15 features. Later, C value fluctuates but generally stable.  
+<img src="./Images-Final/C.png" alt="c" width="500"/>
+
+The ROC(Receiver Operating characteristic) curve is a performance measurement for the classification problems at various threshold settings. ROC is a probability curve and AUC(area under curve) represents the degree or measure of separability. It tells how much the model is capable of distinguishing between classes. Higher the AUC, the better the model is at predicting 0 classes as 0 and 1 classes as 1.  
+
+ <img src="./Images-Final/ROC.png" alt="roc" width="500"/>
 
 ### 7.2.4 Deep Learning
 
