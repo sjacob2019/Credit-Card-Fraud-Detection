@@ -106,12 +106,89 @@ Another benefit of the under-sampling step for DBSCAN is that it cuts down compu
 
 Due to the way DBSCAN functions, often times there were a large number of clusters, for example in the 50s, which evidently does not represent the data very well. We made some important interpretations of the clustering by assuming that the first cluster (the 0 cluster) is comprised entirely of legitimate transactions and that any point outside that first cluster is considered a fraudulent case. We interpret the clustering data as such because we expect most of the legitimate transactions to be relatively similar to each other while the fraudulent cases would be comprised of more anomalous cases. For example, for real-life fraudulent transaction detection, often times the more anomalous and unique a transaction, the more likely it can be considered fraud.
 
-# 6 Supervised Learning Method
+# 6 Supervised Learning Methods
 
-Although for this midterm report we focused on developing our unsupervised learning models and analyzing the results from them, we are currently working on the supervised learning models and will include their details in the final report.
+<!-- For supervised learning we will be training a Neural Network to classify the data points as fraudulent or not fraudulent. Neural Networks work best when we have large amounts of data, often outperforming traditional machine learning algorithms [^fn4]. Since we can use the simulator to generate as much data as we want, using a Neural Network will give us more accurate results. A factor that comes into play in the success of our algorithm is domain knowledge, which in traditional machine learning algorithms is used to identify features in order to reduce the complexity of the raw data and make patterns clearer to the algorithm. Another advantage of Neural Networks is that they also work well when there is a general lack of domain knowledge. This is because they learn the high-level features of the dataset in an incremental fashion [^fn4]. Due to that, we don’t have to worry about feature engineering or domain knowledge. -->
 
-For supervised learning we will be training a Neural Network to classify the data points as fraudulent or not fraudulent. Neural Networks work best when we have large amounts of data, often outperforming traditional machine learning algorithms [^fn4]. Since we can use the simulator to generate as much data as we want, using a Neural Network will give us more accurate results. A factor that comes into play in the success of our algorithm is domain knowledge, which in traditional machine learning algorithms is used to identify features in order to reduce the complexity of the raw data and make patterns clearer to the algorithm. Another advantage of Neural Networks is that they also work well when there is a general lack of domain knowledge. This is because they learn the high-level features of the dataset in an incremental fashion [^fn4]. Due to that, we don’t have to worry about feature engineering or domain knowledge.
+## 6.1 K-nearest-neighbors
 
+### Motivation
+The k-nearest neighbors (kNN) algorithm is a non-parametric classification method. It is very easy to implement: for a testing data point, we find its k-nearest neighbors in the training data set, and classify the testing data point by a majority vote of the k-nearest neighbors. For example, out of 10 nearest neighbors in the training data set, 6 are class 0 and 4 are class 1, then the testing data point is assigned label class 0. Here, k is a hyperparameter that needs to be tuned. When k = 1, we simply classify a testing data point as the same class as the training data point that is the closest. Although easy to implement, kNN can be computationally intensive due to the pairwise distance calculation and sorting, especially with a large dataset like ours. 
+
+### Setup
+We first split the dataset into training data and testing data by an 80:20 ratio. Next, we perform undersampling as well as SMOTE with varying ratios on the training data. The processed training data will be used for kNN classification where we set k = 5. Finally, we will obtain the classification results on the testing data set.
+
+## 6.2 Random Forest
+
+### Motivation
+Random Forest Classification is often praised for not only its accuracy in creating accurate classification models, but also for their efficiency.  Specifically, Random Forest is notably more efficient when run on Large Data sets with higher number of features than its other supervised counterparts such as neural networks. 
+
+With its higher efficiency, we were able to compare how the performance of the Random Forest Classification method differed as the number of features used in the dataset increased. 
+
+Composed of many decision trees, Random Forests are consistent in outperforming single decision trees for classification problems. This led to the decision to focus our attention on random forests as opposed to decision trees. 
+
+### Setup
+We begin our setup by modifying our dataset, specifically separating the labels from the features, and removing the 'Time' feature. The choice to remove the 'Time' feature stems from the fact that in testing, we noted that it consistently harmed our model's accuracy. 
+
+From this modified dataset, we then repeat the following steps for the first 5, 10, 15, 20, 25 features, and finally with all features included. 
+
+We first split the dataset and its labels into a training and testing set. The training set makes up 80% of our total dataset. 
+
+Then, using the SMOTE algorithm, we improve the imbalance between fraudulent and legitimate data in our dataset by generating fraudulent data points until the number of fraudulent datapoints equals 20% the number of fraudulent data points in our training data. 
+
+With the adjusted dataset, we then use SKLearn's RandomForestClassifier to train a model on our training data and labels. The hyperparameters used for the RandomForestClassifier included 100 trees, no max depth, and a minimum split of 2 samples.  
+
+With the trained model, we then obtain the model's predictions for our test data. With the predictions and ground truth, we then build the confusion matrices for our results. 
+
+We cross validate the results using K-Folds, with K = 5. 
+
+With the confusion matrices obtained from each of the folds, we proceed to calculate our statistics: the average specificity, recall, balanced accuracy, and precision.  
+
+To ensure a comparison where minimal variables would affect our model, we made sure that our SMOTE algorithm and K-Folds were set to the same random state. This ensured that each training and testing set for each fold was the same across each model, regardless of the number of features. 
+
+Finally, we compare the average statistics we obtained for the models trained on differing number of features.
+
+## 6.3 SVM
+
+### Motivation
+Our dataset contains complex data with very high dimensionality. 
+
+SVMs are well known for their effectiveness in high dimensional spaces, where the number of features is greater than the number of observations. The model complexity is of O(n-features * n² samples) so it’s perfect for working with data where the number of features is bigger than the number of samples. 
+
+The SVMS create hyper-planes (could be more than one) of n-dimensional space and the goal is to separate the hyperplanes.
+
+### Setup
+Since our dataset contains highly skewed data, we used random undersampling as well as SMOTE to deal with the skewness. After preprocessing we split one third of the dataset as the test set and the rest as the training set. The experiment used Sklearn's model selection method to automatically choose the optimal parameters for our model. Then uses Sklearn's SVM model to perform classification.
+
+## 6.4 Deep Learning
+
+### Motivation
+Neural Networks are one of the most popular machine learning algorithms, and their performance often outperforms other machine learning algorithms, which is one of the reasons we decided to explore this method. A factor that comes into play in the success of our algorithm is domain knowledge, which in traditional machine learning algorithms is used to identify features in order to reduce the complexity of the raw data and make patterns clearer to the algorithm. Another advantage of Neural Networks is that they also work well when there is a general lack of domain knowledge. This is because they learn the high-level features of the dataset in an incremental fashion. Due to that, we don’t have to worry about feature engineering or domain knowledge.  
+
+### Setup
+The model architecture was decided through trial and error, and our final architecture is shown in the visualization below. We used a combination of dense and dropout layers to construct our network. The activation function for all of the Dense layers was RELU with the exception of the last layer, which used sigmoid to output the probability that the transaction was fraudulent. The dropout layers were used to randomly drop a fraction of some of the dense layer outputs to mitigate overfitting. We used a dropout ratio of 0.3. 
+
+<img src="./Images-Final/Deep Learning/Model Summary.png" alt="Preprocess Figure 4" width="700"/>
+
+After deciding on the model architecture, we decided to use Adam as our optimizer with a learning rate of 0.001. Since this is a binary classification task and our neural network outputs our prediction as a probability that the transaction is fraudulent, we chose to use binary crossentropy as our loss function. We trained the model with a batch size of 1024 for 11 epochs. The learning rate, batch size, and epochs were all decided via hyperparameter tuning. 
+
+To make the most of our data, we decided to perform K-Fold cross-validation. We split the data into 10 folds, using 9/10 for training/validation and 1/10 for testing. For each K-Fold, we created a model, further split the training data into training and validation splits, trained the model, and evaluated it's performance on the testing fold. We averaged the metrics from across all 10 folds to evaluate the general performance of the network.  
+
+To counter the imbalance between fraudulent and legitimate transactions, we decided to try 2 approaches: SMOTE and Class Weights. We used SMOTE to generate extra data points for the fraudulent class so that that Neural Network had more samples to train with. We generated fraudulent transactions to make ratio between fraudulent and legitimate transactions equal to 0.2. We only performed SMOTE on the training data since we didn't want to modify the validation and testing data. 
+
+The second approach involved us giving each class a custom weight in order to counter the bias already present in the dataset. That is, we made the fraudulent class carry a much higher weight than the legitimate class so that the fraudulent class added a higher penalty to the loss function. This was done in order to influence the neural network to pay more attention to the fraudulent cases.  
+
+## 6.5 Logistic Regression
+
+### Motivation
+We chose to implement logistic regression because it is one of the more simple and straightforward supervised learning methods.  Additionally, our task deals with a binary classification of whether transactions are genuine or fraudulent, which is the main function of logistic regression. 
+
+The specific dataset we chose to use has a large unbalance between the number of cases of genuine cases and fraudulent cases where the genuine cases largely outnumber the fraudulent ones. This presents a unique challenge that we hope to solve with various methods such as through modifying the data through under sampling, generating additional fraudulent cases through a technique called SMOTE, and using class weights in order to train the logistic regression in order to achieve a more balanced classifier. 
+
+### Setup
+To start, we decided to utilize all 28 PCA components from the dataset in order to train our logistic regression model. We decided not to utilize the amount and date features in the original dataset, since they did not significantly affect our results. We then split up the data into training and test sets with a training test split of 80-20. 
+
+After this, we transformed only the training data by utilizing SMOTE, which creates synthetic data points of the minority class (fraudulent) and undersampling of the majority class (genuine) to combat the imbalance in the original dataset. Additionally, we also tested the effects of balanced class weights on the logistic regression classifier which attempts to remedy the class imbalance. The basic premise of using balanced class weights is that the weights for each class are automatically adjusted so they are inversely proportional to the frequency of said class. This causes the classifier to have much higher weight for the minority class, which allows for better classification for the minority cases.
 
 # 7 Results and Discussion
 
@@ -192,7 +269,179 @@ From this plot, we can see that there is a general trend of fraudulent transacti
 
 Our expectations for DBSCAN were not very high when we first experimented with it due to the high-dimensionality of the data, but we also expected DBSCAN to perform better than K-Means due to the ability for DBSCAN to not rely on linear decision boundaries, which we found to be a huge issue for K-Means clustering. While DBSCAN did not perform quite as well as GMM, it was more proficient at properly clustering the genuine transactions with a specificity of over 99%. Overall, DBSCAN proved to be serviceable to clustering the dataset, and serves as an important stepping stone to more robust and accurate supervised classifications that we will explore next. 
 
-# 7 Conclusion
+## 7.2 Supervised Methods
+
+### 7.2.1 K-Nearest-Neighbors
+
+The figure below shows the kNN performance vs the SMOTE ratio. No undersampling is performed here. The SMOTE ratio is the ratio between the newly generated data and the original data. For example, if the original fraud class has 100 samples, and the SMOTE ratio is 20, then we will generate 2000 fraud samples for a total of 2100 fraud samples. As we can see, the recall, as well as the balanced accuracy, steadily increase as we increase the SMOTE ratio. This is because the class imbalance is alleviated by the increasing number of fraud data points. We also observe that the specificity is barely affected since no information about the legitimate class is lost. 
+
+<img src="./Images-Final/kNN Results/kNNvsSMOTERatio.jpg" alt="kNN Figure 1" width="600"/>
+
+The figure below shows the kNN performance vs the undersampling ratio. The undersampling ratio refers to what percentage of the genuine data points is retained. For example, if we have 50,000 data points and we use an undersampling ratio of 0.1, we have 5,000 data points left. As we can see, the recall increases as the undersampling ratio increases since the dataset becomes less imbalanced. However, the specificity decreases. This is because as we remove data points from the legitimate class, we lose information about the legitimate class. As a result, the correctly classified legitimate transaction data points decrease. Fortunately, the specificity does not decrease significantly when the undersampling ratio is above 0.01. 
+
+<img src="./Images-Final/kNN Results/kNNvsUndersamplingRatio.jpg" alt="kNN Figure 2" width="600"/>
+
+When we use both SMOTE and undersampling, we get even better results. With an undersampling ratio of 0.1 and a SMOTE ratio of 50, kNN classification has a specificity of 0.98 and a recall of 0.92, yielding a balanced accuracy of 0.95.  
+
+
+
+### 7.2.2 Random Forest
+
+Even using the default hyperparameters for SKLearn's RandomForestClassifier, we obtained very encouraging results. 
+
+Regardless of the number of features, models trained using Random Forest all exhibited very high specificity. Unlike with GMM, where we noted that we would oftentimes sacrifice specificity to increase recall my labelling too much data as fraudulent, Random Forest classification was consistent in not mislabeling many legitimate points as fraudulent. 
+
+<img src="./Images-Final/Random Forest/RFResults.jpg" alt="Random Forest Results" width="600"/>
+
+| Category | Value |
+|----|----|
+|Number of features| 5|
+|Specificity| 0.9989905615962277|
+|Recall| 0.7188719892192926|
+|Balanced Accuracy| 0.8589312754077602|
+|Precision| 0.5517431701849772| 
+ 
+For the other statistics we measured however, we did not see incredible results at labelling fraudulent data points correctly at first. While using only 5 features, the recall, balanced accuracy still indicated slightly better performance than if we had labelled fraudulent points randomly, the model did not yield convincing results. 
+
+<img src="./Images-Final/Random Forest/RFConfusion1.jpg" alt="Random Forest Confusion Matrix 1" width="600"/>
+
+^Confusion Matrix for a fold with 5 features^ 
+
+By using few features, we gave less opportunities for the random forests to create informative splits that could meaningfully separate fraudulent data from legitimate. With the specificity being nearly 99.9% at correctly identifying legitimate points but only having a precision of 55%, we can attribute these results to the first 5 features not containing distinguishing factors for fraudulent data. While an overwhelming majority of legitimate transactions had these features, nearly equal amounts of fraudulent data displayed similar features as the legitimate with these features as those that did not. 
+
+With 10 features included, we see a drastic improvement in precision, and sizeable improvements in recall and balanced accuracy. Although specificity also improved, with the value already greater than 99.8% it makes little difference. As expected, with more features available to the model, there were more opportunities to create more informative splits. Unlike with the results we saw with only 5 features, the inclusion of the additional 5 features must have contained features that were more clear indicators of whether a transaction was legitimate or fraudulent. 
+
+As we continue increasing the number of features included, we see the model's specificity, recall, and balanced accuracy increase, although not nearly as greatly as between 5 and 10 features. This implies that while the new features helped yield more information, they did not provide much more than the features the model had already been trained on. While precision also tended to increase as the number of features increased, when we went from 25 features to 29 we noticed a slight drop in precision. Although the difference was very small, this may suggest that we had ended up slightly overfitting our model to our testing data. 
+
+<img src="./Images-Final/Random Forest/RFConfusion2.jpg" alt="Random Forest Confusion Matrix 2" width="600"/>
+^Confusion matrix for a fold with 29 features^ 
+
+Overall, Random Forest yielded very promising results. Unlike with unsupervised learning methods, Random Forest classification was consistent in correctly labelling legitimate data. As we increased the number of features for our training data we also tended to see an improvement in the model's accuracy both in labelling legitimate data correctly, but also fraudulent. As with most models, if we had more data we would very likely be able to improve our results. 
+
+### 7.2.3 SVM
+
+### 7.2.4 Deep Learning
+
+#### Using SMOTE 
+
+<img src="./Images-Final/Deep Learning/Training and Validation Metrics SMOTE.png" width="600"/>
+<img src="./Images-Final/Deep Learning/Training and Validation Loss SMOTE.png" width="600"/>
+<img src="./Images-Final/Deep Learning/Confusion Matrix SMOTE.png" width="600"/>
+
+<ins>Test Metrics</ins>
+
+Specificity: 0.9992719352245331 
+
+Precision: 0.6641232192516326 
+
+Recall: 0.8245526671409606 
+
+Balanced Accuracy: 0.9119123041629791 
+
+
+Given that around the 7th epoch the validation loss became higher than the training loss, it is very likely  that the model started overfitting at the 7th epoch. Another possible indicator of overfitting is the fact that the validation metrics do not follow the same trend as the training metrics and that the training and validation curves are not close to each other. For example, every metric increases every epoch in the training set. However, in the validation set, balanced accuracy and recall started to decrease after the 4th epoch. The overfitting affected the model's test performance. While specificity, balanced accuracy and recall are all above 82%, the results show an average precision of around 66%. These observations indicate to us that it is very likely that the neural network may be overfitting when we create more fraudulent data points using SMOTE. There are multiple factors that may have caused this, such as the SMOTE ratio, the architecture (number of layers, number of hidden units per layer, activation function), the number of epochs, and the fact that the validation data does not have nearly as much fraudulent cases as the training data. 
+
+#### Using Class Weights
+
+<img src="./Images-Final/Deep Learning/Training and Validation Metrics Class Weights.png" width="600"/>
+<img src="./Images-Final/Deep Learning/Training and Validation Loss Class Weights.png" width="600"/>
+<img src="./Images-Final/Deep Learning/Confusion Matrix Class Weight.png" width="600"/>
+
+Average Test Metrics 
+
+Specificity: 0.9997432351112365 
+
+Precision: 0.8458663523197174 
+
+Recall: 0.801464968919754 
+
+Balanced Accuracy: 0.9006040871143342 
+
+When using class weights, we get results that are more in line with what we expect for a well performing neural network. Unlike the SMOTE results, the validation metric curves are closer to the training metric curves and they both follow the same general trend. The training and validation loss curves also converge at around epoch 8, which is a good indicator that the model is not overfitting to the training data. The test results show that the model learned better when using class weights. We see a significantly better average precision when using class weights while the other metrics are around the same performance we got from using SMOTE. 
+
+### 7.2.5 Logistic Regression
+
+As a baseline, we ran logistic regression on the original dataset with no transformations on the dataset or class weights and achieved the following:
+
+<img src="./Images-Final/Logistic Regression/logisticregression_original.png" alt="Logistic Regression Figure 1" width="600"/>
+
+This results in: 
+
+Specificity:  0.9998592961288848 
+
+Recall:  0.5619047619047619 
+
+Balanced Accuracy:  0.7808820290168234
+
+#### Undersampling
+
+The first method we investigated was undersampling, which in just means that we will take a portion of the majority class, which in this case is the genuine cases in an effort to remedy the imbalance in the dataset. The undersampling ratio was varied from 1-10^4 and  specificity, recall, and balanced accuracy were plotted to see the effects of undersampling on the performance of the classifier. We only undersampled in the training dataset, so the test data was untouched.
+
+<img src="./Images-Final/Logistic Regression/logisticregression_US_graph.png" alt="Logistic Regression Figure 2" width="600"/>
+
+As can be seen from the above graph, it seems that the optimal undersampling ratio occurs between 10^2-10^3. Training the logistic regression with an undersampling ratio of 200, we achieved the following results:
+
+<img src="./Images-Final/Logistic Regression/logisticregression_US_CM.png" alt="Logistic Regression Figure 3" width="600"/>
+
+This results in: 
+
+Specificity:  0.9882336387779869 
+
+Recall:  0.8952380952380953 
+
+Balanced Accuracy:  0.9417358670080411
+
+#### SMOTE
+
+The next method we utilized was SMOTE, which stands for Synthetic Minority Oversampling Technique, which is a method to combat dataset imbalance by generating synthetic data points for the minority class, which in this case is the fraudulent cases. The SMOTE ratio refers to the ratio of minority datapoints in the modified dataset compared to the original. For the following graph, the SMOTE ratio was varied from 10-200 and specificity, recall, and balanced accuracy were plotted to see the effects of SMOTE on the performance of the classifier. We only perform SMOTE on the training data, so the test data is completely unaffected.
+
+<img src="./Images-Final/Logistic Regression/logisticregression_SMOTE_graph.png" alt="Logistic Regression Figure 4" width="600"/>
+
+As can be seen, the optimal SMOTE ratio occurs around 100 where the performance of the classifier no longer improves as we increase the SMOTE ratio. The following confusion matrix is generated with a logistic regression classifier with a SMOTE ratio of 100 on the testing data. 
+
+<img src="./Images-Final/Logistic Regression/logisticregression_SMOTE_CM.png" alt="Logistic Regression Figure 5" width="600"/>
+
+This results in: 
+
+Specificity:  0.9964648152382293 
+
+Recall:  0.8761904761904762 
+
+Balanced Accuracy:  0.9363276457143528
+
+#### Balanced Class Weights
+
+The final method we utilized was using the balanced class weights in the sklearn logistic regression function. As discussed before, using balanced class weights allows logistic regression to value the minority cases in a way that is inversely proportional to the frequency of said class. The following confusion matrix is generated using the entirety of the original dataset utilizing balanced class weights.
+
+<img src="./Images-Final/Logistic Regression/logisticregression_weights_CM.png" alt="Logistic Regression Figure 6" width="600"/>
+
+This results in: 
+
+Specificity:  0.9764672775559737 
+
+Recall:  0.9142857142857143 
+
+Balanced Accuracy:  0.9453764959208439
+
+#### Combining Undersampling with Balanced Class Weights
+
+Finally, we combined the undersampling technique with undersample ratio of 200 and balanced class weights and got the following results:
+
+<img src="./Images-Final/Logistic Regression/logisticregression_US_weights_CM.png" alt="Logistic Regression Figure 6" width="600"/>
+
+This results in: 
+
+Specificity:  0.9738466679564521 
+
+Recall:  0.9238095238095239 
+
+Balanced Accuracy:  0.948828095882988
+
+#### Logistic Regression Conclusion
+
+All in all, all of the techniques utilized to combat the imbalanced dataset were quite effective in improving the rate of detection for the fraudulent cases. In terms of pure fraud detection, combining undersampling with class weights was the most effective, but also led to a noticeable decrease in specificity, which may cause an unwanted number of false positives. Overall, the results from the undersampled dataset yielded the most balanced results with a near 90% recall rate for fraudulent cases as well as 98.8% specificity.
+
+# 8 Conclusion
 
 Due to the high variance in our data and their features, KMeans, which is better at clustering where there exists linear boundaries between clusters, displayed very poor results overall.
 
@@ -237,6 +486,40 @@ GMM data when cross validation done using K-Folds
 | First 29 Features | 0.8259242247 | 0.890454028  | 0.04644154004    | 0.8434787284          |
 | First 30 Features | 0.8165390099 | 0.8974196491 | 0.06855912929    | 0.8365486072          |
 
+Random Forest Data by Number of features:
+| Number of Features | Statistic | Value |
+|----|----|----|
+|5|Specificity| 0.9989905615962277|
+|^|Recall| 0.7188719892192926|
+|^|Balanced Accuracy| 0.8589312754077602|
+|^|Precision| 0.5517431701849772|
+|-|-|-|
+|10|Specificity| 0.9997010397079915|
+|^|Recall| 0.8064706386913768|
+|^|Balanced Accuracy| 0.9030858391996841|
+|^|Precision| 0.8227758275161248|
+|-|-|-|
+|15|Specificity| 0.9997713874397792|
+|^|Recall| 0.8185624799867579|
+|^|Balanced Accuracy| 0.9091669337132686|
+|^|Precision| 0.8592104696129464 |
+|-|-|-|
+|20|Specificity| 0.9998065617387593|
+|^|Recall| 0.8231238053796076|
+|^|Balanced Accuracy| 0.9114651835591834|
+|^|Precision| 0.8790346928961158|
+|-|-|-|
+|25|Specificity| 0.9998171148383637|
+|^|Recall| 0.8251872974430998 |
+|^|Balanced Accuracy| 0.9125022061407317 |
+|^|Precision| 0.8855205838545629|
+|-|-|-|
+|29|Specificity| 0.9998171136642064| 
+|^|Recall| 0.8287271204519493 |
+|^|Balanced Accuracy| 0.9142721170580779 |
+|^|Precision| 0.8851045635056856 |
+
+
 ## Sources:
 
 [^fn1]: Federal Trade Commission. (2021, February). Consumer Sentinel Network Data book 2020. Consumer Sentinel Network. Retrieved October 2, 2021, from https://www.ftc.gov/system/files/documents/reports/consumer-sentinel-network-data-book-2020/csn_annual_data_book_2020.pdf. 
@@ -248,4 +531,3 @@ GMM data when cross validation done using K-Folds
 [^fn4]: Mahapatra, S. (2019, January 22). Why deep learning over traditional machine learning? Medium. Retrieved October 1, 2021, from https://towardsdatascience.com/why-deep-learning-is-needed-over-traditional-machine-learning-1b6a99177063. 
 
 [^fn5]: Chawla, N. V., Bowyer, K. W., Hall, L. O., & Kegelmeyer, W. P. (2002). SMOTE: synthetic minority over-sampling technique. Journal of artificial intelligence research, 16, 321-357. 
-
