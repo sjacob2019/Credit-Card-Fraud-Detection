@@ -285,6 +285,37 @@ When we use both SMOTE and undersampling, we get even better results. With an un
 
 ### 7.2.2 Random Forest
 
+Even using the default hyperparameters for SKLearn's RandomForestClassifier, we obtained very encouraging results. 
+
+Regardless of the number of features, models trained using Random Forest all exhibited very high specificity. Unlike with GMM, where we noted that we would oftentimes sacrifice specificity to increase recall my labelling too much data as fraudulent, Random Forest classification was consistent in not mislabeling many legitimate points as fraudulent. 
+
+<img src="./Images-Final/Random Forest/RFResults.jpg" alt="Random Forest Results" width="600"/>
+
+| Category | Value |
+|----|----|
+|Number of features| 5|
+|Specificity| 0.9989905615962277|
+|Recall| 0.7188719892192926|
+|Balanced Accuracy| 0.8589312754077602|
+|Precision| 0.5517431701849772| 
+ 
+For the other statistics we measured however, we did not see incredible results at labelling fraudulent data points correctly at first. While using only 5 features, the recall, balanced accuracy still indicated slightly better performance than if we had labelled fraudulent points randomly, the model did not yield convincing results. 
+
+<img src="./Images-Final/Random Forest/RFConfusion1.jpg" alt="Random Forest Confusion Matrix 1" width="600"/>
+
+^Confusion Matrix for a fold with 5 features^ 
+
+By using few features, we gave less opportunities for the random forests to create informative splits that could meaningfully separate fraudulent data from legitimate. With the specificity being nearly 99.9% at correctly identifying legitimate points but only having a precision of 55%, we can attribute these results to the first 5 features not containing distinguishing factors for fraudulent data. While an overwhelming majority of legitimate transactions had these features, nearly equal amounts of fraudulent data displayed similar features as the legitimate with these features as those that did not. 
+
+With 10 features included, we see a drastic improvement in precision, and sizeable improvements in recall and balanced accuracy. Although specificity also improved, with the value already greater than 99.8% it makes little difference. As expected, with more features available to the model, there were more opportunities to create more informative splits. Unlike with the results we saw with only 5 features, the inclusion of the additional 5 features must have contained features that were more clear indicators of whether a transaction was legitimate or fraudulent. 
+
+As we continue increasing the number of features included, we see the model's specificity, recall, and balanced accuracy increase, although not nearly as greatly as between 5 and 10 features. This implies that while the new features helped yield more information, they did not provide much more than the features the model had already been trained on. While precision also tended to increase as the number of features increased, when we went from 25 features to 29 we noticed a slight drop in precision. Although the difference was very small, this may suggest that we had ended up slightly overfitting our model to our testing data. 
+
+<img src="./Images-Final/Random Forest/RFConfusion2.jpg" alt="Random Forest Confusion Matrix 2" width="600"/>
+^Confusion matrix for a fold with 29 features^ 
+
+Overall, Random Forest yielded very promising results. Unlike with unsupervised learning methods, Random Forest classification was consistent in correctly labelling legitimate data. As we increased the number of features for our training data we also tended to see an improvement in the model's accuracy both in labelling legitimate data correctly, but also fraudulent. As with most models, if we had more data we would very likely be able to improve our results. 
+
 ### 7.2.3 SVM
 
 ### 7.2.4 Deep Learning
@@ -415,6 +446,40 @@ GMM data when cross validation done using K-Folds
 | First 28 Features | 0.8292422617 | 0.8928949577 | 0.04405685047    | 0.8460599351          |
 | First 29 Features | 0.8259242247 | 0.890454028  | 0.04644154004    | 0.8434787284          |
 | First 30 Features | 0.8165390099 | 0.8974196491 | 0.06855912929    | 0.8365486072          |
+
+Random Forest Data by Number of features:
+| Number of Features | Statistic | Value |
+|----|----|----|
+|5|Specificity| 0.9989905615962277|
+|^|Recall| 0.7188719892192926|
+|^|Balanced Accuracy| 0.8589312754077602|
+|^|Precision| 0.5517431701849772|
+|-|-|-|
+|10|Specificity| 0.9997010397079915|
+|^|Recall| 0.8064706386913768|
+|^|Balanced Accuracy| 0.9030858391996841|
+|^|Precision| 0.8227758275161248|
+|-|-|-|
+|15|Specificity| 0.9997713874397792|
+|^|Recall| 0.8185624799867579|
+|^|Balanced Accuracy| 0.9091669337132686|
+|^|Precision| 0.8592104696129464 |
+|-|-|-|
+|20|Specificity| 0.9998065617387593|
+|^|Recall| 0.8231238053796076|
+|^|Balanced Accuracy| 0.9114651835591834|
+|^|Precision| 0.8790346928961158|
+|-|-|-|
+|25|Specificity| 0.9998171148383637|
+|^|Recall| 0.8251872974430998 |
+|^|Balanced Accuracy| 0.9125022061407317 |
+|^|Precision| 0.8855205838545629|
+|-|-|-|
+|29|Specificity| 0.9998171136642064| 
+|^|Recall| 0.8287271204519493 |
+|^|Balanced Accuracy| 0.9142721170580779 |
+|^|Precision| 0.8851045635056856 |
+
 
 ## Sources:
 
