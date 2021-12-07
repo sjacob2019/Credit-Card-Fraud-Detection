@@ -168,6 +168,8 @@ Neural Networks are one of the most popular machine learning algorithms, and the
 ### Setup
 The model architecture was decided through trial and error, and our final architecture is shown in the visualization below. We used a combination of dense and dropout layers to construct our network. The activation function for all of the Dense layers was RELU with the exception of the last layer, which used sigmoid to output the probability that the transaction was fraudulent. The dropout layers were used to randomly drop a fraction of some of the dense layer outputs to mitigate overfitting. We used a dropout ratio of 0.3. 
 
+<img src="./Images-Final/Deep Learning/Model Summary.png" alt="Preprocess Figure 4" width="700"/>
+
 After deciding on the model architecture, we decided to use Adam as our optimizer with a learning rate of 0.001. Since this is a binary classification task and our neural network outputs our prediction as a probability that the transaction is fraudulent, we chose to use binary crossentropy as our loss function. We trained the model with a batch size of 1024 for 11 epochs. The learning rate, batch size, and epochs were all decided via hyperparameter tuning. 
 
 To make the most of our data, we decided to perform K-Fold cross-validation. We split the data into 10 folds, using 9/10 for training/validation and 1/10 for testing. For each K-Fold, we created a model, further split the training data into training and validation splits, trained the model, and evaluated it's performance on the testing fold. We averaged the metrics from across all 10 folds to evaluate the general performance of the network.  
@@ -319,6 +321,43 @@ Overall, Random Forest yielded very promising results. Unlike with unsupervised 
 ### 7.2.3 SVM
 
 ### 7.2.4 Deep Learning
+
+#### Using SMOTE 
+
+<img src="./Images-Final/Deep Learning/Training and Validation Metrics SMOTE.png" width="600"/>
+<img src="./Images-Final/Deep Learning/Training and Validation Loss SMOTE.png" width="600"/>
+<img src="./Images-Final/Deep Learning/Confusion Matrix SMOTE.png" width="600"/>
+
+<ins>Test Metrics</ins>
+
+Specificity: 0.9992719352245331 
+
+Precision: 0.6641232192516326 
+
+Recall: 0.8245526671409606 
+
+Balanced Accuracy: 0.9119123041629791 
+
+
+Given that around the 7th epoch the validation loss became higher than the training loss, it is very likely  that the model started overfitting at the 7th epoch. Another possible indicator of overfitting is the fact that the validation metrics do not follow the same trend as the training metrics and that the training and validation curves are not close to each other. For example, every metric increases every epoch in the training set. However, in the validation set, balanced accuracy and recall started to decrease after the 4th epoch. The overfitting affected the model's test performance. While specificity, balanced accuracy and recall are all above 82%, the results show an average precision of around 66%. These observations indicate to us that it is very likely that the neural network may be overfitting when we create more fraudulent data points using SMOTE. There are multiple factors that may have caused this, such as the SMOTE ratio, the architecture (number of layers, number of hidden units per layer, activation function), the number of epochs, and the fact that the validation data does not have nearly as much fraudulent cases as the training data. 
+
+#### Using Class Weights
+
+<img src="./Images-Final/Deep Learning/Training and Validation Metrics Class Weights.png" width="600"/>
+<img src="./Images-Final/Deep Learning/Training and Validation Loss Class Weights.png" width="600"/>
+<img src="./Images-Final/Deep Learning/Confusion Matrix Class Weight.png" width="600"/>
+
+Average Test Metrics 
+
+Specificity: 0.9997432351112365 
+
+Precision: 0.8458663523197174 
+
+Recall: 0.801464968919754 
+
+Balanced Accuracy: 0.9006040871143342 
+
+When using class weights, we get results that are more in line with what we expect for a well performing neural network. Unlike the SMOTE results, the validation metric curves are closer to the training metric curves and they both follow the same general trend. The training and validation loss curves also converge at around epoch 8, which is a good indicator that the model is not overfitting to the training data. The test results show that the model learned better when using class weights. We see a significantly better average precision when using class weights while the other metrics are around the same performance we got from using SMOTE. 
 
 ### 7.2.5 Logistic Regression
 
