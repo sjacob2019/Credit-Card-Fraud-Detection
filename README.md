@@ -24,8 +24,6 @@ Supervised learning models do have a limitation though – they are typically mo
 
 Through a combination of these learning techniques, we hope to develop a holistic analysis of how various machine learning algorithms handle the classification of the legitimacy of credit card transactions.
 
-For this midterm report, we have chosen to focus on unsupervised learning methods, specifically K-Means, Gaussian Mixture Model (GMM), and Density-Based Spatial Clustering of Applications with Noise (DBSCAN).
-
 # 3 Data Collection
 
 Fortunately, the problem we are exploring has been researched before and there are datasets available for us to use online. We ultimately decided to work with a dataset found on [Kaggle](https://www.kaggle.com/mlg-ulb/creditcardfraud), since it is composed of real-life data samples and has 284,807 transactions listed. These transactions came from a period of two days by European card holders in September 2013. 
@@ -108,7 +106,7 @@ Due to the way DBSCAN functions, often times there were a large number of cluste
 
 # 6 Supervised Learning Methods
 
-<!-- For supervised learning we will be training a Neural Network to classify the data points as fraudulent or not fraudulent. Neural Networks work best when we have large amounts of data, often outperforming traditional machine learning algorithms [^fn4]. Since we can use the simulator to generate as much data as we want, using a Neural Network will give us more accurate results. A factor that comes into play in the success of our algorithm is domain knowledge, which in traditional machine learning algorithms is used to identify features in order to reduce the complexity of the raw data and make patterns clearer to the algorithm. Another advantage of Neural Networks is that they also work well when there is a general lack of domain knowledge. This is because they learn the high-level features of the dataset in an incremental fashion [^fn4]. Due to that, we don’t have to worry about feature engineering or domain knowledge. -->
+Traditionally, supervised learning methods have been used for classification problems. With the knowledge of what label the training dataset has, we can train models that seek out certain features when trying to make a distinction about what label a testing datapoint should be given. A byproduct of supervised learning being more frequently used for classification is that we had many more models to analyze the performance of. Specifically, we chose to focus on K-nearest-neighbors, Random Forests, Support Vector Machines (SVM), Deep Learning, and Logistic regression. In this section we also placed a heavier emphasis on analyzing how SMOTE, undersampling, and Class Weights can be used to help combat the imbalance in our dataset.
 
 ## 6.1 K-nearest-neighbors
 
@@ -465,7 +463,9 @@ Due to the high variance in our data and their features, KMeans, which is better
 
 Although recall was not incredible, DBScan was consistent in classifying legitimate transactions correctly. 
 
-Overall, we ended up having the best success with GMM since it ended up performing the best in classifying transactions as legitimate or fraudulent. 
+Overall, we ended up having the best success with GMM since it ended up performing the best in classifying transactions as legitimate or fraudulent.
+
+## TODO: EDIT FOR FINAL AND SUPERVISED
 
 
 ## Appendix:
