@@ -455,7 +455,7 @@ Balanced Accuracy:  0.948828095882988
 
 #### Logistic Regression Conclusion
 
-All in all, all of the techniques utilized to combat the imbalanced dataset were quite effective in improving the rate of detection for the fraudulent cases. In terms of pure fraud detection, combining undersampling with class weights was the most effective, but also led to a noticeable decrease in specificity, which may cause an unwanted number of false positives. Overall, the results from the undersampled dataset yielded the most balanced results with a near 90% recall rate for fraudulent cases as well as 98.8% specificity.
+All in all, all of the techniques utilized to combat the imbalanced dataset were quite effective in improving the rate of detection for the fraudulent cases. In terms of pure fraud detection, combining undersampling with class weights was the most effective, but also led to a noticeable decrease in specificity, which may cause an unwanted number of false positives. 
 
 # 8 Conclusion
 
