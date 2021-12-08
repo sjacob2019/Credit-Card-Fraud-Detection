@@ -287,9 +287,9 @@ When we use both SMOTE and undersampling, we get even better results. With an un
 
 ### 7.2.2 Random Forest
 
-Even using the default hyperparameters for SKLearn's RandomForestClassifier, we obtained very encouraging results. 
+With the default hyperparameters for SKLearn's RandomForestClassifier, we obtained very encouraging results. 
 
-Regardless of the number of features, models trained using Random Forest all exhibited very high specificity. Unlike with GMM, where we noted that we would oftentimes sacrifice specificity to increase recall my labelling too much data as fraudulent, Random Forest classification was consistent in not mislabeling many legitimate points as fraudulent. 
+Regardless of the number of features, the models trained using Random Forest all exhibited very high specificity. Unlike with GMM, where we noted that we would oftentimes sacrifice specificity to increase recall by labelling too much data as fraudulent, Random Forest classification was consistent in not mislabeling many legitimate points as fraudulent. 
 
 <img src="./Images-Final/Random Forest/RFResults.jpg" alt="Random Forest Results" width="600"/>
 
@@ -301,40 +301,44 @@ Regardless of the number of features, models trained using Random Forest all exh
 |Balanced Accuracy| 0.8589312754077602|
 |Precision| 0.5517431701849772| 
  
-For the other statistics we measured however, we did not see incredible results at labelling fraudulent data points correctly at first. While using only 5 features, the recall, balanced accuracy still indicated slightly better performance than if we had labelled fraudulent points randomly, the model did not yield convincing results. 
+For the other statistics we measured however, we did not see incredible results at labelling fraudulent data points correctly at first. When using only 5 features, the recall and balanced accuracy still indicated slightly better performance than if we had labelled fraudulent points randomly.
 
 <img src="./Images-Final/Random Forest/RFConfusion1.jpg" alt="Random Forest Confusion Matrix 1" width="600"/>
 
 ^Confusion Matrix for a fold with 5 features^ 
 
-By using few features, we gave less opportunities for the random forests to create informative splits that could meaningfully separate fraudulent data from legitimate. With the specificity being nearly 99.9% at correctly identifying legitimate points but only having a precision of 55%, we can attribute these results to the first 5 features not containing distinguishing factors for fraudulent data. While an overwhelming majority of legitimate transactions had these features, nearly equal amounts of fraudulent data displayed similar features as the legitimate with these features as those that did not. 
+By using fewer features, we gave less opportunities for the random forests to create informative splits that could meaningfully separate fraudulent data from legitimate. We can attribute the specificity of nearly 99.9% and a precision of only 55% to the first 5 features not containing distinguishing factors for fraudulent data.
 
-With 10 features included, we see a drastic improvement in precision, and sizeable improvements in recall and balanced accuracy. Although specificity also improved, with the value already greater than 99.8% it makes little difference. As expected, with more features available to the model, there were more opportunities to create more informative splits. Unlike with the results we saw with only 5 features, the inclusion of the additional 5 features must have contained features that were more clear indicators of whether a transaction was legitimate or fraudulent. 
+With 10 features included, we see a drastic improvement in precision and sizeable improvements in recall and balanced accuracy. Although specificity also improved, with the value already greater than 99.8% it makes little difference. As expected, with more features available to the model, there were more opportunities to create more informative splits. Unlike with the results we saw with only 5 features, the inclusion of the additional 5 features must have introduced features that were clearer indicators of whether a transaction was legitimate or fraudulent. 
 
-As we continue increasing the number of features included, we see the model's specificity, recall, and balanced accuracy increase, although not nearly as greatly as between 5 and 10 features. This implies that while the new features helped yield more information, they did not provide much more than the features the model had already been trained on. While precision also tended to increase as the number of features increased, when we went from 25 features to 29 we noticed a slight drop in precision. Although the difference was very small, this may suggest that we had ended up slightly overfitting our model to our testing data. 
+As we continue increasing the number of features included, we see that the model's specificity, recall, and balanced accuracy increase, although not nearly as greatly as between 5 and 10 features. This implies that while the new features yielded more information, they did not provide much more than the features the model had already been trained on. While precision also tended to increase as the number of features increased, when we went from 25 features to 29 we noticed a slight drop in precision. Although the difference was very small, this may suggest that we had ended up slightly overfitting our model to our training data. 
 
 <img src="./Images-Final/Random Forest/RFConfusion2.jpg" alt="Random Forest Confusion Matrix 2" width="600"/>
+
 ^Confusion matrix for a fold with 29 features^ 
 
-Overall, Random Forest yielded very promising results. Unlike with unsupervised learning methods, Random Forest classification was consistent in correctly labelling legitimate data. As we increased the number of features for our training data we also tended to see an improvement in the model's accuracy both in labelling legitimate data correctly, but also fraudulent. As with most models, if we had more data we would very likely be able to improve our results. 
+Overall, Random Forest yielded very promising results. Unlike with unsupervised learning methods, Random Forest classification was consistent in correctly labelling legitimate data. As we increased the number of features for our training data, we also tended to see an improvement in the model's accuracy both in labelling legitimate data correctly, but also fraudulent. As with most models, if we had more data we would very likely be able to improve our results. 
 
 ### 7.2.3 SVM
 
 For experiment with all the PCA features, the confusion matrix is shown below, as well as the metric values.
+
 <img src="./Images-Final/confusionmatrix.png" alt="cm" width="500"/>
+
 Precision: 0.97 
 Recall:0.9 
 Specificity:0.98 
 Balanced Accuracy = 0.94 
 
-Additionally, we tested SVM with different numbers of PCA features. For all of the experiments with different parameters We found that although all four metrics increases initially, it stabilizes around using only top 15 PCA features. This result is unintuitive compare to other supervised methods, as in some cases, increasing number of features leads to decreasing metrics value. This observation indicates that for SVM, increasing number of features not necessary leads to better results. 
+Additionally, we tested SVM with different numbers of PCA features. For all of the experiments with different parameters, we found that although all four metrics increased initially, they stabilized when using only the top 15 PCA features. This result is unintuitive compared to other supervised methods. As in some cases, increasing the number of features lead to decreasing metric values. This observation indicates that for SVM, increasing the number of features does not necessarily lead to better results. 
 
 <img src="./Images-Final/metrics.png" alt="m" width="500"/>
 
-To find out how number of features affects the decision of C value. We plot the C-value against the number of features, we found that the C value plummeted initially, which means that the punishment for misclassification is low, and rise back to peak around 15 features. Later, C value fluctuates but generally stable.  
+To find out how the number of features affects the choice of C value, we plot the C-value against the number of features. We found that the C value plummeted initially, which means that the penalty for misclassification is initially low, but the C value rose back to peak at around 15 features. Later, the C value fluctuates but remains generally stable.  
+
 <img src="./Images-Final/C.png" alt="c" width="500"/>
 
-The ROC(Receiver Operating characteristic) curve is a performance measurement for the classification problems at various threshold settings. ROC is a probability curve and AUC(area under curve) represents the degree or measure of separability. It tells how much the model is capable of distinguishing between classes. Higher the AUC, the better the model is at predicting 0 classes as 0 and 1 classes as 1.  
+The ROC(Receiver Operating characteristic) curve is a performance measurement for the classification problem at various threshold settings. ROC is a probability curve and its AUC(area under curve) represents the degree or measure of separability. It tells how capable the model is of distinguishing between classes. The higher the AUC, the better the model is at distinguishing legitimate vs fradulent transactions.  
 
  <img src="./Images-Final/ROC.png" alt="roc" width="500"/>
 
@@ -357,7 +361,7 @@ Recall: 0.8245526671409606
 Balanced Accuracy: 0.9119123041629791 
 
 
-Given that around the 7th epoch the validation loss became higher than the training loss, it is very likely  that the model started overfitting at the 7th epoch. Another possible indicator of overfitting is the fact that the validation metrics do not follow the same trend as the training metrics and that the training and validation curves are not close to each other. For example, every metric increases every epoch in the training set. However, in the validation set, balanced accuracy and recall started to decrease after the 4th epoch. The overfitting affected the model's test performance. While specificity, balanced accuracy and recall are all above 82%, the results show an average precision of around 66%. These observations indicate to us that it is very likely that the neural network may be overfitting when we create more fraudulent data points using SMOTE. There are multiple factors that may have caused this, such as the SMOTE ratio, the architecture (number of layers, number of hidden units per layer, activation function), the number of epochs, and the fact that the validation data does not have nearly as much fraudulent cases as the training data. 
+Given that around the 7th epoch the validation loss becomes higher than the training loss, it is very likely that the model starts overfitting at the 7th epoch. Another possible indicator of overfitting is the fact that the validation metrics do not follow the same trend as the training metrics and that the training and validation curves are not close to each other. For example, every metric increases every epoch in the training set. However, in the validation set, balanced accuracy and recall start to decrease after the 4th epoch. The overfitting affected the model's test performance. While specificity, balanced accuracy, and recall are all above 82%, the results show an average precision of around 66%. These observations indicate to us that it is very likely that the neural network may be overfitting when we create more fraudulent data points using SMOTE. There are multiple factors that may have caused this, such as the SMOTE ratio, the architecture (number of layers, number of hidden units per layer, activation function), the number of epochs, and the fact that the validation data does not have nearly as much fraudulent cases as the training data. 
 
 #### Using Class Weights
 
@@ -393,7 +397,7 @@ Balanced Accuracy:  0.7808820290168234
 
 #### Undersampling
 
-The first method we investigated was undersampling, which in just means that we will take a portion of the majority class, which in this case is the genuine cases in an effort to remedy the imbalance in the dataset. The undersampling ratio was varied from 1-10^4 and  specificity, recall, and balanced accuracy were plotted to see the effects of undersampling on the performance of the classifier. We only undersampled in the training dataset, so the test data was untouched.
+The undersampling ratio was varied from 1 to 10^4 and the specificity, recall, and balanced accuracy were plotted to see the effects of undersampling on the performance of the classifier. We only undersampled in the training dataset so the test data was untouched.
 
 <img src="./Images-Final/Logistic Regression/logisticregression_US_graph.png" alt="Logistic Regression Figure 2" width="600"/>
 
@@ -411,11 +415,11 @@ Balanced Accuracy:  0.9417358670080411
 
 #### SMOTE
 
-The next method we utilized was SMOTE, which stands for Synthetic Minority Oversampling Technique, which is a method to combat dataset imbalance by generating synthetic data points for the minority class, which in this case is the fraudulent cases. The SMOTE ratio refers to the ratio of minority datapoints in the modified dataset compared to the original. For the following graph, the SMOTE ratio was varied from 10-200 and specificity, recall, and balanced accuracy were plotted to see the effects of SMOTE on the performance of the classifier. We only perform SMOTE on the training data, so the test data is completely unaffected.
+For the following graph, the SMOTE ratio is varied from 10-200 and the specificity, recall, and balanced accuracy is plotted to visualize the effects of SMOTE on the performance of the classifier. We only perform SMOTE on the training data, so the test data is completely unaffected.
 
 <img src="./Images-Final/Logistic Regression/logisticregression_SMOTE_graph.png" alt="Logistic Regression Figure 4" width="600"/>
 
-As can be seen, the optimal SMOTE ratio occurs around 100 where the performance of the classifier no longer improves as we increase the SMOTE ratio. The following confusion matrix is generated with a logistic regression classifier with a SMOTE ratio of 100 on the testing data. 
+As can be seen, the optimal SMOTE ratio occurs at around 100, which is where the performance of the classifier no longer improves as we increase the SMOTE ratio. The following confusion matrix is generated with a logistic regression classifier with a SMOTE ratio of 100 on the training data. 
 
 <img src="./Images-Final/Logistic Regression/logisticregression_SMOTE_CM.png" alt="Logistic Regression Figure 5" width="600"/>
 
@@ -429,7 +433,7 @@ Balanced Accuracy:  0.9363276457143528
 
 #### Balanced Class Weights
 
-The final method we utilized was using the balanced class weights in the sklearn logistic regression function. As discussed before, using balanced class weights allows logistic regression to value the minority cases in a way that is inversely proportional to the frequency of said class. The following confusion matrix is generated using the entirety of the original dataset utilizing balanced class weights.
+After training the model using class weights, we evaluate the model on the test data and generate the confusion matrix below.
 
 <img src="./Images-Final/Logistic Regression/logisticregression_weights_CM.png" alt="Logistic Regression Figure 6" width="600"/>
 
@@ -457,7 +461,7 @@ Balanced Accuracy:  0.948828095882988
 
 #### Logistic Regression Conclusion
 
-All in all, all of the techniques utilized to combat the imbalanced dataset were quite effective in improving the rate of detection for the fraudulent cases. In terms of pure fraud detection, combining undersampling with class weights was the most effective, but also led to a noticeable decrease in specificity, which may cause an unwanted number of false positives. 
+All in all, all of the techniques utilized to combat the imbalanced dataset were quite effective in improving the rate of detection for the fraudulent cases. In terms of pure fraud detection, combining undersampling with class weights was the most effective, but it also led to a noticeable decrease in specificity, which may cause an undesired number of false positives. 
 
 # 8 Conclusion
 
