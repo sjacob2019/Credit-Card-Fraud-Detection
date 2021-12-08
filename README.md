@@ -20,7 +20,7 @@ We will be analyzing the problem at hand using supervised and unsupervised learn
 
 Supervised learning models are commonly attributed to working well on classification problems. However, supervised learning requires labels, and we do not always have labels provided to us in a real-world scenario. In this circumstance, we have decided to also use unsupervised learning models. Unsupervised models do not require labels, and although unsupervised learning models are not commonly used for classification problems, they are useful for determining clustering, association, and performing dimensionality reduction. Unsupervised learning will help us determine what factors are relevant when analyzing the features of our data. 
 
-Supervised learning models do have a limitation though – they are typically more susceptible to outliers and data imbalances, a prominent issue in our data. To alleviate the class imbalance, we propose to combine the under-sampling technique as well as the SMOTE algorithm to decrease the amount of data in the majority class (legitimate transactions) and increase the amount of data in the minority class (fraudulent transactions). Additionally, for certain supervised learning methods we will also utilize class weights which are used to combat data imbalance as they allow the classifier to value minority classes more heavily to the point where the imbalance does not matter. 
+Supervised learning models do have a limitation though – they are typically more susceptible to outliers and data imbalances, which is a prominent issue in our data. To alleviate the class imbalance, we propose a combination of the under-sampling technique as well as the SMOTE algorithm to decrease the amount of data in the majority class (legitimate transactions) and increase the amount of data in the minority class (fraudulent transactions). Additionally, for certain supervised learning methods we will also utilize class weights which are used to combat data imbalance as they allow the classifier to value minority classes more heavily to the point where the imbalance does not matter. 
 
 Through a combination of these learning techniques, we hope to develop a holistic analysis of how various machine learning algorithms handle the classification of the legitimacy of credit card transactions.
 
@@ -465,13 +465,11 @@ All in all, all of the techniques utilized to combat the imbalanced dataset were
 
 # 8 Conclusion
 
-Due to the high variance in our data and their features, KMeans, which is better at clustering where there exists linear boundaries between clusters, displayed very poor results overall.
+We found that unsupervised learning yielded fairly good results. However, difficulties arose in determing which clusters corresponded to the fraudulent and legitimate cases.
 
-Although recall was not incredible, DBScan was consistent in classifying legitimate transactions correctly. 
+We found that although the supervised learning techniques far outperformed the unsupervised learning techniques, we had to implement methods to combat the class imbalance to achieve those results. 
 
-Overall, we ended up having the best success with GMM since it ended up performing the best in classifying transactions as legitimate or fraudulent.
-
-## TODO: EDIT FOR FINAL AND SUPERVISED
+Overall, even though supervised learning methods suffer more from imbalanced data, we can use SMOTE, Undersampling, and Class Weights to combat the imbalance and obtain better results with supervised learning than with unsupervised learning.
 
 
 ## Appendix:
