@@ -106,12 +106,12 @@ Due to the way DBSCAN functions, often times there were a large number of cluste
 
 # 6 Supervised Learning Methods
 
-Traditionally, supervised learning methods have been used for classification problems. With the knowledge of what label the training dataset has, we can train models that seek out certain features when trying to make a distinction about what label a testing datapoint should be given. A byproduct of supervised learning being more frequently used for classification is that we had many more models to analyze the performance of. Specifically, we chose to focus on K-nearest-neighbors, Random Forests, Support Vector Machines (SVM), Deep Learning, and Logistic regression. In this section we also placed a heavier emphasis on analyzing how SMOTE, undersampling, and Class Weights can be used to help combat the imbalance in our dataset.
+Traditionally, supervised learning methods have been used for classification problems. With the knowledge of what label the training dataset has, we can train models that seek out certain features when trying to make a prediction about what label a testing datapoint should be given. A byproduct of supervised learning being more frequently used for classification is that we have many more models to analyze the performance of. Specifically, we chose to focus on K-nearest-neighbors, Random Forests, Support Vector Machines (SVM), Deep Learning, and Logistic regression. In this section we also placed a heavier emphasis on analyzing how SMOTE, Undersampling, and Class Weights can be used to help combat the imbalance in our dataset.
 
 ## 6.1 K-nearest-neighbors
 
 ### Motivation
-The k-nearest neighbors (kNN) algorithm is a non-parametric classification method. It is very easy to implement: for a testing data point, we find its k-nearest neighbors in the training data set, and classify the testing data point by a majority vote of the k-nearest neighbors. For example, out of 10 nearest neighbors in the training data set, 6 are class 0 and 4 are class 1, then the testing data point is assigned label class 0. Here, k is a hyperparameter that needs to be tuned. When k = 1, we simply classify a testing data point as the same class as the training data point that is the closest. Although easy to implement, kNN can be computationally intensive due to the pairwise distance calculation and sorting, especially with a large dataset like ours. 
+The k-nearest neighbors (kNN) algorithm is a non-parametric classification method. It is very easy to implement: for a testing data point, we find its k-nearest neighbors in the training data set and classify the testing data point by a majority vote of the k-nearest neighbors. For example, if out of 10 nearest neighbors in the training data set, 6 are class 0 and 4 are class 1, then the testing data point is assigned label class 0. Here, k is a hyperparameter that needs to be tuned. When k = 1, we simply classify a testing data point as the same class as the training data point that is the closest. Although easy to implement, kNN can be computationally intensive due to the pairwise distance calculation and sorting, especially with a large dataset like ours. 
 
 ### Setup
 We first split the dataset into training data and testing data by an 80:20 ratio. Next, we perform undersampling as well as SMOTE with varying ratios on the training data. The processed training data will be used for kNN classification where we set k = 5. Finally, we will obtain the classification results on the testing data set.
@@ -121,7 +121,7 @@ We first split the dataset into training data and testing data by an 80:20 ratio
 ### Motivation
 Random Forest Classification is often praised for not only its accuracy in creating accurate classification models, but also for their efficiency.  Specifically, Random Forest is notably more efficient when run on Large Data sets with higher number of features than its other supervised counterparts such as neural networks. 
 
-With its higher efficiency, we were able to compare how the performance of the Random Forest Classification method differed as the number of features used in the dataset increased. 
+With its higher efficiency, we were able to compare how the performance of the Random Forest Classification method was affected as the number of features used in the dataset increased. 
 
 Composed of many decision trees, Random Forests are consistent in outperforming single decision trees for classification problems. This led to the decision to focus our attention on random forests as opposed to decision trees. 
 
@@ -132,7 +132,7 @@ From this modified dataset, we then repeat the following steps for the first 5, 
 
 We first split the dataset and its labels into a training and testing set. The training set makes up 80% of our total dataset. 
 
-Then, using the SMOTE algorithm, we improve the imbalance between fraudulent and legitimate data in our dataset by generating fraudulent data points until the number of fraudulent datapoints equals 20% the number of fraudulent data points in our training data. 
+Then, using the SMOTE algorithm, we improve the imbalance between fraudulent and legitimate data in our dataset by generating fraudulent data points until the number of fraudulent datapoints equals 20% the number of legitimate data points in our training data. 
 
 With the adjusted dataset, we then use SKLearn's RandomForestClassifier to train a model on our training data and labels. The hyperparameters used for the RandomForestClassifier included 100 trees, no max depth, and a minimum split of 2 samples.  
 
@@ -153,10 +153,10 @@ Our dataset contains complex data with very high dimensionality.
 
 SVMs are well known for their effectiveness in high dimensional spaces, where the number of features is greater than the number of observations. The model complexity is of O(n-features * n² samples) so it’s perfect for working with data where the number of features is bigger than the number of samples. 
 
-The SVMS create hyper-planes (could be more than one) of n-dimensional space and the goal is to separate the hyperplanes.
+The SVMS create hyper-planes (could be more than one) of n-dimensional space and the goal is to separate the n-dimensional space.
 
 ### Setup
-Since our dataset contains highly skewed data, we used random undersampling as well as SMOTE to deal with the skewness. After preprocessing we split one third of the dataset as the test set and the rest as the training set. The experiment used Sklearn's model selection method to automatically choose the optimal parameters for our model. In the cases of using all of the PCA features, the model selects radial basis function kernel and the C value of 9. Then uses Sklearn's SVM model to perform classification.  
+Since our dataset contains highly skewed data, we used random undersampling as well as SMOTE to deal with the skewness. After preprocessing, we split one third of the dataset as the test set and the rest as the training set. The experiment used Sklearn's model selection method to automatically choose the optimal parameters for our model. In the cases of using all of the PCA features, the model selects radial basis function kernel and the C value of 9. Then uses Sklearn's SVM model to perform classification.  
 
 ## 6.4 Deep Learning
 
@@ -170,23 +170,25 @@ The model architecture was decided through trial and error, and our final archit
 
 After deciding on the model architecture, we decided to use Adam as our optimizer with a learning rate of 0.001. Since this is a binary classification task and our neural network outputs our prediction as a probability that the transaction is fraudulent, we chose to use binary crossentropy as our loss function. We trained the model with a batch size of 1024 for 11 epochs. The learning rate, batch size, and epochs were all decided via hyperparameter tuning. 
 
-To make the most of our data, we decided to perform K-Fold cross-validation. We split the data into 10 folds, using 9/10 for training/validation and 1/10 for testing. For each K-Fold, we created a model, further split the training data into training and validation splits, trained the model, and evaluated it's performance on the testing fold. We averaged the metrics from across all 10 folds to evaluate the general performance of the network.  
+To make the most of our data, we decided to perform K-Fold cross-validation. We split the data into 10 folds, using 9/10 for training/validation and 1/10 for testing. For each K-Fold, we created a model, further split the training data into training and validation splits, trained the model, and evaluated its performance on the testing fold. We averaged the metrics from across all 10 folds to evaluate the general performance of the network.  
 
-To counter the imbalance between fraudulent and legitimate transactions, we decided to try 2 approaches: SMOTE and Class Weights. We used SMOTE to generate extra data points for the fraudulent class so that that Neural Network had more samples to train with. We generated fraudulent transactions to make ratio between fraudulent and legitimate transactions equal to 0.2. We only performed SMOTE on the training data since we didn't want to modify the validation and testing data. 
+To counter the imbalance between fraudulent and legitimate transactions, we decided to try 2 approaches: SMOTE and Class Weights. We used SMOTE to generate extra data points for the fraudulent class so that that Neural Network had more samples to train with. We generated fraudulent transactions to make the ratio between fraudulent and legitimate transactions equal to 0.2. We only performed SMOTE on the training data since we didn't want to modify the validation and testing data. 
 
 The second approach involved us giving each class a custom weight in order to counter the bias already present in the dataset. That is, we made the fraudulent class carry a much higher weight than the legitimate class so that the fraudulent class added a higher penalty to the loss function. This was done in order to influence the neural network to pay more attention to the fraudulent cases.  
 
 ## 6.5 Logistic Regression
 
 ### Motivation
-We chose to implement logistic regression because it is one of the more simple and straightforward supervised learning methods.  Additionally, our task deals with a binary classification of whether transactions are genuine or fraudulent, which is the main function of logistic regression. 
+We chose to implement logistic regression because it is one of the more simple and straightforward supervised learning methods. Additionally, our task deals with a binary classification of whether transactions are genuine or fraudulent, which is the main function of logistic regression.
 
-The specific dataset we chose to use has a large unbalance between the number of cases of genuine cases and fraudulent cases where the genuine cases largely outnumber the fraudulent ones. This presents a unique challenge that we hope to solve with various methods such as through modifying the data through under sampling, generating additional fraudulent cases through a technique called SMOTE, and using class weights in order to train the logistic regression in order to achieve a more balanced classifier. 
+Logistic regression is a method that computes the probability of a classification using a linear combination of the input features with weights on each feature. The model then utilizes gradient descent in order to tune these weights for each feature in order to improve classification accuracy.
+
+The specific dataset we chose to use has a large imbalance between the number of cases of genuine cases and fraudulent cases where the genuine cases largely outnumber the fraudulent ones. This presents a unique challenge that we hope to solve with various methods such as undersampling, generating additional fraudulent cases through a technique called SMOTE, and using class weights in order to train the logistic regression in order to achieve a more balanced classifier. 
 
 ### Setup
 To start, we decided to utilize all 28 PCA components from the dataset in order to train our logistic regression model. We decided not to utilize the amount and date features in the original dataset, since they did not significantly affect our results. We then split up the data into training and test sets with a training test split of 80-20. 
 
-After this, we transformed only the training data by utilizing SMOTE, which creates synthetic data points of the minority class (fraudulent) and undersampling of the majority class (genuine) to combat the imbalance in the original dataset. Additionally, we also tested the effects of balanced class weights on the logistic regression classifier which attempts to remedy the class imbalance. The basic premise of using balanced class weights is that the weights for each class are automatically adjusted so they are inversely proportional to the frequency of said class. This causes the classifier to have much higher weight for the minority class, which allows for better classification for the minority cases.
+After this, we transformed only the training data by utilizing SMOTE, which creates synthetic data points of the minority class (fraudulent) and undersampling of the majority class (genuine) to combat the imbalance in the original dataset. Additionally, we also tested the effects of balanced class weights on the logistic regression classifier which attempts to remedy the class imbalance. The basic premise of using balanced class weights is that the weights for each class are automatically adjusted so they are inversely proportional to the frequency of said class. This causes the classifier to have much higher weight for the minority class, which allows for better classification.
 
 # 7 Results and Discussion
 
@@ -271,11 +273,11 @@ Our expectations for DBSCAN were not very high when we first experimented with i
 
 ### 7.2.1 K-Nearest-Neighbors
 
-The figure below shows the kNN performance vs the SMOTE ratio. No undersampling is performed here. The SMOTE ratio is the ratio between the newly generated data and the original data. For example, if the original fraud class has 100 samples, and the SMOTE ratio is 20, then we will generate 2000 fraud samples for a total of 2100 fraud samples. As we can see, the recall, as well as the balanced accuracy, steadily increase as we increase the SMOTE ratio. This is because the class imbalance is alleviated by the increasing number of fraud data points. We also observe that the specificity is barely affected since no information about the legitimate class is lost. 
+The figure below shows the kNN performance vs the SMOTE ratio. No undersampling is performed here. The SMOTE ratio is the ratio between the newly generated data and the original data. For example, if the original fraud class has 100 samples, and the SMOTE ratio is 20, then we will generate 2000 fraud samples for a total of 2100 fraud samples. As we can see, the recall as well as the balanced accuracy steadily increase as we increase the SMOTE ratio. This is because the class imbalance is alleviated by the increasing number of fraud data points. We also observe that the specificity is barely affected since no information about the legitimate class is lost. 
 
 <img src="./Images-Final/kNN Results/kNNvsSMOTERatio.jpg" alt="kNN Figure 1" width="600"/>
 
-The figure below shows the kNN performance vs the undersampling ratio. The undersampling ratio refers to what percentage of the genuine data points is retained. For example, if we have 50,000 data points and we use an undersampling ratio of 0.1, we have 5,000 data points left. As we can see, the recall increases as the undersampling ratio increases since the dataset becomes less imbalanced. However, the specificity decreases. This is because as we remove data points from the legitimate class, we lose information about the legitimate class. As a result, the correctly classified legitimate transaction data points decrease. Fortunately, the specificity does not decrease significantly when the undersampling ratio is above 0.01. 
+The figure below shows the kNN performance vs the undersampling ratio. The undersampling ratio refers to the percentage of the genuine data points that are retained. For example, if we have 50,000 data points and we use an undersampling ratio of 0.1, we have 5,000 data points left. As we can see, the recall increases as the undersampling ratio increases since the dataset becomes less imbalanced. However, the specificity decreases. This is because as we remove data points from the legitimate class, we lose information about the legitimate class. As a result, the correctly classified legitimate transactions decrease. Fortunately, the specificity does not decrease significantly when the undersampling ratio is above 0.01.
 
 <img src="./Images-Final/kNN Results/kNNvsUndersamplingRatio.jpg" alt="kNN Figure 2" width="600"/>
 
